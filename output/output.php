@@ -265,6 +265,36 @@ function saswp_schema_output() {
                                 $input1 = apply_filters('saswp_modify_faq_final_schema_output', $input1 );
 
                             break;
+
+                            case 'SportsTeam':
+                                                                                                                                                                                                
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'SportsTeam';
+                                $input1['name']                         = saswp_get_the_title();                                                           
+                                if ( isset( $all_post_meta['saswp_sports_team_sport_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_sport_'.$schema_post_id][0]) ) {
+                                    unset($input1['sport']);
+                                }
+                                
+                                if ( isset( $all_post_meta['saswp_sports_team_name_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_name_'.$schema_post_id][0]) ) {
+                                    unset($input1['name']);
+                                }
+                            
+                                if ( isset( $all_post_meta['saswp_sports_team_coach_name_'.$schema_post_id]) && empty($all_post_meta['saswp_sports_team_coach_name_'.$schema_post_id][0]) ) {
+                                    unset($input1['coach']);
+                                }
+
+                                $input1 = apply_filters('saswp_modify_sports_team_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_sports_team_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                $input1 = apply_filters('saswp_modify_sports_team_final_schema_output', $input1 );
+
+                            break;
                         
                             case 'VideoGame':
                                                                                     
@@ -1433,27 +1463,46 @@ function saswp_schema_output() {
                             case 'WebPage':
                                                                 
                                 $input1 = $service_object->saswp_schema_markup_generator( $schema_type, $schema_post_id );
-				                
+                                                
                                 if ( isset( $sd_data['saswp_comments_schema']) && $sd_data['saswp_comments_schema'] ==1){
                                     $input1['comment'] = saswp_get_comments(get_the_ID());
-                                }                                
+                                }                               
                                 if ( ! empty( $aggregateRating) ) {
                                     $input1['mainEntity']['aggregateRating'] = $aggregateRating;
-                                }                                
+                                }                               
                                 if ( ! empty( $extra_theme_review) ) {
-                                   $input1 = array_merge($input1, $extra_theme_review);
+                                    $input1 = array_merge($input1, $extra_theme_review);
                                 }
-                                
+                                                
                                 $input1 = apply_filters('saswp_modify_webpage_schema_output', $input1 );   
-                             
+                                             
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
-                                
+                                                
                                 if($modified_schema == 1){
-                                    
                                     $input1 = saswp_webpage_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
-                                $input1 = apply_filters('saswp_modify_webpage_final_schema_output', $input1 ); 
+                                /* === ITEMLIST INJECTION START === */
+                                $fetched_itemlist = saswp_get_mainEntity($schema_post_id); 
+
+                                if ( !empty($fetched_itemlist) && is_array($fetched_itemlist) && isset($fetched_itemlist['itemListElement']) ) {
+                                    
+                                    if ( isset($input1['mainEntity']) ) {
+                                        if ( isset($input1['mainEntity']['@type']) ) {
+                                            $original_entity = $input1['mainEntity'];
+                                            $input1['mainEntity'] = array();
+                                            $input1['mainEntity'][] = $original_entity;
+                                            $input1['mainEntity'][] = $fetched_itemlist;
+                                        } elseif ( isset($input1['mainEntity'][0]) ) {
+                                            $input1['mainEntity'][] = $fetched_itemlist;
+                                        }
+                                    } else {
+                                        $input1['mainEntity'] = $fetched_itemlist;
+                                    }
+                                }
+                                /* === ITEMLIST INJECTION END === */
+
+                                $input1 = apply_filters('saswp_modify_webpage_final_schema_output', $input1 );
 				
                             break;
 
@@ -3616,8 +3665,11 @@ function saswp_kb_website_output() {
                     $input['@id']         = $site_url.'#website';
                     $input['headline']    = $site_name;
                     $input['name']        = $site_name;
-                    $input['description'] = saswp_get_blog_desc();
                     $input['url']         = $site_url;
+
+                    if(saswp_get_blog_desc()){
+                        $input['description'] = saswp_get_blog_desc();
+                    }
                                                              
                     if ( isset( $sd_data['saswp_search_box_schema']) && $sd_data['saswp_search_box_schema'] == 1 || !isset($sd_data['saswp_search_box_schema']) ) {
                         

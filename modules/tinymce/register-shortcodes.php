@@ -124,8 +124,44 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
     global $saswp_tiny_multi_faq;
 
     $output = '';
+    
+    if( is_array($atts) ){
+        $fixed_atts = [];
+        $broken_buffer = '';
+        $capturing_key = null;
 
-    $atts = saswp_wp_kses_post($atts);
+        foreach ($atts as $key => $val) {            
+            
+            if ( is_string($key) ) {
+                if( $capturing_key ){
+                    $fixed_atts[$capturing_key] = rtrim($broken_buffer, '"');
+                    $capturing_key = null;
+                    $broken_buffer = '';
+                }
+                $fixed_atts[$key] = $val;
+                continue;
+            }
+            
+            if ( is_int($key) ) {
+                if ( preg_match('/^(answer-\d+)="(.*)/s', $val, $matches) ) {
+                    $capturing_key = $matches[1];
+                    $broken_buffer = $matches[2];
+                } 
+                elseif ( $capturing_key ) {
+                    $broken_buffer .= ' ' . $val;
+                }
+            }
+        }
+
+        if( $capturing_key ){
+            $fixed_atts[$capturing_key] = rtrim($broken_buffer, '"');
+        }
+
+        if( !empty($fixed_atts) ){
+            $atts = array_merge($atts, $fixed_atts);
+        }
+    }    
+
     $saswp_tiny_multi_faq = shortcode_atts(
         [
             'css_class' => '',
@@ -133,7 +169,7 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
             'html'      => true,
             'elements'  => [],
         ], $atts );
-
+    
     foreach ( $atts as $key => $merged_att ) {
         if ( strpos( $key, 'headline' ) !== false || strpos( $key, 'question' ) !== false || strpos( $key,
                 'answer' ) !== false || strpos( $key, 'image' ) !== false || strpos( $key, 'fontsize' ) !== false || strpos( $key, 'fontunit' ) !== false ) {
@@ -141,84 +177,54 @@ function saswp_tiny_multi_faq_render( $atts, $content = null ){
         }
     }
 
-    
     if($saswp_tiny_multi_faq['html'] == 'true'){
 
         if( !empty($saswp_tiny_multi_faq['elements']) ){
 
-            $shortcode_data             =   [];
-            $validate_headings          =   array('h1','h2','h3','h4','h5','h6','p');
-            $valid_units                =   array('pt', 'px', '%', 'em');
-            $structure                  =   [];
-            $structure['headline']      =   'h2';
-            $structure['fontsize']      =   '';
-            $structure['fontunit']      =   'px';
-            $structure['image']         =   0;
-            $structure['question']      =   '';
-            $structure['answer']        =   '';
+            $validate_headings = array('h1','h2','h3','h4','h5','h6','p');
+            $valid_units       = array('pt', 'px', '%', 'em');
             
             foreach ( $saswp_tiny_multi_faq['elements'] as $key => $value ) {
-
-                if ( ! empty( $value['headline'] ) && in_array( strtolower( $value['headline'] ), $validate_headings ) ) {
-                    $structure['headline']  =   $value['headline'];
-                }
-                if ( ! empty( $value['fontsize'] ) ) {
-                    $structure['fontsize']  =   intval( $value['fontsize'] );
-                }
-                if ( ! empty( $value['fontunit'] ) &&  in_array( $value['fontunit'], $valid_units ) ) {
-                    $structure['fontunit']  =   $value['fontunit'];
-                }
-                if ( ! empty( $value['image'] ) ) {
-                    $structure['image']     =   intval( $value['image'] );
-                }
-                if ( ! empty( $value['question'] ) ) {
-                    $structure['question']  =   $value['question'];
-                }
-                if ( ! empty( $value['answer'] ) ) {
-                    $structure['answer']    =   $value['answer'];
-                }
-
-                $value  =   $structure;
-
+                
+                // Initialize Defaults
+                $current_headline = !empty($value['headline']) && in_array(strtolower($value['headline']), $validate_headings) ? $value['headline'] : 'h2';
+                $current_question = !empty($value['question']) ? $value['question'] : '';
+                $current_answer   = !empty($value['answer']) ? $value['answer'] : '';
+                $current_image    = !empty($value['image']) ? intval($value['image']) : 0;
+                
+                // CSS Logic
                 $title_css = '';
-                if ( isset( $value['fontsize'] ) && $value['fontsize'] > 0 ) {
-                    if ( isset( $value['fontunit'] ) && is_string( $value['fontunit'] ) ) {
-                        if ( in_array( $value['fontunit'], $valid_units ) ) {
-                            $title_css = 'style=font-size:'.esc_attr( $value['fontsize'] ) .esc_attr( $value['fontunit'] ) .';';    
-                        }
-                    }
+                if ( !empty($value['fontsize']) && !empty($value['fontunit']) && in_array($value['fontunit'], $valid_units) ) {
+                    $title_css = 'style="font-size:'.esc_attr( intval($value['fontsize']) ) .esc_attr( $value['fontunit'] ) .';"';     
                 }
 
+                // Render
                 $output .= '<section>';
+                
                 $output .= '<summary>';
-                $output .= '<'.esc_html( $value['headline'] ).' '.esc_html( $title_css). '>';
-                $output .=  esc_html( $value['question'] );
-                $output .= '</'.esc_html( $value['headline'] ).'>';
+                $output .= '<'.esc_html( $current_headline ).' '. $title_css . '>'; 
+                $output .=  esc_html( $current_question );
+                $output .= '</'.esc_html( $current_headline ).'>';
                 $output .= '</summary>';
 
                 $output .= '<div>';
 
-                if ( ! empty( $value['image'] ) ) {
-                    
-                    $image_id       = intval( $value['image'] );                
-                    $image_thumburl = wp_get_attachment_image_url( $image_id, [ 150, 150 ] );
-                    
+                if ( $current_image ) {
+                    $image_thumburl = wp_get_attachment_image_url( $current_image, [ 150, 150 ] );
                     $output .= '<figure>';
-                    // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
                     $output .= '<a href="'. esc_url( $image_thumburl ).'"><img class="saswp_tiny_faq_image" src="'. esc_url( $image_thumburl ).'"></a>';
                     $output .= '</figure>';
-
                 }
                 
-                $output .= '<div class="saswp_faq_tiny_content">'.esc_html( $value['answer'] ).'</div>';
+                // Decode output: Logic restores HTML tags from entities sent by JS
+                $clean_answer = stripslashes( html_entity_decode( $current_answer ) );
+                
+                $output .= '<div class="saswp_faq_tiny_content">'.wp_kses_post( $clean_answer ).'</div>';
                 
                 $output .= '</div>';
                 $output .= '</section>';
-
             }
-            
         }
-
     }    
 
     return $output;

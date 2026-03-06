@@ -104,7 +104,7 @@ class SASWP_Reviews_Form {
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             $rv_link   = isset($_SERVER['HTTP_REFERER'])?sanitize_url($_SERVER['HTTP_REFERER']):''; 
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
-            if ( isset( $_POST['saswp_review_nonce'] ) && ! wp_verify_nonce( $_POST['saswp_review_nonce'], 'saswp_review_form' ) ) {
+            if ( ! isset( $_POST['saswp_review_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['saswp_review_nonce'] ) ), 'saswp_review_form' ) ) {
                 if($is_amp){
                     header("AMP-Redirect-To: ".$rv_link);
                     header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 

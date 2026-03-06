@@ -601,6 +601,19 @@ Class SASWP_Output_Service{
                             $response = apply_filters('saswp_faq_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key);
                         break;
                     }    
+                break;
+                case 'saswp_repeater_mapping':
+                    switch ($schema_type) {
+                        case 'SportsTeam':
+                            // Mapping for Member Of (Organizations) repeater
+                            $field_key_member = 'sports_team_member_of_'.$schema_post_id;
+                            $response_member  = apply_filters('saswp_sports_team_member_of_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key_member);
+                            
+                            // Mapping for Athlete repeater
+                            $field_key_athlete = 'sports_team_athlete_'.$schema_post_id;
+                            $response_athlete  = apply_filters('saswp_sports_team_athlete_acf_repeater_mapping', $post->ID, $schema_post_id, $field_key_athlete);
+                        break;
+                    }    
                 break;                    
                 case 'saswp_schema_template':
 
@@ -654,6 +667,45 @@ Class SASWP_Output_Service{
                                                
                                             }
                                             
+                                        }
+
+                                        break;
+
+                                        case 'SportsTeam':
+                                        
+                                        if ( ! empty( $acf_obj['value']) ) {
+                                            
+                                            // 1. Check if we are processing the "Member Of" repeater
+                                            if ( strpos($field_key, 'sports_team_member_of') !== false ) {
+                                                foreach( $acf_obj['value'] as $value){
+                                                    $main_entity = array();
+                                                    $ar_values   = array_values($value);
+                                                    
+                                                    $main_entity['@type'] = 'SportsOrganization';
+                                                    
+                                                    if ( ! empty( $ar_values[0]) ) {
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    
+                                                    $response [] = $main_entity;                                   
+                                                }
+                                            }
+                                            
+                                            // 2. Check if we are processing the "Athlete" repeater
+                                            elseif ( strpos($field_key, 'sports_team_athlete') !== false ) {
+                                                foreach( $acf_obj['value'] as $value){
+                                                    $main_entity = array();
+                                                    $ar_values   = array_values($value);
+                                                    
+                                                    $main_entity['@type'] = 'Person';
+                                                    
+                                                    if ( ! empty( $ar_values[0]) ) {
+                                                        $main_entity['name'] = $ar_values[0]; 
+                                                    }
+                                                    
+                                                    $response [] = $main_entity;                                   
+                                                }
+                                            }
                                         }
 
                                         break;
@@ -1014,8 +1066,11 @@ Class SASWP_Output_Service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_cws_schema_url']);
                        }                       
                        if ( isset( $custom_fields['saswp_cws_schema_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_cws_schema_keywords'];
-                       }                       
+                            $keywords = $custom_fields['saswp_cws_schema_keywords'];
+                            if ( $keywords ) {
+                                $input1['keywords'] = $keywords;
+                            }
+                        }                       
                        if ( isset( $custom_fields['saswp_cws_schema_inlanguage']) ) {
                             $input1['inLanguage'] =    $custom_fields['saswp_cws_schema_inlanguage'];
                        }
@@ -1757,7 +1812,10 @@ Class SASWP_Output_Service{
                             }
                         }
                         if ( isset( $custom_fields['saswp_article_keywords']) ) {
-                         $input1['keywords'] =    $custom_fields['saswp_article_keywords'];
+                         $keywords = $custom_fields['saswp_article_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            }
                         }
                         if ( isset( $custom_fields['saswp_article_section']) ) {
                          $input1['articleSection'] =    $custom_fields['saswp_article_section'];
@@ -2099,7 +2157,10 @@ Class SASWP_Output_Service{
                              $input1['articleBody'] =    $custom_fields['saswp_scholarlyarticle_body'];
                             }
                             if ( isset( $custom_fields['saswp_scholarlyarticle_keywords']) ) {
-                             $input1['keywords'] =    $custom_fields['saswp_scholarlyarticle_keywords'];
+                             $keywords = $custom_fields['saswp_scholarlyarticle_keywords'];
+                                if($keywordse){
+                                    $input1['keywords'] = $keywords;
+                                }
                             }
                             if ( isset( $custom_fields['saswp_scholarlyarticle_section']) ) {
                              $input1['articleSection'] =    $custom_fields['saswp_scholarlyarticle_section'];
@@ -2417,7 +2478,10 @@ Class SASWP_Output_Service{
                             $input1['url'] =    saswp_validate_url($custom_fields['saswp_creativework_url']);
                         }
                         if ( isset( $custom_fields['saswp_creativework_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_creativework_keywords'];
+                            $keywords = $custom_fields['saswp_creativework_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            }
                         }
                         if ( isset( $custom_fields['saswp_creativework_section']) ) {
                             $input1['articleSection'] =    $custom_fields['saswp_creativework_section'];
@@ -3012,7 +3076,10 @@ Class SASWP_Output_Service{
                          $input1['url'] =    saswp_validate_url($custom_fields['saswp_special_announcement_url']);
                         }                        
                         if ( isset( $custom_fields['saswp_special_announcement_keywords']) ) {
-                         $input1['keywords'] =    $custom_fields['saswp_special_announcement_keywords'];
+                         $keywords = $custom_fields['saswp_special_announcement_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                         }                        
                         if ( isset( $custom_fields['saswp_special_announcement_name']) ) {
                          $input1['name'] =    $custom_fields['saswp_special_announcement_name'];
@@ -3307,7 +3374,10 @@ Class SASWP_Output_Service{
                         $input1['inLanguage'] =    $custom_fields['saswp_blogposting_inlanguage'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_keywords']) ) {
-                        $input1['keywords'] =    $custom_fields['saswp_blogposting_keywords'];
+                        $keywords = $custom_fields['saswp_blogposting_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_blogposting_headline']) ) {
                      $input1['headline'] =    $custom_fields['saswp_blogposting_headline'];
@@ -3886,7 +3956,10 @@ Class SASWP_Output_Service{
                            $input1['headline'] =    $custom_fields['saswp_analysisnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_keywords']) ) {
-                           $input1['keywords'] =    $custom_fields['saswp_analysisnewsarticle_keywords']; 
+                           $keywords = $custom_fields['saswp_analysisnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_date_published']) ) {
                            $input1['datePublished'] =    $custom_fields['saswp_analysisnewsarticle_date_published']; 
@@ -4005,7 +4078,10 @@ Class SASWP_Output_Service{
                                $input1['headline'] =    $custom_fields['saswp_askpublicnewsarticle_headline']; 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_keywords']) ) {
-                               $input1['keywords'] =    $custom_fields['saswp_askpublicnewsarticle_keywords']; 
+                               $keywords = $custom_fields['saswp_askpublicnewsarticle_keywords'];
+                                if($keywords){
+                                    $input1['keywords'] = $keywords;
+                                } 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_date_published']) ) {
                                $input1['datePublished'] =    $custom_fields['saswp_askpublicnewsarticle_date_published']; 
@@ -4124,7 +4200,10 @@ Class SASWP_Output_Service{
                         $input1['headline'] =    $custom_fields['saswp_backgroundnewsarticle_headline']; 
                     }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_keywords']) ) {
-                        $input1['keywords'] =    $custom_fields['saswp_backgroundnewsarticle_keywords']; 
+                        $keywords = $custom_fields['saswp_backgroundnewsarticle_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        } 
                     }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_date_published']) ) {
                         $input1['datePublished'] =    $custom_fields['saswp_backgroundnewsarticle_date_published']; 
@@ -4243,7 +4322,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_opinionnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_opinionnewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_opinionnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_opinionnewsarticle_date_published']; 
@@ -4362,7 +4444,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_reportagenewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_reportagenewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_reportagenewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_reportagenewsarticle_date_published']; 
@@ -4481,7 +4566,10 @@ Class SASWP_Output_Service{
                             $input1['headline'] =    $custom_fields['saswp_reviewnewsarticle_headline']; 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_keywords']) ) {
-                            $input1['keywords'] =    $custom_fields['saswp_reviewnewsarticle_keywords']; 
+                            $keywords = $custom_fields['saswp_reviewnewsarticle_keywords'];
+                            if($keywords){
+                                $input1['keywords'] = $keywords;
+                            } 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_date_published']) ) {
                             $input1['datePublished'] =    $custom_fields['saswp_reviewnewsarticle_date_published']; 
@@ -4895,7 +4983,10 @@ Class SASWP_Output_Service{
                             $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_itempage_section'];
                         }                                        
                         if ( isset( $custom_fields['saswp_itempage_keywords']) ) {
-                            $input1['mainEntity']['keywords'] =    $custom_fields['saswp_itempage_keywords'];
+                            $keywords = $custom_fields['saswp_itempage_keywords'];
+                            if($keywords){
+                                $input1['mainEntity']['keywords'] = $keywords;
+                            }
                         }
                         
                         if ( isset( $custom_fields['saswp_itempage_date_published']) ) {
@@ -5034,7 +5125,10 @@ Class SASWP_Output_Service{
                     $input1['mainEntity']['articleSection'] =    $custom_fields['saswp_medicalwebpage_section'];
                 }                                        
                 if ( isset( $custom_fields['saswp_medicalwebpage_keywords']) ) {
-                    $input1['mainEntity']['keywords'] =    $custom_fields['saswp_medicalwebpage_keywords'];
+                    $keywords = $custom_fields['saswp_medicalwebpage_keywords'];
+                    if($keywords){
+                        $input1['mainEntity']['keywords'] = $keywords;
+                    }
                 }
                 
                 if ( isset( $custom_fields['saswp_medicalwebpage_date_published']) ) {
@@ -5234,7 +5328,10 @@ Class SASWP_Output_Service{
                         }
                     }
                     if ( isset( $custom_fields['saswp_tech_article_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_tech_article_keywords'];
+                     $keywords = $custom_fields['saswp_tech_article_keywords'];
+                    if($keywords){
+                        $input1['keywords'] = $keywords;
+                    }
                     }
                     if ( isset( $custom_fields['saswp_tech_article_section']) ) {
                      $input1['articleSection'] =    $custom_fields['saswp_tech_article_section'];
@@ -5674,7 +5771,10 @@ Class SASWP_Output_Service{
                      $input1['totalTime'] =    saswp_format_time_to_ISO_8601($custom_fields['saswp_recipe_totaltime']);
                     }
                     if ( isset( $custom_fields['saswp_recipe_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_recipe_keywords'];
+                     $keywords = $custom_fields['saswp_recipe_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_recipe_recipeyield']) ) {
                      $input1['recipeYield'] =    $custom_fields['saswp_recipe_recipeyield'];
@@ -5887,8 +5987,10 @@ Class SASWP_Output_Service{
                         }
                     }
                     if ( isset( $custom_fields['saswp_product_schema_vat']) ) {
-                        $input1['offers']['priceSpecification']['@type']                 =    'priceSpecification';
-                        $input1['offers']['priceSpecification']['valueAddedTaxIncluded'] =    $custom_fields['saswp_product_schema_vat'];
+                        $input1['offers']['priceSpecification']['@type']                 =    'PriceSpecification';
+                        $input1['offers']['priceSpecification']['valueAddedTaxIncluded'] =    filter_var($custom_fields['saswp_product_schema_vat'], FILTER_VALIDATE_BOOLEAN);
+                        if (!empty($custom_fields['saswp_product_schema_currency'])) { $input1['offers']['priceSpecification']['priceCurrency'] = saswp_modify_currency_code($custom_fields['saswp_product_schema_currency']);}
+
                     }
                     if ( isset( $custom_fields['saswp_product_schema_priceValidUntil']) ) {
                      $input1['offers']['priceValidUntil'] =    $custom_fields['saswp_product_schema_priceValidUntil'];
@@ -5939,7 +6041,7 @@ Class SASWP_Output_Service{
                         $input1['offers']['lowPrice']  = $custom_fields['saswp_product_schema_low_price'];
 
                         if ( isset( $custom_fields['saswp_product_schema_offer_count']) ) {
-                            $input1['offers']['offerCount']     = $custom_fields['saswp_product_schema_offer_count'];
+                            $input1['offers']['offerCount']     = (int) $custom_fields['saswp_product_schema_offer_count'];
                         }
                         if ( isset( $custom_fields['saswp_product_schema_offer_url'] ) ) {
                             $input1['offers']['url']   =    $custom_fields['saswp_product_schema_offer_url'];
@@ -6133,7 +6235,7 @@ Class SASWP_Output_Service{
                             $input1['offers']['lowPrice']  = $custom_fields['saswp_product_grp_schema_low_price'];
 
                             if ( isset( $custom_fields['saswp_product_schema_offer_count']) ) {
-                                $input1['offers']['offerCount']     = $custom_fields['saswp_product_grp_schema_offer_count'];
+                                $input1['offers']['offerCount']     = (int) $custom_fields['saswp_product_grp_schema_offer_count'];
                             }
                         }
                         // Changes since version 1.15
@@ -6334,7 +6436,7 @@ Class SASWP_Output_Service{
                                $input1['offers']['lowPrice']         = $custom_fields['saswp_car_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_car_schema_offer_count']) ) {
-                                   $input1['offers']['offerCount']     = $custom_fields['saswp_car_schema_offer_count'];
+                                   $input1['offers']['offerCount']     = (int) $custom_fields['saswp_car_schema_offer_count'];
                                }
                            }                           
                            if ( isset( $custom_fields['saswp_car_schema_rating']) && isset($custom_fields['saswp_car_schema_rating_count']) ) {
@@ -6434,7 +6536,7 @@ Class SASWP_Output_Service{
                                $input1['offers']['lowPrice']  = $custom_fields['saswp_vehicle_schema_low_price'];
        
                                if ( isset( $custom_fields['saswp_vehicle_schema_offer_count']) ) {
-                                   $input1['offers']['offerCount']     = $custom_fields['saswp_vehicle_schema_offer_count'];
+                                   $input1['offers']['offerCount']     = (int) $custom_fields['saswp_vehicle_schema_offer_count'];
                                }
                            }                           
                            if ( isset( $custom_fields['saswp_vehicle_schema_rating']) && isset($custom_fields['saswp_vehicle_schema_rating_count']) ) {
@@ -7068,6 +7170,84 @@ Class SASWP_Output_Service{
                     }
                 
                 break;
+
+                case 'SportsTeam':   
+                    
+                    if ( isset( $custom_fields['saswp_sports_team_name']) ) {
+                        $input1['name'] =    $custom_fields['saswp_sports_team_name'];
+                    }
+                    
+                    if ( isset( $custom_fields['saswp_sports_team_sport']) ) {
+                        $input1['sport'] =    $custom_fields['saswp_sports_team_sport'];
+                    }                    
+
+                    // For the Member Of repeater mapping
+                    if ( isset( $custom_fields['sports_team_member_of']) ) {                                                                                                                                                                                                
+                        $member_val = $custom_fields['sports_team_member_of'];
+                        
+                        // If it's a simple string from a custom field
+                        if ( is_string($member_val) && !empty($member_val) ) {
+                            $input1['memberOf'] = array(
+                                array(
+                                    '@type' => 'SportsOrganization',
+                                    'name'  => $member_val
+                                )
+                            );
+                        } 
+
+                        if ( isset( $custom_fields['saswp_sports_team_coach_name']) ) {
+                        $input1['coach']['@type'] = 'Person';
+                        $input1['coach']['name']  = $custom_fields['saswp_sports_team_coach_name'];
+                        }
+
+                        // If it's returning an array
+                        elseif ( is_array($member_val) ) {
+                            $member_arr = array();
+                            foreach( $member_val as $val ) {
+                                $org_name = is_array($val) && isset($val['name']) ? $val['name'] : (is_string($val) ? $val : '');
+                                if ( !empty($org_name) ) {
+                                    $member_arr[] = array(
+                                        '@type' => 'SportsOrganization',
+                                        'name'  => $org_name
+                                    );
+                                }
+                            }
+                            if(!empty($member_arr)) {
+                                $input1['memberOf'] = $member_arr;
+                            }
+                        }
+                    }
+
+                    // For the Athlete repeater mapping
+                    if ( isset( $custom_fields['sports_team_athlete']) ) {                                                                                                                                                                                                
+                        $athlete_val = $custom_fields['sports_team_athlete'];
+                        
+                        if ( is_string($athlete_val) && !empty($athlete_val) ) {
+                            $input1['athlete'] = array(
+                                array(
+                                    '@type' => 'Person',
+                                    'name'  => $athlete_val
+                                )
+                            );
+                        } 
+                        elseif ( is_array($athlete_val) ) {
+                            $athlete_arr = array();
+                            foreach( $athlete_val as $val ) {
+                                $ath_name = is_array($val) && isset($val['name']) ? $val['name'] : (is_string($val) ? $val : '');
+                                if ( !empty($ath_name) ) {
+                                    $athlete_arr[] = array(
+                                        '@type' => 'Person',
+                                        'name'  => $ath_name
+                                    );
+                                }
+                            }
+                            if(!empty($athlete_arr)) {
+                                $input1['athlete'] = $athlete_arr;
+                            }
+                        }
+                    }
+                                                                         
+                break;
                 
                 case 'TouristAttraction':      
                       
@@ -7118,7 +7298,10 @@ Class SASWP_Output_Service{
                      $input1['headline'] =    $custom_fields['saswp_faq_headline'];
                     }
                     if ( isset( $custom_fields['saswp_faq_keywords']) ) {
-                     $input1['keywords'] =    $custom_fields['saswp_faq_keywords'];
+                     $keywords = $custom_fields['saswp_faq_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_faq_date_created']) ) {
                      $input1['datePublished'] =    $custom_fields['saswp_faq_date_created'];
@@ -8026,8 +8209,14 @@ Class SASWP_Output_Service{
                      $input1['validThrough'] =    $custom_fields['saswp_jobposting_schema_validthrough'];
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_employment_type']) ) {
-
-                     $input1['employmentType'] =    explode( ',', $custom_fields['saswp_jobposting_schema_employment_type'] );
+                        
+                        $raw_employment_type = isset($custom_fields['saswp_jobposting_schema_employment_type']) ? $custom_fields['saswp_jobposting_schema_employment_type'] : '';
+                        
+                        if ( is_array( $raw_employment_type ) ) {
+                            $input1['employmentType'] = $raw_employment_type;
+                        } else {
+                            $input1['employmentType'] = explode( ',', (string) $raw_employment_type );
+                        }
                     }
                     if ( isset( $custom_fields['saswp_jobposting_schema_jobimmediatestart']) ) {
                      $input1['jobImmediateStart'] =    $custom_fields['saswp_jobposting_schema_jobimmediatestart'];
@@ -8366,7 +8555,10 @@ Class SASWP_Output_Service{
                         $input1['description'] = $custom_fields['saswp_lr_description'];
                     }
                     if ( isset( $custom_fields['saswp_lr_keywords']) ) {
-                        $input1['keywords'] = $custom_fields['saswp_lr_keywords'];
+                        $keywords = $custom_fields['saswp_lr_keywords'];
+                        if($keywords){
+                            $input1['keywords'] = $keywords;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_lr_lrt']) ) {
                         $input1['learningResourceType'] = $custom_fields['saswp_lr_lrt'];
@@ -9894,12 +10086,16 @@ Class SASWP_Output_Service{
 					'headline'			=> saswp_get_the_title(),
 					'description'       => saswp_get_the_excerpt(),
                     'articleBody'       => saswp_get_the_content(),
-                    'keywords'          => saswp_get_the_tags(),
 					'datePublished'     => esc_html( $date),
 					'dateModified'      => esc_html( $modified_date),
 					'author'			=> saswp_get_main_authors(),//saswp_get_author_details(),
                     'editor'			=> saswp_get_edited_authors()//saswp_get_author_details()
 				);
+                
+                $keywords = saswp_get_the_tags();
+                if($keywords){
+                    $input1['keywords'] = $keywords;
+                }
 
                 if($schema_type == 'Photograph'){
                     unset($input1['articleBody']);
@@ -9947,14 +10143,19 @@ Class SASWP_Output_Service{
                         'url'				=> saswp_get_permalink(),
                         'inLanguage'        => get_bloginfo('language'),                        
                         'name'			    => saswp_get_the_title(),                        
-                        'text'              => saswp_get_the_excerpt(),                                                                    
+                        'text'              => saswp_get_the_excerpt(),                        
                         'keywords'          => saswp_get_the_tags(),
                         'datePublished'     => esc_html( $date),
                         'datePosted'        => esc_html( $date),
                         'dateModified'      => esc_html( $modified_date),
                         'expires'           => esc_html( $modified_date),
                         'author'			=> saswp_get_author_details()                                                                
-                    );    
+                    );  
+
+                    $keywords = saswp_get_the_tags();
+                    if($keywords){
+                        $input1['keywords'] = $keywords;
+                    }  
 
                     if ( ! empty( $publisher) ) {
                         $input1 = array_merge($input1, $publisher);   
@@ -9997,15 +10198,19 @@ Class SASWP_Output_Service{
                     $input1['dateCreated']                      = $date;                
                     $input1['inLanguage']                       = get_bloginfo('language');
 				    $input1['description']                      = $webp_description;
-                    $input1['keywords']                         = $webp_keywords;
+                    if($webp_keywords){
+                        $input1['keywords'] = $webp_keywords;
+                    }
 
                     // If sub schema type is set then add selected schema type to mainentity
                     if( ! empty( $sub_schema_type ) && $sub_schema_type != 'none' ) {
     				    $input1['mainEntity']['@type']              = $sub_schema_type;
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
     					$input1['mainEntity']['headline']		    = saswp_get_the_title();
-    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = $webp_keywords;
+    					$input1['mainEntity']['description']		= saswp_get_the_excerpt();
+                        if($webp_keywords){
+                        $input1['mainEntity']['keywords'] = $webp_keywords;
+                        }
     					$input1['mainEntity']['datePublished'] 	    = $date;
     					$input1['mainEntity']['dateModified']		= $modified_date;
     					$input1['mainEntity']['author']			    = saswp_get_author_details();	
@@ -10019,7 +10224,9 @@ Class SASWP_Output_Service{
                         $input1['mainEntity']['mainEntityOfPage']   = saswp_get_permalink();                      
                         $input1['mainEntity']['headline']           = saswp_get_the_title();
                         $input1['mainEntity']['description']        = saswp_get_the_excerpt();                        
-                        $input1['mainEntity']['keywords']           = $webp_keywords;
+                        if($webp_keywords){
+                        $input1['mainEntity']['keywords'] = $webp_keywords;
+                        }
                         $input1['mainEntity']['datePublished']      = $date;
                         $input1['mainEntity']['dateModified']       = $modified_date;
                         $input1['mainEntity']['author']             = saswp_get_author_details();
@@ -10175,7 +10382,7 @@ Class SASWP_Output_Service{
                                     $input1['offers']['highPrice']     = max($product_details['product_varible_price']);
                                     $input1['offers']['priceCurrency'] = saswp_modify_currency_code(saswp_remove_warnings($product_details, 'product_currency', 'saswp_string'));
                                     $input1['offers']['availability']  = saswp_remove_warnings($product_details, 'product_availability', 'saswp_string');
-                                    $input1['offers']['offerCount']    = count($product_details['product_varible_price']);
+                                    $input1['offers']['offerCount']    = (int) count($product_details['product_varible_price']);
 
                                 }
 
@@ -10509,33 +10716,42 @@ Class SASWP_Output_Service{
                               
                               $k = 0;
                               
-                              foreach ( $attachments[2] as $att_key => $attachment) {
-                                                                                                                                       
-                                  if ( is_array( $attach_details) && !empty($attach_details) ) {
-                                                                            
-                                                if( $attachment !='' && saswp_validate_url($attachment) ){
-                                                    $attach_images['image'][$k]['@type']  = 'ImageObject';                                                
-                                                    $attach_images['image'][$k]['url']    = esc_url($attachment);
-                                                    $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
-                                                    $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
-                                                    if ( isset( $attachments[3]) && !empty($attachments[3]) ) {
-                                                        if ( is_array( $attachments[3]) ) {
-                                                            foreach ( $attachments[3] as $aimg_key => $aimg_value) {
-                                                                if($att_key == $aimg_key){
-                                                                    $explode_aimg_value = explode('"',$aimg_value);
-                                                                    if ( isset( $explode_aimg_value[1]) && !empty($explode_aimg_value[1]) ) {
-                                                                        $attach_images['image'][$k]['caption'] = $explode_aimg_value[1];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                                                      
-                                  }
-                                  
-                                  $k++;
-                              }
+foreach ($attachments[2] as $att_key => $attachment) {
+    if (is_array($attach_details) && !empty($attach_details)) {
+        
+        if ($attachment != '' && saswp_validate_url($attachment)) {
+            
+            // 1. Convert the URL to a local file path
+            // This replaces your domain URL with the actual directory path on the server
+            $site_url = get_site_url();
+            $base_path = ABSPATH; // Standard WordPress constant for the root directory
+            $file_path = str_replace($site_url, $base_path, $attachment);
+
+            // 2. Check if the file actually exists on the disk
+            if (file_exists($file_path)) {
+                
+                $attach_images['image'][$k]['@type']  = 'ImageObject';
+                $attach_images['image'][$k]['url']    = esc_url($attachment);
+                $attach_images['image'][$k]['width']  = isset($attach_details[$k][0]) ? $attach_details[$k][0] : 0;
+                $attach_images['image'][$k]['height'] = isset($attach_details[$k][1]) ? $attach_details[$k][1] : 0;
+
+                if (isset($attachments[3]) && !empty($attachments[3])) {
+                    if (is_array($attachments[3])) {
+                        foreach ($attachments[3] as $aimg_key => $aimg_value) {
+                            if ($att_key == $aimg_key) {
+                                $explode_aimg_value = explode('"', $aimg_value);
+                                if (isset($explode_aimg_value[1]) && !empty($explode_aimg_value[1])) {
+                                    $attach_images['image'][$k]['caption'] = $explode_aimg_value[1];
+                                }
+                            }
+                        }
+                    }
+                }
+                $k++; 
+            }
+        }
+    }
+}
                               
                           }
                           

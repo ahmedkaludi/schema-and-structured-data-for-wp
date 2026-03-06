@@ -3026,7 +3026,7 @@ function saswp_get_mainEntity($schema_id){
                                                 
             }else{
                                 
-                $regex = '/<'.$item_list_tags.'>(.*?)<\/'.$item_list_tags.'>/';
+                $regex = '/<'.$item_list_tags.'[^>]*>(.*?)<\/'.$item_list_tags.'>/is';
                 
                 preg_match_all( $regex, $post_content, $matches , PREG_SET_ORDER );
                 
@@ -3087,6 +3087,13 @@ function saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $sche
                             case 'FAQ':
                                                                                                    
                                 $data          = saswp_faq_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
+                                $input1        = array_merge($input1, $data);
+                            
+                                break;
+
+                            case 'SportsTeam':
+                                                                                                                
+                                $data          = saswp_sports_team_schema_markup($schema_post_id, $schema_post_id, $all_post_meta);
                                 $input1        = array_merge($input1, $data);
                             
                                 break;
