@@ -27,23 +27,27 @@ class SASWP_View_Common {
     
     public function __construct() {
         
-                $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
-                require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
+        add_action( 'init', [$this, 'load_properties'] );         
                 
-                if ( file_exists( $mapping_repeater ) ) {
-                    
-                    $repeater_fields =  include $mapping_repeater;
-                    
-                    $this->schema_type_element = $repeater_fields['schema_type_element'];
-                    $this->_meta_name          = $repeater_fields['meta_name'];
-                    
-                    foreach( $this->item_list_item as $item){
-                        $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
-                    }
-                    $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
-		}                
+    }
+
+    public function load_properties() {
+        $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
+        require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
                 
-        }
+        if ( file_exists( $mapping_repeater ) ) {
+                    
+            $repeater_fields =  include $mapping_repeater;
+            
+            $this->schema_type_element = $repeater_fields['schema_type_element'];
+            $this->_meta_name          = $repeater_fields['meta_name'];
+            
+            foreach( $this->item_list_item as $item){
+                $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
+            }
+            $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
+        }       
+    }
     
     public function saswp_get_dynamic_html( $schema_id, $meta_name, $index, $data ) {
                 
