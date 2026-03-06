@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.55
+Stable tag: 1.56
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,17 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.56 (06 March 2026) =
+* Enhancement: Product JSON-LD schema issues: incorrect data types and case sensitivity #2396
+* Fixed: ItemList feature not generating schema despite H3 tags #2397
+* Enhancement: PHP warnings triggered by 404/missing images in post content #2401
+* Fixed: SASWP Schema Block Breaks Content After Anchor Links (Classic Editor) #2402
+* Fixed: Fatal Error: explode() Receives Array Instead of String in Schema Output #2407
+* Enhancement: Removed empty properties from the webpage schema. #2409
+* Enhancement: Fields Not Translating on Article Edit Page After Using Loco Translate #2412
+* Fixed: Vulnerability reported by CyberXplore #2413
+* Feature: Added SportsTeam Schema Type #2414
 
 = 1.55 (06 February 2026) =
 * Fixed: Error appears after recent update #2379
@@ -329,9 +340,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: PHP translation notices on WordPress 6.7 #2219
 * Fixed: PHP Notice releated to comment id #2220
 * Enhancement: Added hasCourseInatance attribute for LearnPress plugin compatibility #2224
-
-= 1.38.1 (06 November 2024) =
-* Enhancement: Rankmath keyword issue with Category and Tag for WebPage schema #2201
-* Enhancement: Primary image size was not reflected properly in Schema #2213
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
