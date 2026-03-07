@@ -3650,25 +3650,31 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
         $job_location_arr['geo']['longitude'] = $all_post_meta['saswp_jobposting_schema_longitude_'.$schema_id][0];
     }
 
+    $job_location = array();
+
+    if ( ! empty($job_location_arr) ) {
     $job_location[] = $job_location_arr;
+    }
 
-    $joblocation_meta  = get_post_meta($schema_post_id, 'joblocation_'.$schema_id, true);
+    $joblocation_meta = get_post_meta($schema_post_id, 'joblocation_'.$schema_id, true);
 
-    if ( ! empty( $joblocation_meta) ) {
+    if ( ! empty( $joblocation_meta ) && is_array($joblocation_meta) ) {
 
-        foreach( $joblocation_meta as $value){
+        foreach( $joblocation_meta as $value ) {
                 
             $supply_data = array();
 
-            $supply_data['@type']                        = 'Place';
-            $supply_data['address']['@type']             = 'PostalAddress';                            
-            $supply_data['address']['streetAddress']     = $value['saswp_jobposting_street_address'];
-            $supply_data['address']['addressLocality']   = $value['saswp_jobposting_locality'];
-            $supply_data['address']['addressRegion']     = $value['saswp_jobposting_region'];
-            $supply_data['address']['addressCountry']    = $value['saswp_jobposting_country'];
-            $supply_data['address']['postalCode']        = $value['saswp_jobposting_postalcode'];
+            $supply_data['@type']                      = 'Place';
+            $supply_data['address']['@type']           = 'PostalAddress';   
 
-            if( isset($value['saswp_jobposting_latitude']) && isset($value['saswp_jobposting_longitude']) ){
+            //Added Null Coalescing Operator (?? '') to prevent Undefined Key warnings
+            $supply_data['address']['streetAddress']   = $value['saswp_jobposting_street_address'] ?? '';
+            $supply_data['address']['addressLocality'] = $value['saswp_jobposting_locality'] ?? '';
+            $supply_data['address']['addressRegion']   = $value['saswp_jobposting_region'] ?? '';
+            $supply_data['address']['addressCountry']  = $value['saswp_jobposting_country'] ?? '';
+            $supply_data['address']['postalCode']      = $value['saswp_jobposting_postalcode'] ?? '';
+
+            if ( !empty($value['saswp_jobposting_latitude']) && !empty($value['saswp_jobposting_longitude']) ) {
 
                 $supply_data['geo']['@type']     = 'GeoCoordinates';
                 $supply_data['geo']['latitude']  = $value['saswp_jobposting_latitude'];
@@ -3676,13 +3682,18 @@ function saswp_job_posting_schema_markup($schema_id, $schema_post_id, $all_post_
 
             }            
 
-            $job_location[] =  $supply_data;
+            $job_location[] = $supply_data;
         }                       
 
     }
 
-    if ( ! empty( $job_location) ) {
-        $input1['jobLocation'] = $job_location;
+    if ( ! empty( $job_location ) ) {
+        // 6. Output as a single object if there's only 1 location, preventing structural errors
+        if ( count($job_location) === 1 ) {
+            $input1['jobLocation'] = $job_location[0]; 
+        } else {
+            $input1['jobLocation'] = $job_location; 
+        }
     }
 
     if( isset($all_post_meta['saswp_jobposting_schema_jobimmediatestart_'.$schema_id][0]) ){
