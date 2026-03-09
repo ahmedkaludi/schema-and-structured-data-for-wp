@@ -4301,10 +4301,10 @@ function saswp_contact_page_output() {
 function saswp_site_navigation_output() {
             
     global $sd_data;
-    $input = array();    
+    $input = array();  
 
     $navObj = array();          
-                               
+                                   
     if ( isset( $sd_data['saswp_site_navigation_menu']) ) {
         
         $menu_id   = $sd_data['saswp_site_navigation_menu'];
@@ -4312,23 +4312,44 @@ function saswp_site_navigation_output() {
         $menu_id    = apply_filters('saswp_modify_menu_id', $menu_id);
         
         $menuItems = get_transient('saswp_nav_menu'.$menu_id);
-                
-        if(!$menuItems){
-            $menuItems = wp_get_nav_menu_items($menu_id);
+
+        if( ! $menuItems ){
+            
+            $raw_items = wp_get_nav_menu_items($menu_id);
+            $menuItems = array(); 
+
+            if ( ! empty( $raw_items ) && is_array( $raw_items ) ) {
+                foreach ( $raw_items as $item ) {
+                    
+                    $menu_data = array(
+                        'id'         => $item->ID,
+                        'type'       => $item->type,
+                        'url'        => $item->url,
+                        'title'      => $item->title
+                    );
+
+                    if ( ! empty( $item->attr_title ) ) {
+                        $menu_data['attr_title'] = $item->attr_title;
+                    }
+
+                    $menuItems[] = (object) $menu_data; 
+                }
+            }
+
             set_transient('saswp_nav_menu'.$menu_id, $menuItems);
         }
         
         $menu_name = wp_get_nav_menu_object($menu_id);
         if ( ! empty( $menu_name) && !empty($menu_name->name) ) {
-			$menu_name = $menu_name->name;
-		}else{
-			$menu_name = "";
-		}
+            $menu_name = $menu_name->name;
+        }else{
+            $menu_name = "";
+        }
 
         $current_post_language = apply_filters( 'wpml_post_language_details', NULL);
-                                     
+                                             
         if ( ! empty( $menuItems) ) {
-           
+            
                 foreach( $menuItems as $items){
 
                         if ( isset( $items->type) && $items->type == 'wpml_ls_menu_item'){
@@ -4354,7 +4375,7 @@ function saswp_site_navigation_output() {
                           );
                         }
 
-                }                                                                                                                                                                                   
+                }                                                                                                                                                                                                                                                                                                
             }
             
             if($navObj){
@@ -4364,7 +4385,7 @@ function saswp_site_navigation_output() {
 
             }
             
-    }                                                
+    }                                              
                                 
     return apply_filters('saswp_modify_sitenavigation_output', $input);
 }  

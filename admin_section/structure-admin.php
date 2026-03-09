@@ -2419,11 +2419,31 @@ function saswp_save_nav_menu_on_option_update($old, $new, $opt_name){
     
 }
 
-function saswp_save_nav_menu_in_transient($menu_id){
-                        
-    $menuItems = wp_get_nav_menu_items($menu_id);                
-    set_transient('saswp_nav_menu'.$menu_id, $menuItems);                
-                     
+function saswp_save_nav_menu_in_transient( $menu_id ) {
+    
+    $menuItems = wp_get_nav_menu_items( $menu_id );
+    
+    $filtered_menu_items = array();
+
+    if ( ! empty( $menuItems ) && is_array( $menuItems ) ) {
+        foreach ( $menuItems as $item ) {
+           
+            $menu_data = array(
+                'id'         => $item->ID,
+                'type'       => $item->type,
+                'url'        => $item->url,
+                'title'      => $item->title
+            );
+
+            if ( ! empty( $item->attr_title ) ) {
+                $menu_data['attr_title'] = $item->attr_title;
+            }
+
+            $filtered_menu_items[] = (object) $menu_data;
+        }
+    }
+
+    set_transient( 'saswp_nav_menu' . $menu_id, $filtered_menu_items );
 }
 
 add_action( 'wp_ajax_saswp_get_select2_data', 'saswp_get_select2_data'); 
