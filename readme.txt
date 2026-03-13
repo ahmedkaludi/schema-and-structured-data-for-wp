@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.56
+Stable tag: 1.57
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.57 (13 March 2026) =
+* Fixed: Fatal error on single-region job postings #2411
+* Enhancement: Fields Not Translating on Article Edit Page After Using Loco Translate #2412
+* Fixed: PHP Warning: unserialize(): Error at offset 0 of 1070 bytes #2415
+* Enhancement: Striped unused properties from _transient_saswp_nav_menu to reduce autoload load size #2416
+* Fixed: Lastet Version Causing Unicode in Title, Rankmath Compatibility issue #2420
 
 = 1.56 (06 March 2026) =
 * Enhancement: Product JSON-LD schema issues: incorrect data types and case sensitivity #2396
@@ -330,15 +337,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Issue with creating new review collection #2233
 * Fixed: Deprecated error #2236
 * Enhancement: Fixed the format date time issue with timezone offset #2239
-
-= 1.39 (04 December 2024) =
-* Major Feature: Schema Template Builder #2138
-* Feature: Added Genre and Actor fields for TVSeries schema #2207
-* Fixed: Tested with new version of wordpress i.e. 6.7v #2209
-* Fixed: Fixed issue with FAQ repeater field #2215
-* Enhancement: Added some modification in VideoObject schema #2218
-* Fixed: PHP translation notices on WordPress 6.7 #2219
-* Fixed: PHP Notice releated to comment id #2220
-* Enhancement: Added hasCourseInatance attribute for LearnPress plugin compatibility #2224
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

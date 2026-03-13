@@ -160,29 +160,29 @@ return array( 'schema_type_element' => array(
     'meta_name' => array(
 		'eopidentifier' => array(                    
 			array(
-				'label'     => 'Property ID',
+				'label'     => esc_html__( 'Property ID', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_eopidentifier_property_id',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Value',
+				'label'     => esc_html__( 'Value', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_eopidentifier_property_value',
 				'type'      => 'text',                        
 			) 
 		),
 		'eopoffer' => array(                    
 			array(
-				'label'     => 'Category',
+				'label'     => esc_html__( 'Category', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_eopoffer_category',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Price',
+				'label'     => esc_html__( 'Price', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_eopoffer_price',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Price Currency',
+				'label'     => esc_html__( 'Price Currency', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_eopoffer_price_currency',
 				'type'      => 'text',                        
 			)
@@ -190,194 +190,194 @@ return array( 'schema_type_element' => array(
 		),
                      'movie_actor' => array(                    
                         array(
-                            'label'     => 'Name',
+                            'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
                             'name'      => 'saswp_movie_actor_name',
                             'type'      => 'text',                        
                         ),
                         array(
-                            'label'     => 'URL',
+                            'label'     => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
                             'name'      => 'saswp_movie_actor_url',
                             'type'      => 'text',                        
                         ) 
                     ),
                     'music_composer' => array(                    
                     array(
-			'label'     => 'Name',
+			'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_composition_composer_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'URL',
+			'label'     => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_composition_composer_url',
 			'type'      => 'text',                        
 		    )    
                     ),
                     'article_items' => array(                    
                     array(
-			'label'     => 'Item Name',
+			'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_article_items_name',
 			'type'      => 'text',                        
 		    )                     
                     ),
                     'image_object_exif_data' => array(                    
                     array(
-			'label'     => 'Name',
+			'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswpimage_object_exif_data_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Value',
+			'label'     => esc_html__( 'Value', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswpimage_object_exif_data_value',
 			'type'      => 'text',                        
 		    )    
                     ),
                     'newsarticle_items' => array(                    
                     array(
-			'label'     => 'Item Name',
+			'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_newsarticle_items_name',
 			'type'      => 'text',                        
 		    )                     
                     ),
 					'analysisnewsarticle_items' => array(                    
 						array(
-				'label'     => 'Item Name',
+				'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_analysisnewsarticle_items_name',
 				'type'      => 'text',                        
 				)                     
 						),
 					'askpublicnewsarticle_items' => array(                    
 						array(
-				'label'     => 'Item Name',
+				'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_askpublicnewsarticle_items_name',
 				'type'      => 'text',                        
 				)                     
 						),
 						'backgroundnewsarticle_items' => array(                    
 							array(
-					'label'     => 'Item Name',
+					'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_backgroundnewsarticle_items_name',
 					'type'      => 'text',                        
 					)                     
 							),
 						'opinionnewsarticle_items' => array(                    
 							array(
-					'label'     => 'Item Name',
+					'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_opinionnewsarticle_items_name',
 					'type'      => 'text',                        
 					)                     
 							),
 						'reportagenewsarticle_items' => array(                    
 							array(
-					'label'     => 'Item Name',
+					'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_reportagenewsarticle_items_name',
 					'type'      => 'text',                        
 					)                     
 							),
 					'reviewnewsarticle_items' => array(                    
 						array(
-				'label'     => 'Item Name',
+				'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_reviewnewsarticle_items_name',
 				'type'      => 'text',                        
 				)                     
 						),
                     'tech_article_items' => array(                    
                     array(
-			'label'     => 'Item Name',
+			'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tech_article_items_name',
 			'type'      => 'text',                        
 		    )                     
                     ),
                     'blogposting_items' => array(                    
                     array(
-			'label'     => 'Item Name',
+			'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_blogposting_items_name',
 			'type'      => 'text',                        
 		    )                     
                     ),
                     'product_reviews' => array(                    
                     array(
-			'label'     => 'Reviewer Name',
+			'label'     => esc_html__( 'Item Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_product_reviews_reviewer_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Rating',
+			'label'     => esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_product_reviews_reviewer_rating',
 			'type'      => 'number',                        
 		    ),
                     array(
-			'label'     => 'Text',
+			'label'     => esc_html__( 'Text', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_product_reviews_text',
 			'type'      => 'textarea',                        
 		    ),
                     array(
-			'label'     => 'Created Date',
+			'label'     => esc_html__( 'Created Date', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_product_reviews_created_date',
 			'type'      => 'text',                        
 		    )    
                     ),
 			'product_pros' => array(                    
 				array(
-					'label'     => 'Pros Text',
+					'label'     => esc_html__( 'Pros Text', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_pros_title',
 					'type'      => 'text',                        
 				),
 			),
 			'product_cons' => array(                    
 				array(
-					'label'     => 'Cons Text',
+					'label'     => esc_html__( 'Cons Text', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_cons_title',
 					'type'      => 'text',                        
 				),
 			),                
 			'product_group_has_varient' => array(
 				array(
-					'label'     => 'Sku',
+					'label'     => esc_html__( 'SKU', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_sku',
 					'type'      => 'text',                        
 				),
 				array(
-					'label'     => 'GTIN14',
+					'label'     => esc_html__( 'GTIN14', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_gtin14',
 					'type'      => 'text',                        
 				),
 				array(
-					'label'     => 'Image',
+					'label'     => esc_html__( 'Image', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_img',
 					'type'      => 'media',                        
 				),
 				array(
-					'label'     => 'Name',
+					'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_name',
 					'type'      => 'text',                        
 				),
 				array(
-					'label'     => 'Description',
+					'label'     => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_description',
 					'type'      => 'textarea',                        
 				),
 				array(
-					'label'     => 'Offer URL',
+					'label'     => esc_html__( 'Offer URL', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_offer_url',
 					'type'      => 'text',                        
 				),
 				array(
-					'label'     => 'Offer Currency',
+					'label'     => esc_html__( 'Offer Currency', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_offer_currency',
 					'type'      => 'text',                        
 				),
 				array(
-					'label'     => 'Offer Price',
+					'label'     => esc_html__( 'Offer Price', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_offer_price',
 					'type'      => 'number',                        
 				),
 				array(
-	                            'label'     => 'Price Valid Until',
+	                            'label'     => esc_html__( 'Price Valid Until', 'schema-and-structured-data-for-wp' ),
 	                            'name'      => 'saswp_product_grp_schema_priceValidUntil',
 	                            'type'      => 'text',    
                        	),
 				array(
-					'label'     => 'Offer Item Condition',
+					'label'     => esc_html__( 'Offer Item Condition', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_offer_icondition',
 					'type'      => 'select',                        
 					'options'   => array(
@@ -387,7 +387,7 @@ return array( 'schema_type_element' => array(
 					),                        
 				),
 				array(
-					'label'     => 'Offer Availability',
+					'label'     => esc_html__( 'Offer Availability', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_product_grp_offer_avail',
 					'type'      => 'select',                            
 	                            'options'   => array(
@@ -407,24 +407,24 @@ return array( 'schema_type_element' => array(
 			),                
                     'feed_element' => array(                    
                     array(
-			'label'     => 'Date Created',
+			'label'     => esc_html__( 'Date Created', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_feed_element_date_created',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Feed Element Name',
+			'label'     => esc_html__( 'Feed Element Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_feed_element_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Feed Element email',
+			'label'     => esc_html__( 'Feed Element email', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_feed_element_email',
 			'type'      => 'text',                        
 		    )    
                     ),
                     'performer' => array(                    
             	        array(
-							'label'     => 'Performer Type',
+							'label'     => esc_html__( 'Performer Type', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_event_performer_type',
 							'type'      => 'select',
 										'options'   => array(                                                                                              
@@ -434,12 +434,12 @@ return array( 'schema_type_element' => array(
 										)
 							),
 									array(
-							'label'     => 'Performer Name',
+							'label'     => esc_html__( 'Performer Name', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_event_performer_name',
 							'type'      => 'text',                        
 							),
 									array(
-							'label'     => 'Performer URL',
+							'label'     => esc_html__( 'Performer URL', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_event_performer_url',
 							'type'      => 'text',                        
 							)                                                            
@@ -447,39 +447,39 @@ return array( 'schema_type_element' => array(
 					
 					'organizer' => array(                    						
 							array(
-								'label'     => 'Organizer Name',
+								'label'     => esc_html__( 'Organizer Name', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_event_organizer_name',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Organizer URL',
+								'label'     => esc_html__( 'Organizer URL','schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_event_organizer_url',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Organizer Phone',
+								'label'     => esc_html__( 'Organizer Phone', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_event_organizer_phone',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Organizer Email',
+								'label'     => esc_html__( 'Organizer Email', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_event_organizer_email',
 								'type'      => 'text',                        
 							),							                                                            
 						),
 			'event_schedule'	=> array(
 				array(
-					'label'	=> 'Schedule Name',
+					'label'	=> esc_html__( 'Schedule Name', 'schema-and-structured-data-for-wp' ),
 					'name'		=> 'saswp_event_schema_schedule_n',
 					'type'		=> 'text',
 				),
 	                     array(
-                            	'label' => 'Start Time',
+                            	'label' => esc_html__( 'Start Time', 'schema-and-structured-data-for-wp' ),
                             	'name'  => 'saswp_event_schema_schedule_st',
                             	'type'  => 'text',                                
 	                     ),
 	                     array(
-	                     	'label' => 'End Time',
+	                     	'label' => esc_html__( 'End Time', 'schema-and-structured-data-for-wp' ),
 	                            'name'  => 'saswp_event_schema_schedule_et',
 	                            'type' => 'text',                                
 	                     ),
@@ -495,7 +495,7 @@ return array( 'schema_type_element' => array(
                                ) 
 				),
 				array(
-                                	'label' => 'Schedule byDay',
+                                	'label' => esc_html__( 'Schedule byDay', 'schema-and-structured-data-for-wp' ),
                                 	'name'  => 'saswp_event_schema_schedule_bd',
                                 	'type'  => 'text',
                                 	'attributes' => array(
@@ -504,7 +504,7 @@ return array( 'schema_type_element' => array(
                                 	'note' => 'Note: Separate it by comma ( , )'                                  
                         	),
                         	array(
-                                	'label' => 'Schedule byMonthDay',
+                                	'label' => esc_html__( 'Schedule byMonthDay', 'schema-and-structured-data-for-wp' ),
                                 	'name'  => 'saswp_event_schema_schedule_bmd',
                                 	'type'  => 'text',
                                 	'attributes' => array(
@@ -513,7 +513,7 @@ return array( 'schema_type_element' => array(
                                  	'note' => 'Note: Separate it by comma ( , )'                                                                  
                         	),
                         	array(
-                                'label'  => 'Schedule Timezone',
+                                'label'  => esc_html__( 'Schedule Timezone', 'schema-and-structured-data-for-wp' ),
                                 'name'     => 'saswp_event_schema_schedule_tmz',
                                 'type'   => 'text',
                                 'attributes' => array(
@@ -523,37 +523,37 @@ return array( 'schema_type_element' => array(
 			),
 						'joblocation' => array(                    						
 							array(
-								'label'     => 'Street Address',
+								'label'     => esc_html__( 'Street Address', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_street_address',
 								'type'      => 'text'                        
 							),
 							array(
-								'label'     => 'Locality',
+								'label'     => esc_html__( 'Locality', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_locality',
 								'type'      => 'text'                        
 							),
 							array(
-								'label'     => 'Region',
+								'label'     => esc_html__( 'Region', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_region',
 								'type'      => 'text'
 							),
 							array(
-								'label'     => 'Postal Code',
+								'label'     => esc_html__( 'Postal Code', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_postalcode',
 								'type'      => 'text'                        
 							),							                   
 							array(
-								'label'     => 'Country',
+								'label'     => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_country',
 								'type'      => 'text'
 							),
 							array(
-								'label'     => 'GeoCoordinates Latitude',
+								'label'     => esc_html__( 'GeoCoordinates Latitude', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_latitude',
 								'type'      => 'text'                        
 							),
 							array(
-								'label'     => 'GeoCoordinates Longitude',
+								'label'     => esc_html__( 'GeoCoordinates Longitude', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_jobposting_longitude',
 								'type'      => 'text'                        
 							)							                                                            
@@ -561,44 +561,44 @@ return array( 'schema_type_element' => array(
 
                     'howto_supply' => array(                    
 						array(
-							'label'     => 'Supply Name',
+							'label'     => esc_html__( 'Supply Name', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_howto_supply_name',
 							'type'      => 'text',                        
 							),
 									array(
-							'label'     => 'Supply URL',
+							'label'     => esc_html__( 'Supply URL', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_howto_supply_url',
 							'type'      => 'text',                        
 							),    
 									array(
-							'label'     => 'Supply Image',
+							'label'     => esc_html__( 'Supply Image', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_howto_supply_image',
 							'type'      => 'media',                        
 							)                                        
 					),					
 					'accepted_answer' => array(                    
 						array(
-							'label'     => 'Accepted Answer Text',
+							'label'     => esc_html__( 'Accepted Answer Text', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_accepted_answer_text',
 							'type'      => 'text',                        
 							),
 						array(
-							'label'     => 'Accepted Answer Date Created',
+							'label'     => esc_html__( 'Accepted Answer Date Created', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_accepted_answer_date_created',
 							'type'      => 'text',                        
 							),    
 						array(
-							'label'     => 'Accepted Answer Upvote Count',
+							'label'     => esc_html__( 'Accepted Answer Upvote Count', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_accepted_answer_upvote_count',
 							'type'      => 'number',                        
 							),
 						array(
-								'label'     => 'Accepted Answer Url',
+								'label'     => esc_html__( 'Accepted Answer Url', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_qa_accepted_answer_url',
 								'type'      => 'text',                        
 						),
 						array(
-							'label'     => 'Accepted Answer Author Type',
+							'label'     => esc_html__( 'Accepted Answer Author Type', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_accepted_author_type',
 							'type'      => 'select',
 							'options'   => array(
@@ -607,39 +607,39 @@ return array( 'schema_type_element' => array(
 							)                       
 						),
 						array(
-								'label'     => 'Accepted Answer Author Name',
+								'label'     => esc_html__( 'Accepted Answer Author Name', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_qa_accepted_author_name',
 								'type'      => 'text',                        
 							),
 						array(
-			                            'label'      => 'Author URL',
+			                            'label'      => esc_html__( 'Author URL', 'schema-and-structured-data-for-wp' ),
 			                            'name'         => 'saswp_qa_accepted_author_url',
 			                            'type'       => 'text'
 			                    )                                        
                     ),
 					'suggested_answer' => array(                    
 						array(
-							'label'     => 'suggested Answer Text',
+							'label'     => esc_html__( 'suggested Answer Text', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_suggested_answer_text',
 							'type'      => 'text',                        
 							),
 						array(
-							'label'     => 'suggested Answer Date Created',
+							'label'     => esc_html__( 'suggested Answer Date Created', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_suggested_answer_date_created',
 							'type'      => 'text',                        
 							),    
 						array(
-							'label'     => 'suggested Answer Upvote Count',
+							'label'     => esc_html__( 'suggested Answer Upvote Count', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_suggested_answer_upvote_count',
 							'type'      => 'number',                        
 							),
 						array(
-								'label'     => 'suggested Answer Url',
+								'label'     => esc_html__( 'suggested Answer Url', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_qa_suggested_answer_url',
 								'type'      => 'text',                        
 						),
 						array(
-							'label'     => 'Accepted Answer Author Type',
+							'label'     => esc_html__( 'Accepted Answer Author Type', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_qa_suggested_author_type',
 							'type'      => 'select',
 							'options'   => array(
@@ -648,95 +648,95 @@ return array( 'schema_type_element' => array(
 							)                       
 						),
 						array(
-								'label'     => 'suggested Answer Author Name',
+								'label'     => esc_html__( 'suggested Answer Author Name', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_qa_suggested_author_name',
 								'type'      => 'text',                        
 						),
 						array(
-			                            'label'      => 'Author URL',
+			                            'label'      => esc_html__( 'Author URL', 'schema-and-structured-data-for-wp' ),
 			                            'name'         => 'saswp_qa_suggested_author_url',
 			                            'type'       => 'text'
 			                    )                                        
                     ),
                     'howto_tool' => array(                    
                     array(
-			'label'     => 'Tool Name',
+			'label'     => esc_html__( 'Tool Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_howto_tool_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Tool URL',
+			'label'     => esc_html__( 'Tool URL', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_howto_tool_url',
 			'type'      => 'text',                        
 		    ),    
                     array(
-			'label'     => 'Tool Image',
+			'label'     => esc_html__( 'Tool Image', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_howto_tool_image',
 			'type'      => 'media',                        
 		    )                                        
                     ),
                     'howto_step' => array(                    
 								array(
-									'label'     => 'Step Name',
+									'label'     => esc_html__( 'Step Name', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_step_name',
 									'type'      => 'text',                        
 									),
 								array(
-									'label'     => 'HowToDirection Text',
+									'label'     => esc_html__( 'HowToDirection Text', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_direction_text',
 									'type'      => 'text',                        
 									),
 								array(
-									'label'     => 'HowToTip Text',
+									'label'     => esc_html__( 'HowToTip Text', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_tip_text',
 									'type'      => 'text',                        
 									),    
 								array(
-									'label'     => 'Step Image',
+									'label'     => esc_html__('Step Image', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_step_image',
 									'type'      => 'media',                        
 								),        								
 								array(
-									'label'     => 'Video Clip Name',
+									'label'     => esc_html__( 'Video Clip Name', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_video_clip_name',
 									'type'      => 'text',                        
 								),    
 								array(
-									'label'     => 'Video Clip URL',
+									'label'     => esc_html__( 'Video Clip URL', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_video_clip_url',
 									'type'      => 'text',                        
 								),    
 								array(
-									'label'     => 'Video Clip StartOffset',
+									'label'     => esc_html__( 'Video Clip StartOffset', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_video_start_offset',
 									'type'      => 'number',                        
 								),    
 								array(
-									'label'     => 'Video Clip EndOffset',
+									'label'     => esc_html__( 'Video Clip EndOffset', 'schema-and-structured-data-for-wp' ),
 									'name'      => 'saswp_howto_video_end_offset',
 									'type'      => 'number',                        
 								)
 					),	
 					'recipe_instructions' => array(                    
 						array(
-							'label'     => 'Step Name',
+							'label'     => esc_html__( 'Step Name', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_recipe_instructions_step_name',
 							'type'      => 'text',                        
 							),
 						array(
-							'label'     => 'Step Text',
+							'label'     => esc_html__( 'Step Text','schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_recipe_instructions_step_text',
 							'type'      => 'text',                        
 							),
 						array(
-							'label'     => 'Step Image',
+							'label'     => esc_html__( 'Step Image', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_recipe_instructions_step_image',
 							'type'      => 'media',
 							),					
 					),					
 					'announcement_location' => array(                    
 						array(
-							'label'     => 'Location Type',
+							'label'     => esc_html__( 'Location Type', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_sp_location_type',
 							'type'      => 'select',
 								'options'   => array(
@@ -745,37 +745,37 @@ return array( 'schema_type_element' => array(
 								)                        
 							),
 							array(
-								'label'     => 'Location Name',
+								'label'     => esc_html__( 'Location Name', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_name',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Location Street Address',
+								'label'     => esc_html__( 'Location Street Address', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_street_address',
 								'type'      => 'text',                        
 							),	
 							array(
-								'label'     => 'Location Address Locality',
+								'label'     => esc_html__( 'Location Address Locality', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_street_locality',
 								'type'      => 'text',                        
 							),	
 							array(
-								'label'     => 'Location Address Region',
+								'label'     => esc_html__( 'Location Address Region', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_street_region',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Location URL',
+								'label'     => esc_html__( 'Location URL','schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_url',
 								'type'      => 'text',                        
 							),							
 							array(
-								'label'     => 'Location Telephone',
+								'label'     => esc_html__( 'Location Telephone', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_telephone',
 								'type'      => 'text',                        
 							),
 							array(
-								'label'     => 'Location PriceRange',
+								'label'     => esc_html__( 'Location PriceRange', 'schema-and-structured-data-for-wp' ),
 								'name'      => 'saswp_sp_location_price_range',
 								'type'      => 'text',                        
 							),							
@@ -787,57 +787,57 @@ return array( 'schema_type_element' => array(
 					),
                     'mc_symptom' => array(                    
                     array(
-			'label'     => 'Sign Or Symptom',
+			'label'     => esc_html__( 'Sign Or Symptom', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_mc_symptom_name',
 			'type'      => 'text',                        
 		    )                                                         
                     ),
                     'mc_risk_factor' => array(                    
                     array(
-			'label'     => 'Risk Factor',
+			'label'     => esc_html__( 'Risk Factor', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_mc_risk_factor_name',
 			'type'      => 'text',                        
 		    )                                                           
                     ),                                                        
                     'tvseries_actor' => array(                    
                     array(
-			'label'     => 'Actor Name',
+			'label'     => esc_html__( 'Actor Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tvseries_actor_name',
 			'type'      => 'text',                        
 		    )                                                           
                     ),
                     'tvseries_character' => array(                    
                     		array(
-					'label'     => 'Charater Name',
+					'label'     => esc_html__( 'Charater Name', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_tvseries_character_name',
 					'type'      => 'text',                        
 			    	),
 			    	array(
-					'label'     => 'Charater Description',
+					'label'     => esc_html__( 'Charater Description', 'schema-and-structured-data-for-wp' ),
 					'name'      => 'saswp_tvseries_character_description',
 					'type'      => 'textarea',                        
 			    	),                                                            
                     ),
                     'tvseries_season' => array(                    
                     array(
-			'label'     => 'Season Name',
+			'label'     => esc_html__( 'Season Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tvseries_season_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Season Published Date',
+			'label'     => esc_html__( 'Season Published Date', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tvseries_season_published_date',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Number Of Episodes',
+			'label'     => esc_html__( 'Number Of Episodes', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tvseries_season_episodes',
 			'type'      => 'text',                        
 		    )                                                            
                     ),
                    'trip_itinerary' => array(                    
                     array(
-						'label'     => 'Itinerary Type',
+						'label'     => esc_html__( 'Itinerary Type', 'schema-and-structured-data-for-wp' ),
 						'name'      => 'saswp_trip_itinerary_type',
 						'type'      => 'select',
 									'options'   => array(
@@ -848,24 +848,24 @@ return array( 'schema_type_element' => array(
 									)
 		    ),
                     array(
-						'label'     => 'Itinerary Name',
+						'label'     => esc_html__( 'Itinerary Name', 'schema-and-structured-data-for-wp' ),
 						'name'      => 'saswp_trip_itinerary_name',
 						'type'      => 'text'                        
 		    ),
                      array(
-						'label'     => 'Itinerary Description',
+						'label'     => esc_html__( 'Itinerary Description', 'schema-and-structured-data-for-wp' ),
 						'name'      => 'saswp_trip_itinerary_description',
 						'type'      => 'textarea'                        
 		    ),
                      array(
-						'label'     => 'Itinerary URL',
+						'label'     => esc_html__( 'Itinerary URL', 'schema-and-structured-data-for-wp' ),
 						'name'      => 'saswp_trip_itinerary_url',
 						'type'      => 'text'                        
 						)   
                     ),   
 					'boat_trip_itinerary' => array(                    
 						array(
-							'label'     => 'Itinerary Type',
+							'label'     => esc_html__( 'Itinerary Type', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_boat_trip_itinerary_type',
 							'type'      => 'select',
 										'options'   => array(
@@ -876,53 +876,53 @@ return array( 'schema_type_element' => array(
 										)
 							),
 						array(
-							'label'     => 'Itinerary Name',
+							'label'     => esc_html__( 'Itinerary Name', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_boat_trip_itinerary_name',
 							'type'      => 'text'                        
 							),
 						 array(
-							'label'     => 'Itinerary Description',
+							'label'     => esc_html__( 'Itinerary Description', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_boat_trip_itinerary_description',
 							'type'      => 'textarea'                        
 							),
 						 array(
-							'label'     => 'Itinerary URL',
+							'label'     => esc_html__( 'Itinerary URL', 'schema-and-structured-data-for-wp' ),
 							'name'      => 'saswp_boat_trip_itinerary_url',
 							'type'      => 'text'                        
 							)   
 						),                                                                     
                     'faq_question' => array(                                       
                     array(
-						'label'     => 'Question',
+						'label'     => esc_html__( 'Question', 'schema-and-structured-data-for-wp' ),
 						'name'      => 'saswp_faq_question_name',
 						'type'      => 'text'                        
 						),
                      array(
-			'label'     => 'Accepted Answer',
+			'label'     => esc_html__( 'Accepted Answer', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_faq_question_answer',
 			'type'      => 'textarea'                        
 		    )                    
                     ),
                     'apartment_amenities' => array(                    
                     array(
-			'label'     => 'Amenity Name',
+			'label'     => esc_html__( 'Amenity Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_apartment_amenities_name',
 			'type'      => 'text',                        
 		    )                                                                                    
                     ),
                     'additional_property' => array(                    
                     array(
-			'label'     => 'Name',
+			'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_apartment_additional_property_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Value',
+			'label'     => esc_html__( 'Value', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_apartment_additional_property_value',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Code Type',
+			'label'     => esc_html__( 'Code Type', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_apartment_additional_property_code_type',
 			'type'      => 'select',
                         'options'   => array(
@@ -931,34 +931,34 @@ return array( 'schema_type_element' => array(
                         )
 		    ),
                     array(
-			'label'     => 'Code Value',
+			'label'     => esc_html__( 'Code Value', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_apartment_additional_property_code_value',
 			'type'      => 'text',                        
 		    ),    
                     ),
                     'music_playlist_track' => array(                    
                     array(
-			'label'     => 'Track Artist',
+			'label'     => esc_html__( 'Track Artist', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_playlist_track_artist',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Track Duration',
+			'label'     => esc_html__( 'Track Duration', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_playlist_track_duration',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Track In Album',
+			'label'     => esc_html__( 'Track In Album', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_playlist_track_inalbum',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Track Name',
+			'label'     => esc_html__( 'Track Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_playlist_track_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Track URL',
+			'label'     => esc_html__( 'Track URL', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_playlist_track_url',
 			'type'      => 'text',                        
 		    ),    
@@ -966,30 +966,30 @@ return array( 'schema_type_element' => array(
                     ),
                     'music_album_track' => array(                                        
                     array(
-			'label'     => 'Track Duration',
+			'label'     => esc_html__( 'Track Duration', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_album_track_duration',
 			'type'      => 'text',                        
 		    ),                    
                     array(
-			'label'     => 'Track Name',
+			'label'     => esc_html__( 'Track Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_album_track_name',
 			'type'      => 'text',                        
 		    ),
                     array(
-			'label'     => 'Track URL',
+			'label'     => esc_html__( 'Track URL', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_music_album_track_url',
 			'type'      => 'text',                        
 		    ),                           
              ),
              'faq_repeater_question' => array(
              		array(
-				'label'     => 'Question',
+				'label'     => esc_html__( 'Question', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_faq_repeater_question_name',
 				'type'      => 'select',
 					'options'   => array()                      
 			),	
                      array(
-				'label'     => 'Accepted Answer',
+				'label'     => esc_html__( 'Accepted Answer', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_faq_repeater_question_answer',
 				'type'      => 'select',
 					'options'   => array()                            
@@ -997,66 +997,66 @@ return array( 'schema_type_element' => array(
              ),
              'tourist_trip_itinerary' => array(                    
 		array(
-			'label'     => 'Itinerary Name',
+			'label'     => esc_html__( 'Itinerary Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tourist_trip_itinerary_name',
 			'type'      => 'text'                        
 			),
 		 array(
-			'label'     => 'Itinerary Description',
+			'label'     => esc_html__( 'Itinerary Description', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_tourist_trip_itinerary_description',
 			'type'      => 'textarea'                        
 			),  
 		),
 		'course_instance' => array(                    
 		array(
-			'label'     => 'Name',
+			'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_name',
 			'type'      => 'text'                     
 			),
 		array(
-			'label'     => 'Course Mode',
+			'label'     => esc_html__( 'Course Mode', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_mode',
 			'type'      => 'text'                     
 			),
 		 array(
-			'label'     => 'Start Date',
+			'label'     => esc_html__( 'Start Date', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_start_date',
 			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),  
 		 array(
-			'label'     => 'End Date',
+			'label'     => esc_html__( 'End Date', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_end_date',
 			'type'      => 'date',
 			'default' => get_the_date("Y-m-d")
 			),
 		  array(
-              	'label' => 'Start Time',
+              	'label' => esc_html__( 'Start Time', 'schema-and-structured-data-for-wp' ),
               	'name'  => 'saswp_course_instance_start_time',
               	'type'  => 'text',                                
 	              ),
 	              array(
-              	'label' => 'End Time',
+              	'label' => esc_html__( 'End Time', 'schema-and-structured-data-for-wp' ),
                      'name'  => 'saswp_course_instance_end_time',
                      'type' => 'text',                                
 	              ),
 		array(
-			'label'     => 'Course Workload',
+			'label'     => esc_html__( 'Course Workload', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_wl',
 			'type'      => 'text'
 			),  
 		array(
-			'label'     => 'Schedule Duration',
+			'label'     => esc_html__( 'Schedule Duration', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_sd',
 			'type'      => 'text'
 			), 
 		array(
-			'label'     => 'Schedule Repeat Count',
+			'label'     => esc_html__( 'Schedule Repeat Count', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_src',
 			'type'      => 'number'
 			),
 		array(
-			'label'     => 'Schedule Repeat Frequency',
+			'label'     => esc_html__( 'Schedule Repeat Frequency', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_srf',
 			'type'      => 'select',
 			'options'   => array(                                                                                              
@@ -1067,7 +1067,7 @@ return array( 'schema_type_element' => array(
 				)
 			),
 		array(
-                  	'label' => 'Schedule byDay',
+                  	'label' => esc_html__( 'Schedule byDay', 'schema-and-structured-data-for-wp' ),
                   	'name'  => 'saswp_course_instance_sbyd',
                   	'type'  => 'text',
                   	'attributes' => array(
@@ -1076,7 +1076,7 @@ return array( 'schema_type_element' => array(
                   	'note' => 'Note: Separate it by comma ( , )'                                  
           	),
           	array(
-                  	'label' => 'Schedule byMonthDay',
+                  	'label' => esc_html__( 'Schedule byMonthDay', 'schema-and-structured-data-for-wp' ),
                   	'name'  => 'saswp_course_instance_sbmd',
                   	'type'  => 'text',
                   	'attributes' => array(
@@ -1085,12 +1085,12 @@ return array( 'schema_type_element' => array(
                    	'note' => 'Note: Separate it by comma ( , )'                                                                  
           	), 
 		array(
-			'label'     => 'Location',
+			'label'     => esc_html__( 'Location', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_location',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Offer Price',
+			'label'     => esc_html__( 'Offer Price', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_course_instance_offer_price',
 			'type'      => 'number'
 			), 
@@ -1102,12 +1102,12 @@ return array( 'schema_type_element' => array(
 		),
 		'vacation_rental_bed_details' => array(
 		array(
-			'label'     => 'Number Of Beds',
+			'label'     => esc_html__( 'Number Of Beds', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_bed_details_nob',
 			'type'      => 'number'
 			),
 		array(
-			'label'     => 'Type Of Bed',
+			'label'     => esc_html__( 'Type Of Bed', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_bed_details_tob',
 			'type'       => 'select',
                      'options' => array(
@@ -1123,7 +1123,7 @@ return array( 'schema_type_element' => array(
 		),
 		'vacation_rental_amenity_feature' => array(
 		array(
-			'label'     => 'Name',
+			'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_amenity_feature_name',
 			'type'       => 'select',
                      'options' => array(
@@ -1161,31 +1161,31 @@ return array( 'schema_type_element' => array(
                      	)
 			),
 		array(
-			'label'     => 'Value',
+			'label'     => esc_html__( 'Value', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_amenity_feature_value',
 			'type'      => 'text'
 			)
 		),
 		'vacation_rental_property_images' => array(
 			array(
-			'label'     => 'Property Image',
+			'label'     => esc_html__( 'Property Image', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_property_image',
 			'type'      => 'media',                        
 			) 
 		),
 		'vacation_rental_review_rating' => array(
 		array(
-			'label'     => 'Rating Value',
+			'label'     => esc_html__( 'Rating Value', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_value',
 			'type'      => 'number'
 			),
 		array(
-			'label'     => 'Best Rating',
+			'label'     => esc_html__( 'Best Rating', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_best_value',
 			'type'      => 'number'
 			),
 		array(
-			'label'     => 'Author Type',
+			'label'     => esc_html__( 'Author Type', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_author_type',
 			'type'      => 'select',
 			'options'   => array(
@@ -1194,18 +1194,18 @@ return array( 'schema_type_element' => array(
 				)                       
 			),
 		array(
-			'label'     => 'Author Name',
+			'label'     => esc_html__( 'Author Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_author_name',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Date Published',
+			'label'     => esc_html__( 'Date Published', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_date_pub',
 			'type'      => 'date',
 			'default'   => get_the_date("Y-m-d")
 			),
 		array(
-			'label'     => 'Content Reference Time',
+			'label'     => esc_html__( 'Content Reference Time', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_vr_review_rating_cr_time',
 			'type'      => 'date',
 			'default'   => get_the_date("Y-m-d")
@@ -1213,168 +1213,168 @@ return array( 'schema_type_element' => array(
 		),
 		'learning_resource_educational_alignment' => array(
 		array(
-			'label'     => 'Alignment Type',
+			'label'     => esc_html__( 'Alignment Type', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_lr_eaat',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Educational Framework',
+			'label'     => esc_html__( 'Educational Framework', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_lr_eaef',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Target Name',
+			'label'     => esc_html__( 'Target Name', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_lr_eatn',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Target URL',
+			'label'     => esc_html__( 'Target URL', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_lr_eatu',
 			'type'      => 'text'
 			),
 		array(
-			'label'     => 'Audience',
+			'label'     => esc_html__( 'Audience', 'schema-and-structured-data-for-wp' ),
 			'name'      => 'saswp_lr_audience',
 			'type'      => 'text'
 			),
 		),
 		'live_blog_update' 	=>	array(
 			array(
-				'label'     => 'Headline',
+				'label'     => esc_html__( 'Headline', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_lbp_lbu_headline',
 				'type'      => 'text'
 			),
 			array(
-				'label'     => 'Published Date',
+				'label'     => esc_html__( 'Published Date', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_lbp_lbu_published_date',
 				'type'      => 'text',
 				'default'   => get_the_date( 'Y-m-d' )                            
 			),
 			array(
-                         	'label'     => 'Published Time',
+                         	'label'     => esc_html__( 'Published Time', 'schema-and-structured-data-for-wp' ),
                          	'name'      => 'saswp_lbp_lbu_published_time',
                          	'type'      => 'text',
                      ),
 			array(
-				'label'     => 'Article Body',
+				'label'     => esc_html__( 'Article Body', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_lbp_lbu_article_body',
 				'type'      => 'textarea',                          
 			),
 			array(
-				'label'     => 'Image',
+				'label'     => esc_html__( 'Image', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_lbp_lbu_image',
 				'type'      => 'media',                        
 			),	
 		),
 		'media_gallery_associated_media' 	=>	array(
 			array(
-				'label'     => 'Thumbnail URL',
+				'label'     => esc_html__( 'Thumbnail URL', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_mg_thumbnail_url',
 				'type'      => 'media'
 			),
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_mg_name',
 				'type'      => 'text',                         
 			),
 			array(
-				'label'     => 'Content URL',
+				'label'     => esc_html__( 'Content URL', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_mg_content_url',
 				'type'      => 'media',                          
 			),
 			array(
-				'label'     => 'Caption',
+				'label'     => esc_html__( 'Content URL', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_mg_caption',
 				'type'      => 'text',                          
 			),
 			array(
-				'label'     => 'Description',
+				'label'     => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_mg_description',
 				'type'      => 'textarea',                          
 			),	
 		),
 		'image_gallery_collections' 	=>	array(
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_image_gallery_name',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Description',
+				'label'     => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_image_gallery_description',
 				'type'      => 'textarea',                          
 			),
 			array(
-				'label'     => 'Caption',
+				'label'     => esc_html__( 'Caption', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_image_gallery_caption',
 				'type'      => 'text',                          
 			),
 			array(
-				'label'     => 'Thumbnail URL',
+				'label'     => esc_html__( 'Thumbnail URL', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_image_gallery_thumbnail_url',
 				'type'      => 'media'
 			),
 			array(
-				'label'     => 'Content URL',
+				'label'     => esc_html__( 'Content URL', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_image_gallery_content_url',
 				'type'      => 'media',                          
 			),	
 		),
 		'vehicle_engine' 	=>	array(
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_name',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Type',
+				'label'     => esc_html__( 'Type', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_type',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Fuel Type',
+				'label'     => esc_html__( 'Fuel Type', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_fuel_type',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Displacement Value',
+				'label'     => esc_html__( 'Displacement Value', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_dis_value',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Displacement Unit Code',
+				'label'     => esc_html__( 'Displacement Unit Code', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_dis_unit_code',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Power Value',
+				'label'     => esc_html__( 'Power Value', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_power_value',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Power Unit Code',
+				'label'     => esc_html__( 'Power Unit Code', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_power_unit_code',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Torque Value',
+				'label'     => esc_html__( 'Torque Value', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_torque_value',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Torque Unit Code',
+				'label'     => esc_html__( 'Torque Unit Code', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_vehicle_engine_torque_unit_code',
 				'type'      => 'text',                        
 			),
 		),
 		'available_service' 	=>	array(
 			array(
-				'label'     => 'Type',
+				'label'     => esc_html__( 'Type', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_local_business_as_type',
 				'type'      => 'text',                        
 			),
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_local_business_as_name',
 				'type'      => 'text',                        
 			),
@@ -1382,7 +1382,7 @@ return array( 'schema_type_element' => array(
 		'sports_team_member_of' 	=>	array(
 			
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_sports_team_as_name',
 				'type'      => 'text',                        
 			),
@@ -1390,7 +1390,7 @@ return array( 'schema_type_element' => array(
 		'sports_team_athlete' 	=>	array(
 			
 			array(
-				'label'     => 'Name',
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_sports_team_as_name',
 				'type'      => 'text',                        
 			),

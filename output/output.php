@@ -738,26 +738,44 @@ function saswp_schema_output() {
                             break;
                         
                             case 'JobPosting':
-                                                                                   
+                                                                                                                                                               
+                                // 1. Ensure $input1 is an array so we don't crash on existing string values
+                                if ( ! isset($input1) || ! is_array($input1) ) {
+                                    $input1 = array();
+                                }
+
                                 $input1['@context']                        = saswp_context_url();
                                 $input1['@type']                           = 'JobPosting';
-                                $input1['@id']                             = saswp_get_permalink().'#JobPosting';                                                          
-                                $input1['datePosted']                      = esc_html( $date);                                                                                                                                                
+                                $input1['@id']                             = saswp_get_permalink().'#JobPosting';                                                  
+                                
+                                // 2. Added Null Coalescing (?? '') to prevent esc_html() from fataling if $date is null on expired jobs
+                                $input1['datePosted']                      = ! empty( $date ) ? esc_html( $date ) : '';  
+                                
+                                // 3. Explicitly initialize parent arrays before setting nested keys
+                                $input1['hiringOrganization']              = array();
                                 $input1['hiringOrganization']['@type']     = 'Organization'; 
                                 $input1['hiringOrganization']['name']      = (isset($sd_data['sd_name']) && $sd_data['sd_name'] !='' )? $sd_data['sd_name'] : get_bloginfo(); 
+                                
+                                $input1['jobLocation']                     = array();
                                 $input1['jobLocation']['@type']            = 'Place';
-                                $input1['jobLocation']['address']['@type'] = 'PostalAddress';                                                                                   
-                                $input1['baseSalary']['@type']             = 'MonetaryAmount';                            
+                                $input1['jobLocation']['address']          = array();
+                                $input1['jobLocation']['address']['@type'] = 'PostalAddress';                                              
+                                
+                                $input1['baseSalary']                      = array();
+                                $input1['baseSalary']['@type']             = 'MonetaryAmount';  
+                                $input1['baseSalary']['value']             = array();                            
                                 $input1['baseSalary']['value']['@type']    = 'QuantitativeValue'; 
-                                $input1['estimatedSalary']['@type']        = 'MonetaryAmount';                            
-                                $input1['estimatedSalary']['value']['@type']    = 'QuantitativeValue';     
+                                
+                                $input1['estimatedSalary']                 = array();
+                                $input1['estimatedSalary']['@type']        = 'MonetaryAmount';   
+                                $input1['estimatedSalary']['value']        = array();                           
+                                $input1['estimatedSalary']['value']['@type'] = 'QuantitativeValue';     
 
                                 $input1 = apply_filters('saswp_modify_jobposting_schema_output', $input1 );
 
                                 $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
                                 
                                 if($modified_schema == 1){
-                                    
                                     $input1 = saswp_job_posting_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
                                 }
 
@@ -4283,10 +4301,10 @@ function saswp_contact_page_output() {
 function saswp_site_navigation_output() {
             
     global $sd_data;
-    $input = array();    
+    $input = array();  
 
     $navObj = array();          
-                               
+                                   
     if ( isset( $sd_data['saswp_site_navigation_menu']) ) {
         
         $menu_id   = $sd_data['saswp_site_navigation_menu'];
@@ -4294,23 +4312,44 @@ function saswp_site_navigation_output() {
         $menu_id    = apply_filters('saswp_modify_menu_id', $menu_id);
         
         $menuItems = get_transient('saswp_nav_menu'.$menu_id);
-                
-        if(!$menuItems){
-            $menuItems = wp_get_nav_menu_items($menu_id);
+
+        if( ! $menuItems ){
+            
+            $raw_items = wp_get_nav_menu_items($menu_id);
+            $menuItems = array(); 
+
+            if ( ! empty( $raw_items ) && is_array( $raw_items ) ) {
+                foreach ( $raw_items as $item ) {
+                    
+                    $menu_data = array(
+                        'id'         => $item->ID,
+                        'type'       => $item->type,
+                        'url'        => $item->url,
+                        'title'      => $item->title
+                    );
+
+                    if ( ! empty( $item->attr_title ) ) {
+                        $menu_data['attr_title'] = $item->attr_title;
+                    }
+
+                    $menuItems[] = (object) $menu_data; 
+                }
+            }
+
             set_transient('saswp_nav_menu'.$menu_id, $menuItems);
         }
         
         $menu_name = wp_get_nav_menu_object($menu_id);
         if ( ! empty( $menu_name) && !empty($menu_name->name) ) {
-			$menu_name = $menu_name->name;
-		}else{
-			$menu_name = "";
-		}
+            $menu_name = $menu_name->name;
+        }else{
+            $menu_name = "";
+        }
 
         $current_post_language = apply_filters( 'wpml_post_language_details', NULL);
-                                     
+                                             
         if ( ! empty( $menuItems) ) {
-           
+            
                 foreach( $menuItems as $items){
 
                         if ( isset( $items->type) && $items->type == 'wpml_ls_menu_item'){
@@ -4336,7 +4375,7 @@ function saswp_site_navigation_output() {
                           );
                         }
 
-                }                                                                                                                                                                                   
+                }                                                                                                                                                                                                                                                                                                
             }
             
             if($navObj){
@@ -4346,7 +4385,7 @@ function saswp_site_navigation_output() {
 
             }
             
-    }                                                
+    }                                              
                                 
     return apply_filters('saswp_modify_sitenavigation_output', $input);
 }  
