@@ -749,7 +749,7 @@ function saswp_schema_output() {
                                 $input1['@id']                             = saswp_get_permalink().'#JobPosting';                                                  
                                 
                                 // 2. Added Null Coalescing (?? '') to prevent esc_html() from fataling if $date is null on expired jobs
-                                $input1['datePosted']                      = esc_html( $date ?? '' );  
+                                $input1['datePosted']                      = ! empty( $date ) ? esc_html( $date ) : '';  
                                 
                                 // 3. Explicitly initialize parent arrays before setting nested keys
                                 $input1['hiringOrganization']              = array();
