@@ -29,11 +29,6 @@ class SASWP_Post_Specific {
                             $this->_local_sub_business = include $mapping_local_sub;
                 }
                 
-                if( $this->_common_view == null ){
-                    require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
-                    $this->_common_view = new SASWP_View_Common();
-                }
-                
                 add_action( 'init', array( $this, 'SASWP_Post_Specific_hooks' ) );
         }
 
@@ -41,6 +36,11 @@ class SASWP_Post_Specific {
          * List of hooks used in this context
          */                       
         public function SASWP_Post_Specific_hooks() {
+
+                if( $this->_common_view == null ){
+                    require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
+                    $this->_common_view = new SASWP_View_Common();
+                }
 
                 $taxterm = array( 'category', 'post_tag', 'product_cat', 'product_tag' );
                 $saswp_terms    =   saswp_post_taxonomy_generator();
