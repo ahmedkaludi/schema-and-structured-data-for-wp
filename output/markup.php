@@ -3487,22 +3487,22 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         } 
     }
 
+    if ( ! empty( $faq_question ) && is_iterable( $faq_question ) ) {
+    
+        $faq_question_arr = array(); 
 
-    $faq_question_arr = array();
-
-    if ( ! empty( $faq_question) ) {
-
-        foreach( $faq_question as $val){
+        foreach( $faq_question as $val ){
 
             $supply_data = array();
             $supply_data['@type']                   = 'Question';
-            $supply_data['name']                    = $val['saswp_faq_question_name'];
+            $supply_data['name']                    = $val['saswp_faq_question_name'] ?? ''; 
             $supply_data['acceptedAnswer']['@type'] = 'Answer';
-            $supply_data['acceptedAnswer']['text']  = do_shortcode($val['saswp_faq_question_answer']);
+            $supply_data['acceptedAnswer']['text']  = do_shortcode($val['saswp_faq_question_answer'] ?? '');
 
-           $faq_question_arr[] =  $supply_data;
+            $faq_question_arr[] = $supply_data;
         }
-       $input1['mainEntity'] = $faq_question_arr;
+    
+    $input1['mainEntity'] = $faq_question_arr;
     }
    
     if( !empty($all_post_meta['saswp_faq_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_faq_about_'.$schema_id][0] ) ) { 
