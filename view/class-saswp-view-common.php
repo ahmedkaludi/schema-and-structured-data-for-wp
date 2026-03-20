@@ -27,11 +27,6 @@ class SASWP_View_Common {
     
     public function __construct() {
         
-        add_action( 'init', [$this, 'load_properties'] );         
-                
-    }
-
-    public function load_properties() {
         $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
         require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
                 
@@ -46,7 +41,8 @@ class SASWP_View_Common {
                 $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
             }
             $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
-        }       
+        }         
+                
     }
     
     public function saswp_get_dynamic_html( $schema_id, $meta_name, $index, $data ) {
