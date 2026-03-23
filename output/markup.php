@@ -3487,7 +3487,7 @@ function saswp_faq_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         } 
     }
 
-    if ( ! empty( $faq_question ) && ( is_array( $faq_question ) || $faq_question instanceof Traversable ) ) {
+    if ( ! empty( $faq_question ) && is_array( $faq_question ) ) {
     
     $faq_question_arr = array(); 
 
