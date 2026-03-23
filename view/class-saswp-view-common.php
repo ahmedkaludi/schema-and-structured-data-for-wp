@@ -24,14 +24,14 @@ class SASWP_View_Common {
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                                                                                      
                         );
-    
-    public function __construct() {
-        
-        add_action( 'init', [$this, 'load_properties'] );         
-                
-    }
 
-    public function load_properties() {
+    public function get_properties_and_repeater_fields() {
+        
+        $schema_type_element    =   [];
+        $meta_name              =   [];
+        $itemlist_meta          =   [];
+        $return_data            =   [];
+
         $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
         require_once SASWP_DIR_NAME.'/core/array-list/schema-properties.php';
                 
@@ -39,18 +39,26 @@ class SASWP_View_Common {
                     
             $repeater_fields =  include $mapping_repeater;
             
-            $this->schema_type_element = $repeater_fields['schema_type_element'];
-            $this->_meta_name          = $repeater_fields['meta_name'];
+            $schema_type_element = $repeater_fields['schema_type_element'];
+            $meta_name           = $repeater_fields['meta_name'];
             
             foreach( $this->item_list_item as $item){
-                $this->itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
+                $itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
             }
-            $this->_meta_name['itemlist_item'] = $this->itemlist_meta;
-        }       
+            $meta_name['itemlist_item'] = $itemlist_meta;
+        }
+
+        $return_data['schema_type_element']     =   $schema_type_element;
+        $return_data['_meta_name']              =   $meta_name;
+        $return_data['itemlist_meta']           =   $itemlist_meta;
+        return $return_data;
+
     }
     
     public function saswp_get_dynamic_html( $schema_id, $meta_name, $index, $data ) {
                 
+                $return_data = $this->get_properties_and_repeater_fields();
+
                 $meta_fields = array();
                 $response    = '';
                 $output      = '';    
@@ -59,7 +67,7 @@ class SASWP_View_Common {
                 
                 if($meta_name == 'itemlist_item'){
                     
-                    $itemval = $this->_meta_name[$meta_name][$item_type];
+                    $itemval = $return_data['_meta_name'][$meta_name][$item_type];
                     if($itemval){
                          
                          foreach( $itemval as $key => $val){
@@ -71,7 +79,7 @@ class SASWP_View_Common {
                     
                     $meta_fields = $itemval;  
                 }else{
-                    $meta_fields = $this->_meta_name[$meta_name];               
+                    $meta_fields = $return_data['_meta_name'][$meta_name];               
                 }    
                 
                 
@@ -215,7 +223,9 @@ class SASWP_View_Common {
                     $tabs_fields       = '';
                     $itemlist_sub_type = '';
                     
-                    $schema_type_fields = $this->schema_type_element;
+                    $return_data = $this->get_properties_and_repeater_fields();
+
+                    $schema_type_fields = $return_data['schema_type_element'];
                     
                     if($schema_type !='' ) {
                         
@@ -762,7 +772,8 @@ class SASWP_View_Common {
         
     public function saswp_save_common_view($post_id, $all_schema = null){
 
-                
+                $return_data = $this->get_properties_and_repeater_fields();
+
                 $post_meta    = array();                    
                 // phpcs:ignore WordPress.Security.NonceVerification.Missing -- this is a dependent function and its all security measurament is done wherever it has been used.
                 if ( is_array( $_POST) ) {
@@ -786,7 +797,7 @@ class SASWP_View_Common {
                         saswp_update_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema->ID, intval($_POST['saswp_modify_this_schema_'.$schema->ID]));
                      }                     
                     
-                     foreach ( $this->schema_type_element as $element){
+                     foreach ( $return_data['schema_type_element'] as $element){
                           
                         foreach( $element as $key => $val){
                             

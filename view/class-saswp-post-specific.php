@@ -29,6 +29,11 @@ class SASWP_Post_Specific {
                             $this->_local_sub_business = include $mapping_local_sub;
                 }
                 
+                if( $this->_common_view == null ){
+                    require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
+                    $this->_common_view = new SASWP_View_Common();
+                }
+                
                 add_action( 'init', array( $this, 'SASWP_Post_Specific_hooks' ) );
         }
 
@@ -36,11 +41,6 @@ class SASWP_Post_Specific {
          * List of hooks used in this context
          */                       
         public function SASWP_Post_Specific_hooks() {
-
-                if( $this->_common_view == null ){
-                    require_once SASWP_DIR_NAME.'/view/class-saswp-view-common.php';  
-                    $this->_common_view = new SASWP_View_Common();
-                }
 
                 $taxterm = array( 'category', 'post_tag', 'product_cat', 'product_tag' );
                 $saswp_terms    =   saswp_post_taxonomy_generator();
@@ -397,10 +397,13 @@ class SASWP_Post_Specific {
             }              
             if ( isset( $_GET['meta_name']) ) {  
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
-                $meta_name = sanitize_text_field($_GET['meta_name']);                     
+                $meta_name = sanitize_text_field($_GET['meta_name']);  
+                $property_fields = $this->_common_view->get_properties_and_repeater_fields();                   
                 if($meta_name == 'itemlist_item'){
                     
-                     $itemval     = $this->_common_view->_meta_name[$meta_name][$schema_type];                     
+                    $itemval = $property_fields['_meta_name'][$meta_name][$schema_type];
+
+                     // $itemval     = $this->_common_view->_meta_name[$meta_name][$schema_type];                     
                      if($itemval){
                          
                          foreach( $itemval as $key => $val){
@@ -412,7 +415,8 @@ class SASWP_Post_Specific {
                      
                      $meta_array  = $itemval;                                               
                 }else{
-                     $meta_array = $this->_common_view->_meta_name[$meta_name];         
+                     
+                     $meta_array = $property_fields['_meta_name'][$meta_name];         
                 }                                                           
             }           
             if ( ! empty( $meta_array) ) {
