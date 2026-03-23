@@ -397,10 +397,13 @@ class SASWP_Post_Specific {
             }              
             if ( isset( $_GET['meta_name']) ) {  
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
-                $meta_name = sanitize_text_field($_GET['meta_name']);                     
+                $meta_name = sanitize_text_field($_GET['meta_name']);  
+                $property_fields = $this->_common_view->get_properties_and_repeater_fields();                   
                 if($meta_name == 'itemlist_item'){
                     
-                     $itemval     = $this->_common_view->_meta_name[$meta_name][$schema_type];                     
+                    $itemval = $property_fields['_meta_name'][$meta_name][$schema_type];
+
+                     // $itemval     = $this->_common_view->_meta_name[$meta_name][$schema_type];                     
                      if($itemval){
                          
                          foreach( $itemval as $key => $val){
@@ -412,7 +415,8 @@ class SASWP_Post_Specific {
                      
                      $meta_array  = $itemval;                                               
                 }else{
-                     $meta_array = $this->_common_view->_meta_name[$meta_name];         
+                     
+                     $meta_array = $property_fields['_meta_name'][$meta_name];         
                 }                                                           
             }           
             if ( ! empty( $meta_array) ) {
