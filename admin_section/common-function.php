@@ -5731,20 +5731,3 @@ function saswp_get_youtube_video_metadata( $url ) {
     return $data;
 
 }
-
-function saswp_admin_assets( $hook ) {
-
-    if ( $hook !== 'post-new.php' && $hook !== 'post.php' ) {
-        return; 
-    }
-
-    $current_screen = get_current_screen();
-    
-    if ( $current_screen && method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
-        return;
-    }
-
-    wp_enqueue_editor(); 
-    wp_enqueue_media();
-}
-add_action( 'admin_enqueue_scripts', 'saswp_admin_assets' );
