@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.57
+Stable tag: 1.58
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.58 (23 March 2026) =
+* Enhancement: FAQ classic editor improvement #2422
+* Fixed: PHP Warning: foreach() argument must be of type array|object #2424
+* Fixed: Unable to Edit FAQ in WordPress Editor After Recent Update (Schema Still Visible on Frontend) #2425
 
 = 1.57 (13 March 2026) =
 * Fixed: Fatal error on single-region job postings #2411
@@ -326,16 +331,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: PHP textdomain translation notices on WordPress 6.7 #2246
 * Fixed: context attribute is missing in Person schema #2249
 * Enhancement: Merchant Listing schema Invalid string length in field "name" #2250
-
-= 1.40 (17 January 2025) =
-* Feature: Added compatibility with translatepress plugin #2090
-* Enhancement: Added Weight Field to Product Schema with Support for Multiple Units #2221
-* Feature: Added compatibility with WPBakery page builder accordion #2228
-* Fixed: Houzz platform reviews compatibility issue #2229
-* Fixed: Homestars reviews compatibility issue #2230
-* Fixed: Code Improvement #2232
-* Fixed: Issue with creating new review collection #2233
-* Fixed: Deprecated error #2236
-* Enhancement: Fixed the format date time issue with timezone offset #2239
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
