@@ -33,7 +33,7 @@
                     onclick: function() {
                         editor.windowManager.open({
                             title: 'SASWP Featured Snippet FAQ',
-                            minWidth: 700, 
+                            minWidth: 750, 
                             height: 500,   
                             autoScroll: true,
                             body:[

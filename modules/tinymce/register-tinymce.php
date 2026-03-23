@@ -36,5 +36,9 @@ function saswp_tinymce_register_buttons( $buttons ) {
  
 function saswp_register_tinymce_javascript( $plugin_array ) {
    $plugin_array['saswp_tinymce_dropdown'] = SASWP_PLUGIN_URL.'modules/tinymce/js/tiny-mce.js';
+
+   wp_enqueue_editor(); 
+   wp_enqueue_media();
+
    return $plugin_array;
 }
