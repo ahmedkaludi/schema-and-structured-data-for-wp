@@ -399,7 +399,7 @@ class SASWP_Post_Specific {
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $meta_name = sanitize_text_field($_GET['meta_name']);  
                 $property_fields = $this->_common_view->get_properties_and_repeater_fields();                   
-                if($meta_name == 'itemlist_item'){
+                if( $meta_name == 'itemlist_item' || $meta_name == 'collection_page_item' ) {
                     
                     $itemval = $property_fields['_meta_name'][$meta_name][$schema_type];
 
@@ -511,6 +511,9 @@ class SASWP_Post_Specific {
                      
                      if($schema_type == 'ItemList'){
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
+                     }
+                     if($schema_type == 'CollectionPage'){
+                         $item_type         = '('.get_post_meta($schema->ID, 'saswp_collection_page_item_type', true).')';
                      }
                      
                      if ( ( $schema_type == 'Review' && $modify_this ) || ( $schema_type == 'ReviewNewsArticle' && $modify_this ) || ( $schema_type == 'CriticReview' && $modify_this ) ) {

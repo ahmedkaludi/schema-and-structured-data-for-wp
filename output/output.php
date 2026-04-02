@@ -212,7 +212,23 @@ function saswp_schema_output() {
                                 
                                 $input1 = saswp_itemlist_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
-                                $input1 = apply_filters('saswp_modify_itemlist__final_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_itemlist_final_schema_output', $input1 );
+                                                                                                                                                                                                                                                
+                            break;
+
+                            case 'CollectionPage':
+                                                                                                                                                
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'CollectionPage';  
+                                $input1['url']                          = saswp_get_permalink();  
+
+                                $input1 = apply_filters('saswp_modify_collection_page_schema_output', $input1 );
+                                
+                                $input1 = saswp_collection_page_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+
+                                $input1 = apply_filters('saswp_modify_collection_page_final_schema_output', $input1 );
                                                                                                                                                                                                                                                 
                             break;
                             

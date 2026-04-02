@@ -673,6 +673,14 @@ jQuery(document).ready(function($){
          }else{
          $(".saswp-schema-modify-section").show();      
          }
+        if(schematype == 'CollectionPage'){     
+            $(".saswp-schema-modify-section").hide();  
+            $(".saswp-collection-page-text-field-tr").show();  
+            $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
+            $(".saswp-collection-page-item-type-list").change();                
+          }else{
+            $(".saswp-schema-modify-section").show();    
+        }
          if(schematype == 'BreadCrumbs'){  
           $(".saswp-schema-modify-section").hide();  
           }else{
@@ -792,6 +800,13 @@ jQuery(document).ready(function($){
               if(schematype == 'ItemList'){     
                 $(".saswp-schema-modify-section").hide();  
                 $(".saswp-itemlist-text-field-tr").show();  
+                $(".saswp-option-table-class tr").find('select').attr('disabled', false);                 
+              }else{
+                $(".saswp-schema-modify-section").show();    
+              }
+            if(schematype == 'CollectionPage'){     
+                $(".saswp-schema-modify-section").hide();  
+                $(".saswp-collection-page-text-field-tr").show();  
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);                 
               }else{
                 $(".saswp-schema-modify-section").show();    
