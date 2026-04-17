@@ -2654,6 +2654,16 @@ jQuery(document).ready(function($){
                               $("#saswp-foxizcore").val(0);                                          
                             }
                       break;
+
+                    case 'saswp-divisupremepro-checkbox':
+                           saswp_compatibliy_notes(current, id); 
+                            if ($(this).is(':checked')) {              
+                              $("#saswp-divisupremepro").val(1);                                
+                            }else{
+                              $("#saswp-divisupremepro").val(0);                                          
+                            }
+                            
+                      break;
                                        
                       default:
                           break;

@@ -3631,6 +3631,7 @@ function saswp_get_field_note($pname){
             'easy_liveblogs'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/easy-liveblogs/"> Easy Liveblogs </a>',
             'foogallery'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://wordpress.org/plugins/foogallery/"> FooGallery  </a>',
             'foxizcore'                => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://foxiz.themeruby.com/"> FoxizCore  </a>',
+            'divisupremepro'           => esc_html__( 'Requires', 'schema-and-structured-data-for-wp' ) .' <a target="_blank" href="https://divisupreme.com/"> Divi Supreme Pro </a>',
         
         );
           

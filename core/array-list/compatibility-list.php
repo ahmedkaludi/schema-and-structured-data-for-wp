@@ -786,7 +786,14 @@ return array(
                     'free'       => 'foxiz-core/foxiz-core.php',            
                     'opt_name'   => 'saswp-foxizcore',
                     'part_in'    => 'free',
-        ),                
+        ),   
+        'divisupremepro'  =>  array(            
+            'name'       => 'Divi Supreme Pro',
+            'free'        => 'supreme-modules-pro-for-divi/supreme-modules-pro-for-divi.php',                    
+            'pro'        => 'supreme-modules-pro-for-divi/supreme-modules-pro-for-divi.php',                    
+            'opt_name'   => 'saswp-divisupremepro',
+            'part_in'    => 'pro',
+        ),             
     ),
     'themes' => array(
         'enfold' => array(            
