@@ -513,14 +513,20 @@ class SASWP_View_Common {
                                              $media_width =$media_value['width'];
                                         }
                                             
+                                        if ( empty( $media_thumbnail ) ) {
+                                            $media_thumbnail    =   get_post_meta( $post_id, $meta_field['id'], true );    
+                                        }
+
                                         $image_pre = '';
                                         if($media_thumbnail){
-                                            
-                                           $image_pre = '<div class="saswp_image_thumbnail">';
-                                           // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                                           $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
-                                                         <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
-                                                        </div>'; 
+                                           
+                                           if ( ! empty( $media_height ) && ! empty( $media_width  ) ) {
+                                               $image_pre = '<div class="saswp_image_thumbnail">';
+                                               // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                               $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                                             <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                            </div>'; 
+                                            }
                                             
                                         }
 					$input = sprintf(
@@ -775,6 +781,8 @@ class SASWP_View_Common {
                                 
                                     saswp_update_post_meta( $post_id, $media_key, $media_detail);
 
+                                }else{
+                                    delete_post_meta( $post_id, $media_key );
                                 }
                                 
                                 break;

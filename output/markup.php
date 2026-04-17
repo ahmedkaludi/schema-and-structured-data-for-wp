@@ -7967,6 +7967,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
     
         $slogo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
         $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
+        $thumbnail_image = get_post_meta( get_the_ID(), 'saswp_video_object_thumbnail_url_'.$schema_id.'_detail',true);
 
         $checkIdPro = ((isset($all_post_meta['saswp_video_object_id_'.$schema_id][0]) && $all_post_meta['saswp_video_object_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_video_object_id_'.$schema_id][0] : '');
 
@@ -7981,8 +7982,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_video_object_description_'.$schema_id, 'saswp_array'),
         'transcript'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_transcript_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
-        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
-        'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),        
+        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',      
         'mainEntity'                    => array(
                         '@type'				=> 'WebPage',
                         '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_main_entity_id_'.$schema_id, 'saswp_array'),
@@ -7998,6 +7998,20 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
                         'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_video_object_organization_name_'.$schema_id, 'saswp_array'),
                 ),
         );
+
+        if ( ! empty( $thumbnail_image) && is_array($thumbnail_image) ) {
+            if ( ! empty( $thumbnail_image['height'] ) && ! empty( $thumbnail_image['width'] ) ) {
+                $input1['thumbnail']['image']['@type']   = 'ImageObject';
+                $input1['thumbnail']['image']['url']     = saswp_remove_warnings( $all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array' );       
+                $input1['thumbnail']['image']['height']  = $thumbnail_image['height'];
+                $input1['thumbnail']['image']['width']   = $thumbnail_image['width'];
+            }
+        }
+
+        // If image is a custom URL then display url only
+        if ( ! isset( $input1['thumbnail'] ) ) {
+            $input1['thumbnailUrl']    =   saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array');      
+        }
 
         if ( ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id] ) && ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id][0] ) ) {
             $input1['mainEntityOfPage']       = saswp_remove_warnings( $all_post_meta, 'saswp_video_object_main_entity_of_page_'.$schema_id, 'saswp_array' );
