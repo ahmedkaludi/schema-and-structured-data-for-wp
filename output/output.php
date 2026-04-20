@@ -2869,7 +2869,43 @@ function saswp_schema_output() {
                                 
                                 }elseif($business_type){
                                     
-                                    $local_business = $business_type;        
+                                    $local_business = $business_type;  
+
+                                    $sub_schema_array       =   [
+                                        'animalshelter'                 => 'AnimalShelter',
+                                        'automotivebusiness'            => 'AutomotiveBusiness',
+                                        'childcare'                     => 'ChildCare',
+                                        'dentist'                       => 'Dentist',
+                                        'drycleaningorlaundry'          => 'DryCleaningOrLaundry',
+                                        'emergencyservice'              => 'EmergencyService',
+                                        'employmentagency'              => 'EmploymentAgency',
+                                        'entertainmentbusiness'         => 'EntertainmentBusiness',
+                                        'financialservice'              => 'FinancialService',
+                                        'foodestablishment'             => 'FoodEstablishment',
+                                        'governmentoffice'              => 'GovernmentOffice',
+                                        'healthandbeautybusiness'       => 'HealthAndBeautyBusiness',
+                                        'homeandconstructionbusiness'   => 'HomeAndConstructionBusiness',
+                                        'internetcafe'                  => 'InternetCafe',
+                                        'legalservice'                  => 'LegalService',
+                                        'library'                       => 'Library',
+                                        'lodgingbusiness'               => 'LodgingBusiness',
+                                        'medicalbusiness'               => 'MedicalBusiness',
+                                        'professionalservice'           => 'ProfessionalService',
+                                        'radiostation'                  => 'RadioStation',
+                                        'realestateagent'               => 'RealEstate Agent',
+                                        'recyclingcenter'               => 'RecyclingCenter',
+                                        'selfstorage'                   => 'SelfStorage',
+                                        'shoppingcenter'                => 'ShoppingCenter',
+                                        'sportsactivitylocation'        => 'SportsActivityLocation',
+                                        'store'                         => 'Store',
+                                        'televisionstation'             => 'TelevisionStation',
+                                        'touristinformationcenter'      => 'TouristInformationCenter',
+                                        'travelagency'                  => 'TravelAgency',
+                                    ];
+
+                                    if ( ! empty( $sub_schema_array[ $local_business ] ) ) {
+                                        $local_business = $sub_schema_array[ $local_business ];     
+                                    }      
                                 
                                 }else{
                                     $local_business = 'LocalBusiness';
