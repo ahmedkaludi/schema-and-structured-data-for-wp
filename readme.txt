@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 6.9
 Requires PHP: 5.6.20
-Stable tag: 1.58
+Stable tag: 1.59
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.59 (22 April 2026) =
+* Fixed: FAQ Blocks duplicating in Divi Builder #2430
+* Feature: Collection page schema not visible on ACF archive #2431
+* Fixed: Video Object schema custom thumbnail image not getting saved #2433
+* Feature: FAQ compatibility with Divi Supreme Pro #2434
+* Enhancement: Fixed incorrect schema type causing from professionalservice to ProfessionalService #2432
 
 = 1.58 (23 March 2026) =
 * Enhancement: FAQ classic editor improvement #2422
@@ -319,17 +326,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Author image issue in schema markup #2261
 * Enhancement: Added Coverage Time in LiveBlogPosting schema  #2263
 * Fixed: Review collection nonce issue #2267
-
-= 1.41 (15 February 2025) =
-* Fixed: jQuery undefined issue #2086
-* Feature: Added compatibility with Easy Liveblogs plugin #2223
-* Feature: Added Q&A Schema Compatibility with wpForo #2234
-* Feature: Added new fields in NewsArticle schema #2238
-* Enhancemant: Existing Comments Assigned One-Star Rating After Activating Review Module #2241
-* Fixed: Deprecated Errors and Warnings #2242
-* Feature: Added new attributes to WebPage schema #2244
-* Fixed: PHP textdomain translation notices on WordPress 6.7 #2246
-* Fixed: context attribute is missing in Person schema #2249
-* Enhancement: Merchant Listing schema Invalid string length in field "name" #2250
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
