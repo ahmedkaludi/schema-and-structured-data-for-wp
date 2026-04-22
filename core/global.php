@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 $saswp_divi_faq = array();
+$saswp_divi_render_faq = array();
 $with_aggregate = array(
         'Car',
         'Vehicle',
