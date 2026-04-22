@@ -777,6 +777,9 @@ class SASWP_Output_Compatibility{
     public function foxizcore_on_activation() {
          $this->saswp_update_option_on_compatibility_activation('saswp-foxizcore');
     }
+    public function divisupremepro_on_activation() {        
+        $this->saswp_update_option_on_compatibility_activation('saswp-divisupremepro');
+    }
     /**
      * Functions on compatiblity plugin activation ends here
      */

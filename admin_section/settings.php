@@ -4422,6 +4422,19 @@ function saswp_compatibility_page_callback() {
                                     'name' => 'sd_data[saswp-foogallery]',                             
                         )
         ); 
+
+        $divisupremepro   = array(
+                'label'  => 'Divi Supreme Pro',
+                'id'     => 'saswp-divisupremepro-checkbox',                        
+                'name'   => 'saswp-divisupremepro-checkbox',
+                'type'   => 'checkbox',
+                'class'  => 'checkbox saswp-checkbox',
+                'note'   => saswp_get_field_note('divisupremepro'),
+                'hidden' => array(
+                        'id'   => 'saswp-divisupremepro',
+                        'name' => 'sd_data[saswp-divisupremepro]',                             
+                )
+        );
                 
         if(!is_plugin_active('woocommerce-compatibility-for-schema/woocommerce-compatibility-for-schema.php') ) {
 
@@ -4497,6 +4510,7 @@ function saswp_compatibility_page_callback() {
                 $webfaq10['note']             = $faq_addon_req;
                 $enfold['note']               = $faq_addon_req;
                 $jolifaq['note']              = $faq_addon_req;
+                $divisupremepro['note']       = $faq_addon_req;
 
          }
          if(!is_plugin_active('reviews-for-schema/reviews-for-schema.php') ) {
@@ -4711,6 +4725,7 @@ function saswp_compatibility_page_callback() {
                 $easy_liveblogs,
                 $foogallery,
                 $foxizcore,
+                $divisupremepro
                 
 	);  
                 

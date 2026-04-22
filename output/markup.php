@@ -3338,6 +3338,158 @@ function saswp_itemlist_schema_markup($schema_id, $schema_post_id, $all_post_met
     
 }
 
+/**
+ * Collection page schema markup
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $response           array
+ * @since   1.59
+ * */
+function saswp_collection_page_schema_markup( $schema_id, $schema_post_id, $all_post_meta ){
+    
+    $response = array();
+    
+    $collection_list        = get_post_meta($schema_post_id, 'collection_page_item_'.$schema_id, true);  
+    $collection_type        = get_post_meta($schema_id, 'saswp_collection_page_item_type', true);  
+    $type_func              = 'saswp_'.$collection_type.'_schema_markup';    
+    $collection_item        = array();
+    $image_details          = array();
+    $logo_details           = array();
+
+    $collection_id          = get_post_meta( $schema_id, 'saswp_collection_page_id_'.$schema_id, true );
+    $collection_headline    = get_post_meta( $schema_id, 'saswp_collection_page_headline_'.$schema_id, true );
+    
+    if($collection_list){
+        
+                  $i = 1;
+                  foreach( $collection_list as $item_meta){
+            
+                    $all_post_meta = array(); 
+            
+                    foreach( $item_meta as $key => $val){
+                        
+                        $all_post_meta[$key.$schema_id] = array($val);   
+                       
+                        if( strpos($key, 'image__id') !== false ){
+                         
+                         $image_details   = saswp_get_image_by_id($val); 
+                                                  
+                        }
+                        
+                        if( strpos($key, 'logo__id') !== false ){
+                         
+                         $logo_details   = saswp_get_image_by_id($val); 
+                                                  
+                        }
+                        
+                    }
+                   
+                    if ( function_exists( $type_func) ) {
+                        
+                        $markup = call_user_func($type_func, $schema_id, $schema_post_id, $all_post_meta);                  
+                        unset($markup['@context'], $markup['@id']);
+                        
+                        if($image_details){
+                          $markup['image'] =  $image_details; 
+                        }
+                        if($logo_details){
+                          $markup['publisher']['@type'] =  'Organization'; 
+                          $markup['publisher']['logo']  =  $logo_details; 
+                        }
+
+                        $collection_item[] = $markup;
+                        
+                    }
+                    
+                 $i++;
+                }
+            
+                    $response['@context']                     = saswp_context_url();
+                    $response['@type']                        = 'CollectionPage';  
+                    if ( ! empty( $collection_id ) ) {
+                        $response['@id']                      = $collection_id;     
+                    }
+                    if ( ! empty( $collection_headline ) ) {
+                        $response['headline']                 = $collection_headline;     
+                    }
+                    $response['url']                          = saswp_get_permalink(); 
+                    $response['hasPart']                      = $collection_item;
+       
+    }else{
+        if($collection_type == 'CollectionType'){
+            global $wp_query;
+            $collection_list = array();
+            $loop_query_string = array(
+                'posts_per_page' => 10
+            );
+            
+            if($wp_query->query_vars['posts_per_page']){
+                $loop_query_string = array(
+                    'posts_per_page' => $wp_query->query_vars['posts_per_page']
+                );  
+            }
+            
+            if ( is_category() || is_tag() ) {
+                $term = get_queried_object();
+                if ( is_object( $term ) && ! empty( $term->term_id ) ) {
+                    $loop_query_string = array(
+                        'posts_per_page' => 10,
+                        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => $term->taxonomy, // Change to 'post_tag', 'your_custom_taxonomy', etc.
+                                'terms'    => $term->term_id,
+                            ),
+                        ),
+                    );
+                }
+            }
+
+            $post_loop = new WP_Query( $loop_query_string );                
+
+            $i = 1;
+            if ( $post_loop->have_posts() ):
+                $service_object     = new SASWP_Output_Service();  
+                while( $post_loop->have_posts() ): $post_loop->the_post();
+                    
+                    $publisher_info     = $service_object->saswp_get_publisher();   
+                    $feature_image      = $service_object->saswp_get_featured_image();             
+                                                                                                                                                                                                                                                                                              
+                    $schema_properties['@type']            = 'Article';
+                    $schema_properties['headline']         = saswp_get_the_title();
+                    $schema_properties['url']              = get_the_permalink();                                                                                                
+                    $schema_properties['datePublished']    = get_the_date('c');
+                    $schema_properties['dateModified']     = get_the_modified_date('c');
+                    $schema_properties['mainEntityOfPage'] = get_the_permalink();
+                    $schema_properties['author']           = saswp_get_author_details();
+
+                    if( isset( $publisher_info['publisher'] ) ) {
+                        $schema_properties['publisher']        = $publisher_info['publisher'];                                
+                    }
+                          
+                    if ( ! empty( $feature_image) ) {                            
+                        $schema_properties = array_merge($schema_properties, $feature_image);        
+                    }
+
+                    $collection_list[]       = $schema_properties;                
+                    $i++;
+                endwhile;
+            endif;
+            wp_reset_postdata();
+            if ( ! empty( $collection_list) && is_array($collection_list) && count($collection_list) ) {
+                $response['@context']                     = saswp_context_url();
+                $response['@type']                        = 'CollectionPage';  
+                $response['url']                          = saswp_get_permalink(); 
+                $response['hasPart']                      = $collection_list;        
+            }
+        }         
+    }    
+    
+    return $response;
+    
+}
+
 function saswp_sports_team_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
     $input1 = array();
@@ -7815,6 +7967,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
     
         $slogo = get_post_meta( get_the_ID(), 'saswp_video_object_organization_logo_'.$schema_id.'_detail',true);
         $author_image = get_post_meta( get_the_ID(), 'saswp_video_object_author_image_'.$schema_id.'_detail',true);
+        $thumbnail_image = get_post_meta( get_the_ID(), 'saswp_video_object_thumbnail_url_'.$schema_id.'_detail',true);
 
         $checkIdPro = ((isset($all_post_meta['saswp_video_object_id_'.$schema_id][0]) && $all_post_meta['saswp_video_object_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_video_object_id_'.$schema_id][0] : '');
 
@@ -7829,8 +7982,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_video_object_description_'.$schema_id, 'saswp_array'),
         'transcript'                    => saswp_remove_warnings($all_post_meta, 'saswp_video_object_transcript_'.$schema_id, 'saswp_array'),
         'name'				            => saswp_remove_warnings($all_post_meta, 'saswp_video_object_name_'.$schema_id, 'saswp_array'),
-        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',
-        'thumbnailUrl'                  => saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array'),        
+        'uploadDate'                    => isset($all_post_meta['saswp_video_object_upload_date_'.$schema_id])?gmdate('Y-m-d\TH:i:s\Z',strtotime($all_post_meta['saswp_video_object_upload_date_'.$schema_id][0])):'',      
         'mainEntity'                    => array(
                         '@type'				=> 'WebPage',
                         '@id'				=> saswp_remove_warnings($all_post_meta, 'saswp_video_object_main_entity_id_'.$schema_id, 'saswp_array'),
@@ -7846,6 +7998,20 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
                         'name'                          => saswp_remove_warnings($all_post_meta, 'saswp_video_object_organization_name_'.$schema_id, 'saswp_array'),
                 ),
         );
+
+        if ( ! empty( $thumbnail_image) && is_array($thumbnail_image) ) {
+            if ( ! empty( $thumbnail_image['height'] ) && ! empty( $thumbnail_image['width'] ) ) {
+                $input1['thumbnail']['image']['@type']   = 'ImageObject';
+                $input1['thumbnail']['image']['url']     = saswp_remove_warnings( $all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array' );       
+                $input1['thumbnail']['image']['height']  = $thumbnail_image['height'];
+                $input1['thumbnail']['image']['width']   = $thumbnail_image['width'];
+            }
+        }
+
+        // If image is a custom URL then display url only
+        if ( ! isset( $input1['thumbnail'] ) ) {
+            $input1['thumbnailUrl']    =   saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array');      
+        }
 
         if ( ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id] ) && ! empty( $all_post_meta['saswp_video_object_main_entity_of_page_'.$schema_id][0] ) ) {
             $input1['mainEntityOfPage']       = saswp_remove_warnings( $all_post_meta, 'saswp_video_object_main_entity_of_page_'.$schema_id, 'saswp_array' );

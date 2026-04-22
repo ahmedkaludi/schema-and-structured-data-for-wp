@@ -19,10 +19,25 @@ class SASWP_View_Common {
     public    $item_list_item = array(
                              'Article'               => 'Article',   
                              'ScholarlyArticle'      => 'ScholarlyArticle',                                                              
-                             'Course'                => 'Course',                                                                                                                                                                                                            
+                             'Course'                => 'Course',                                                                                                                                                                                                        
                              'Movie'                 => 'Movie',                                   
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                                                                                      
+                        );
+    public    $collection_page_item = array(
+                            'CollectionType'            => 'Select Collection Type',     
+                            'Article'                   => 'Article',     
+                            'ScholarlyArticle'          => 'ScholarlyArticle',                                     
+                            'BlogPosting'               => 'BlogPosting',                                     
+                            'NewsArticle'               => 'NewsArticle',          
+                            'AnalysisNewsArticle'       => 'AnalysisNewsArticle',    
+                            'AskPublicNewsArticle'      => 'AskPublicNewsArticle',      
+                            'BackgroundNewsArticle'     => 'BackgroundNewsArticle',       
+                            'OpinionNewsArticle'        => 'OpinionNewsArticle',   
+                            'ReportageNewsArticle'      => 'ReportageNewsArticle',     
+                            'ReviewNewsArticle'         => 'ReviewNewsArticle',         
+                            'WebPage'                   => 'WebPage',
+                            'ItemPage'                  => 'ItemPage'
                         );
 
     public function get_properties_and_repeater_fields() {
@@ -30,6 +45,7 @@ class SASWP_View_Common {
         $schema_type_element    =   [];
         $meta_name              =   [];
         $itemlist_meta          =   [];
+        $coll_page_item         =   [];
         $return_data            =   [];
 
         $mapping_repeater = SASWP_DIR_NAME . '/core/array-list/repeater-fields.php';
@@ -46,6 +62,11 @@ class SASWP_View_Common {
                 $itemlist_meta[$item]  = saswp_get_fields_by_schema_type(null, null, $item, 'manual');                        
             }
             $meta_name['itemlist_item'] = $itemlist_meta;
+
+            foreach( $this->collection_page_item as $col_item){
+                $coll_page_item[$col_item]  = saswp_get_fields_by_schema_type(null, null, $col_item, 'manual');                        
+            }
+            $meta_name['collection_page_item'] = $coll_page_item;
         }
 
         $return_data['schema_type_element']     =   $schema_type_element;
@@ -64,8 +85,11 @@ class SASWP_View_Common {
                 $output      = '';    
         
                 $item_type = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                if ( $meta_name == 'collection_page_item' ) {
+                    $item_type = get_post_meta( $schema_id, 'saswp_collection_page_item_type', true );
+                }
                 
-                if($meta_name == 'itemlist_item'){
+                if( $meta_name == 'itemlist_item' || $meta_name == 'collection_page_item' ) {
                     
                     $itemval = $return_data['_meta_name'][$meta_name][$item_type];
                     if($itemval){
@@ -233,8 +257,14 @@ class SASWP_View_Common {
                         
                     if($type_fields){
                        
-                    if($schema_type == 'ItemList'){
-                         $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true); 
+                    if($schema_type == 'ItemList' || $schema_type == 'CollectionPage' ){
+                        if ( $schema_type == 'ItemList' ) {
+                            $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_itemlist_item_type', true);    
+                        }
+                        if ( $schema_type == 'CollectionPage' ) {
+                            $itemlist_sub_type     = get_post_meta($schema_id, 'saswp_collection_page_item_type', true);    
+                        }
+                         
                          $tabs_fields .= '<div schema-id="'. esc_attr( $schema_id).'" class="saswp-table-create-onajax saswp-ps-toggle">';   
                         
                     }else{
@@ -483,14 +513,20 @@ class SASWP_View_Common {
                                              $media_width =$media_value['width'];
                                         }
                                             
+                                        if ( empty( $media_thumbnail ) ) {
+                                            $media_thumbnail    =   get_post_meta( $post_id, $meta_field['id'], true );    
+                                        }
+
                                         $image_pre = '';
                                         if($media_thumbnail){
-                                            
-                                           $image_pre = '<div class="saswp_image_thumbnail">';
-                                           // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
-                                           $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
-                                                         <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
-                                                        </div>'; 
+                                           
+                                           if ( ! empty( $media_height ) && ! empty( $media_width  ) ) {
+                                               $image_pre = '<div class="saswp_image_thumbnail">';
+                                               // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
+                                               $image_pre .= '<img class="saswp_image_prev" src="'. esc_url( $media_thumbnail).'" />
+                                                             <a data-id="'. esc_attr( $meta_field['id']).'" href="#" class="saswp_prev_close">X</a>
+                                                            </div>'; 
+                                            }
                                             
                                         }
 					$input = sprintf(
@@ -745,6 +781,8 @@ class SASWP_View_Common {
                                 
                                     saswp_update_post_meta( $post_id, $media_key, $media_detail);
 
+                                }else{
+                                    delete_post_meta( $post_id, $media_key );
                                 }
                                 
                                 break;

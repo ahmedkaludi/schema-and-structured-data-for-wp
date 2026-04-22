@@ -6,6 +6,9 @@ return array( 'schema_type_element' => array(
                         'ItemList' => array(
                                'itemlist_item'       => 'itemlist_item',                                                     
                         ),
+                        'CollectionPage' => array(
+                               'collection_page_item'       => 'collection_page_item',                                                     
+                        ),
                         'MusicComposition' => array(
                                'music_composer'       => 'music_composer',                                                     
                         ),                        

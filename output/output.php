@@ -212,7 +212,23 @@ function saswp_schema_output() {
                                 
                                 $input1 = saswp_itemlist_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
 
-                                $input1 = apply_filters('saswp_modify_itemlist__final_schema_output', $input1 );
+                                $input1 = apply_filters('saswp_modify_itemlist_final_schema_output', $input1 );
+                                                                                                                                                                                                                                                
+                            break;
+
+                            case 'CollectionPage':
+                                                                                                                                                
+                                $input1['@context']                     = saswp_context_url();
+                                $input1['@type']                        = 'CollectionPage';  
+                                $input1['url']                          = saswp_get_permalink();  
+
+                                $input1 = apply_filters('saswp_modify_collection_page_schema_output', $input1 );
+                                
+                                $input1 = saswp_collection_page_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+
+                                $input1 = apply_filters('saswp_modify_collection_page_final_schema_output', $input1 );
                                                                                                                                                                                                                                                 
                             break;
                             
@@ -2853,7 +2869,43 @@ function saswp_schema_output() {
                                 
                                 }elseif($business_type){
                                     
-                                    $local_business = $business_type;        
+                                    $local_business = $business_type;  
+
+                                    $sub_schema_array       =   [
+                                        'animalshelter'                 => 'AnimalShelter',
+                                        'automotivebusiness'            => 'AutomotiveBusiness',
+                                        'childcare'                     => 'ChildCare',
+                                        'dentist'                       => 'Dentist',
+                                        'drycleaningorlaundry'          => 'DryCleaningOrLaundry',
+                                        'emergencyservice'              => 'EmergencyService',
+                                        'employmentagency'              => 'EmploymentAgency',
+                                        'entertainmentbusiness'         => 'EntertainmentBusiness',
+                                        'financialservice'              => 'FinancialService',
+                                        'foodestablishment'             => 'FoodEstablishment',
+                                        'governmentoffice'              => 'GovernmentOffice',
+                                        'healthandbeautybusiness'       => 'HealthAndBeautyBusiness',
+                                        'homeandconstructionbusiness'   => 'HomeAndConstructionBusiness',
+                                        'internetcafe'                  => 'InternetCafe',
+                                        'legalservice'                  => 'LegalService',
+                                        'library'                       => 'Library',
+                                        'lodgingbusiness'               => 'LodgingBusiness',
+                                        'medicalbusiness'               => 'MedicalBusiness',
+                                        'professionalservice'           => 'ProfessionalService',
+                                        'radiostation'                  => 'RadioStation',
+                                        'realestateagent'               => 'RealEstate Agent',
+                                        'recyclingcenter'               => 'RecyclingCenter',
+                                        'selfstorage'                   => 'SelfStorage',
+                                        'shoppingcenter'                => 'ShoppingCenter',
+                                        'sportsactivitylocation'        => 'SportsActivityLocation',
+                                        'store'                         => 'Store',
+                                        'televisionstation'             => 'TelevisionStation',
+                                        'touristinformationcenter'      => 'TouristInformationCenter',
+                                        'travelagency'                  => 'TravelAgency',
+                                    ];
+
+                                    if ( ! empty( $sub_schema_array[ $local_business ] ) ) {
+                                        $local_business = $sub_schema_array[ $local_business ];     
+                                    }      
                                 
                                 }else{
                                     $local_business = 'LocalBusiness';
@@ -3922,7 +3974,7 @@ function saswp_archive_output() {
     
 	if ( isset( $sd_data['saswp_archive_schema'] ) && $sd_data['saswp_archive_schema'] == 1 ) {
                     
-	    if ( ( is_category() || is_tag() || is_tax() ) && ! $product_cat ) {
+	    if ( ( is_category() || is_tag() || is_tax() || is_post_type_archive() ) && ! $product_cat ) {
             		                                   
                 $i = 1;
                 $category_loop = new WP_Query( $query_string );                
@@ -3941,23 +3993,49 @@ function saswp_archive_output() {
 
                 wp_reset_postdata();                                                
                 
-		        $category 		= get_queried_object(); 		
+		        $category 		= get_queried_object();
+
+
 		
                 if ( is_object( $category ) ) {
-                    
-                $category_id 		= intval( $category->term_id ); 
-                $category_link 		= get_category_link( $category_id );
-		        $category_link      = get_term_link( $category_id );
-                $category_headline 	= single_cat_title( '', false );	
+                
+                $category_id        =   0;
+                $category_link      =   '';
+                $category_headline  =   '';
+
+                if ( is_category() || is_tag() || is_tax() ) {
+                    $category_id        = intval( $category->term_id ); 
+                    $category_link      = get_category_link( $category_id );
+                    $category_link      = get_term_link( $category_id );
+                    $category_headline  = single_cat_title( '', false );
+                } elseif ( is_post_type_archive() ) {
+                    $post_type = get_query_var( 'post_type' );
+
+                    if ( is_array($post_type) ) {
+                        $post_type = reset($post_type);
+                    }
+
+                    $category_link = get_post_type_archive_link( $post_type );
+                    $category_headline = post_type_archive_title( '', false );
+
+                }	
                 
                 if ( $category_posts ) {
                     
+                    $cat_description    =   '';
+                    if ( $category_id > 0 ) {
+                        $cat_term       =   get_term( $category_id );
+                        if ( is_object( $cat_term ) && ! empty( $cat_term ) ) {
+                            $cat_description    =   isset( $cat->description ) ? wp_strip_all_tags( $cat->description ) : '';
+                        }
+                    }
+
                     $collection_page = array(
                         '@context' 		=> saswp_context_url(),
                         '@type' 		=> "CollectionPage",
                         '@id' 		    => $category_link.'#CollectionPage',
                         'headline' 		=> $category_headline,
-                        'description' 	=> wp_strip_all_tags( get_term( $category_id )->description ),
+                        'description' 	=> $cat_description,
                         'url'		 	=> $category_link,				
                         'hasPart' 		=> $category_posts
                     );
@@ -4012,7 +4090,7 @@ function saswp_archive_output() {
                         '@type' 		=> "Blog",
                         '@id' 		    => $category_link.'#Blog',
                         'headline' 		=> $category_headline,
-                        'description' 	=> wp_strip_all_tags( get_term( $category_id )->description ),
+                        'description' 	=> $cat_description,
                         'url'		 	=> $category_link,
                         'blogPost' 		=> $category_posts
                     );

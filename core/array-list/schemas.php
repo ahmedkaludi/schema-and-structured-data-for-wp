@@ -76,6 +76,7 @@ return array(
             'Trip'                           => 'Trip',   
             'BoatTrip'                       => 'BoatTrip',  
             'EducationalOccupationalProgram' =>  'EducationalOccupationalProgram',
+            'CollectionPage'                 => 'CollectionPage',
         ),
         'Media' =>  array(
              'AudioObject'              => 'AudioObject',

@@ -9219,6 +9219,15 @@ Class SASWP_Output_Service{
                     );
                 }
                 break;
+
+                case 'CollectionPage':
+                        if ( ! empty( $custom_fields['saswp_collection_page_id'] ) ) {
+                            $input1['@id'] = $custom_fields['saswp_collection_page_id'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_collection_page_headline'] ) ) {
+                            $input1['headline'] = $custom_fields['saswp_collection_page_headline'];
+                        }   
+                break;
                
                      default:
                          break;

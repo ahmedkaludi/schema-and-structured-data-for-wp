@@ -242,6 +242,22 @@ function saswp_schema_type_meta_box_callback( $post) {
                              'Product'               => 'Product',                                
                              'Recipe'                => 'Recipe',                                                                                      
                         );
+
+                        $collection_item = array(  
+                            'CollectionType'            => 'Select Collection Type',     
+                            'Article'                   => 'Article',     
+                            'ScholarlyArticle'          => 'ScholarlyArticle',                                     
+                            'BlogPosting'               => 'BlogPosting',                                     
+                            'NewsArticle'               => 'NewsArticle',          
+                            'AnalysisNewsArticle'       => 'AnalysisNewsArticle',    
+                            'AskPublicNewsArticle'      => 'AskPublicNewsArticle',      
+                            'BackgroundNewsArticle'     => 'BackgroundNewsArticle',       
+                            'OpinionNewsArticle'        => 'OpinionNewsArticle',   
+                            'ReportageNewsArticle'      => 'ReportageNewsArticle',     
+                            'ReviewNewsArticle'         => 'ReviewNewsArticle',         
+                            'WebPage'                   => 'WebPage',
+                            'ItemPage'                  => 'ItemPage'
+                        );
                         
                         $item_reviewed = array(                                                                                    
                              'Book'                  => 'Book',                             
@@ -862,6 +878,29 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </td>
                 </tr>                                                                                        
                 <!-- ItemList Schema type ends here -->
+
+                <!-- CollectionPage Schema type starts here -->
+                <tr class="saswp-collection-page-text-field-tr">
+                    <td><?php echo esc_html__( 'Collection Type', 'schema-and-structured-data-for-wp' ); ?></td>
+                    <td>
+
+                        <select data-id="<?php echo esc_attr( $post_id);  ?>" name="saswp_collection_page_item_type" class="saswp-collection-page-item-type-list">
+                        <?php
+                        
+                          $item = get_post_meta( $post_id, 'saswp_collection_page_item_type', true );  
+
+                          foreach ( $collection_item  as $key => $value) {
+                            $sel = '';
+                            if($item == $key){
+                              $sel = 'selected';
+                            }
+                            echo "<option value='". esc_attr( $key)."' ". esc_attr( $sel).">".esc_html( $value )."</option>";
+                          }
+                        ?>
+                    </select>                                                                
+                    </td>
+                </tr>                                                                                        
+                <!-- CollectionPage Schema type ends here -->
                                 
                 <!-- Review Schema type starts here -->
                 <tr class="saswp-review-text-field-tr">
@@ -1646,6 +1685,11 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'saswp_itemlist_item_type', sanitize_text_field( wp_unslash( $_POST['saswp_itemlist_item_type'] ) ) );                                                                       
         }else{
             delete_post_meta( $post_id, 'saswp_itemlist_item_type');                                                                       
+        }
+        if ( isset( $_POST['saswp_collection_page_item_type']) ) {
+            update_post_meta( $post_id, 'saswp_collection_page_item_type', sanitize_text_field( wp_unslash( $_POST['saswp_collection_page_item_type'] ) ) );                                                                       
+        }else{
+            delete_post_meta( $post_id, 'saswp_collection_page_item_type');                                                                       
         }
         if ( isset( $_POST['saswp_attahced_reviews']) ) {
             // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

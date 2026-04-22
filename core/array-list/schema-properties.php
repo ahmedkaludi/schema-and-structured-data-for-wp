@@ -13008,6 +13008,24 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         
                         break;
 
+                    case 'CollectionPage':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'ID', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_collection_page_id_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => 'CollectionPage'   
+                            ),
+                            array(
+                                'label' => esc_html__( 'Headline', 'schema-and-structured-data-for-wp' ),
+                                'id' => 'saswp_collection_page_headline_'.$schema_id,
+                                'type' => 'text',
+                                'default' => saswp_get_the_title(),
+                            ),
+                        );
+
+                        break;
+
                 default:
                     break;
             } 

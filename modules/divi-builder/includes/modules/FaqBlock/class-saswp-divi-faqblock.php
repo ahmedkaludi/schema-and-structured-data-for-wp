@@ -37,6 +37,7 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
 	public function render( $attrs, $content, $render_slug ) {
             
                 global $saswp_divi_faq; 
+                global $saswp_divi_render_faq;
 
                 $output     = '';                                                
                 $style      = '';
@@ -54,24 +55,40 @@ class SASWP_Divi_FaqBlock extends ET_Builder_Module {
                                             
 			$output .= '<ul>';
                         $i = 1;
-			foreach (  $saswp_divi_faq as $item ) {
+			foreach (  $saswp_divi_faq as $key => $item ) {
 
 				if ( isset( $item['faq_question']) ) {
 					
-					$output .= '<li '.$style.' class="elementor-repeater-item-' . $i . '">';
-                                $output .= '<h3>';
-                                
-                                if($order_type == 'order_list'){
-                                    $output .= '<span>'.$i.'. </span>';
-                                } 
-                                $output .= esc_html( $item['faq_question']);
-                                $output .= '</h3>';
-					$output .= '<p>' . wp_unslash(str_replace(array("%22", ""), array('"', "'"),$item['faq_answer'])) . '</p>';
-                	$output .= '</li>';                
-                                $i++;
-
-				}				
+					if ( ! isset( $saswp_divi_render_faq[ $key ] ) ) {
+						$saswp_divi_render_faq[ $key ] 	=	$item;
+						$saswp_divi_render_faq[ $key ]['is_rendered'] 	=	0;
+					}
+				}
 			}
+
+			if ( ! empty( $saswp_divi_render_faq ) ) {
+				foreach (  $saswp_divi_render_faq as $key => $item ) {
+
+					if ( isset( $item['faq_question'] ) && $item['is_rendered'] === 0 ) {
+
+						$output .= '<li '.$style.' class="elementor-repeater-item-' . $i . '">';
+	                                $output .= '<h3>';
+	                                
+	                                if($order_type == 'order_list'){
+	                                    $output .= '<span>'.$i.'. </span>';
+	                                } 
+	                                $output .= esc_html( $item['faq_question']);
+	                                $output .= '</h3>';
+						$output .= '<p>' . wp_unslash(str_replace(array("%22", ""), array('"', "'"),$item['faq_answer'])) . '</p>';
+	                	$output .= '</li>';                
+	                                $i++;
+
+	                    $saswp_divi_render_faq[$key]['is_rendered'] 	=	1;
+
+					}				
+				}
+			}
+
 			$output .= '</ul>';
 		}
                         
