@@ -407,10 +407,12 @@ function saswp_get_gutenberg_block_data($block){
             
             if($blocks){
 
-                foreach ( $blocks as $parse_blocks){
-                        $block_list[] = $parse_blocks['blockName'];
-                        $block_data[$parse_blocks['blockName']] = $parse_blocks;
+                foreach ($blocks as $parse_blocks) {
+                         $block_name = $parse_blocks['blockName'] ?? '';
+                         $block_list[] = $block_name;
+                         $block_data[$block_name] = $parse_blocks;
                 }
+
 
             }        
     }
