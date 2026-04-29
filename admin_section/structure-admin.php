@@ -2701,3 +2701,157 @@ function saswp_schema_type_meta_options_callback( $post ) {
   }
 
 }
+
+/**
+ * 1. Add the Duplicate Link to Row Actions (With Dynamic Title)
+ */
+add_filter( 'post_row_actions', 'saswp_add_duplicate_schema_link', 10, 2 );
+
+function saswp_add_duplicate_schema_link( $actions, $post ) {
+    if ( current_user_can( 'edit_posts' ) && 'saswp' === $post->post_type ) {
+        
+        $action_url    = admin_url( 'admin.php?action=saswp_duplicate_post&post=' . $post->ID );
+        $duplicate_url = wp_nonce_url( $action_url, 'saswp_duplicate_nonce_' . $post->ID );
+        
+        $item_title = $post->post_title;
+        
+        $dynamic_text = sprintf(             
+            esc_html__( 'Duplicate %s', 'schema-and-structured-data-for-wp' ), 
+            $item_title 
+        );
+        
+        $actions['duplicate'] = sprintf(
+            '<a href="%1$s" title="%2$s" class="saswp-duplicate-btn" style="color: #d63638;">%3$s</a>',
+            esc_url( $duplicate_url ),
+            esc_attr( $dynamic_text ),
+            esc_html( $dynamic_text )
+        );
+    }
+    
+    return $actions;
+}
+
+/**
+ * 2. Handle the Duplication Logic safely (Using direct DB insert for complex arrays)
+ */
+add_action( 'admin_action_saswp_duplicate_post', 'saswp_handle_duplication_logic' );
+
+function saswp_handle_duplication_logic() {
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_die( esc_html__( 'You do not have permission to duplicate posts.', 'schema-and-structured-data-for-wp' ) );
+    }
+
+    // WP Standard: Check both GET variables exist securely
+    if ( ! isset( $_GET['post'], $_GET['_wpnonce'] ) ) {
+        wp_die( esc_html__( 'No post to duplicate has been supplied!', 'schema-and-structured-data-for-wp' ) );
+    }
+
+    // WP Standard & PHP 8: Unslash before sanitizing inputs
+    $post_id = absint( wp_unslash( $_GET['post'] ) );
+    $nonce   = sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) );
+
+    if ( ! wp_verify_nonce( $nonce, 'saswp_duplicate_nonce_' . $post_id ) ) {
+        wp_die( esc_html__( 'Security check failed!', 'schema-and-structured-data-for-wp' ) );
+    }
+
+    $post = get_post( $post_id );
+    if ( ! $post ) {
+        wp_die( esc_html__( 'Post creation failed, could not find original post.', 'schema-and-structured-data-for-wp' ) );
+    }
+
+    $new_post_args = array(
+        'post_title'    => $post->post_title . ' ' . __( '(Copy)', 'schema-and-structured-data-for-wp' ),
+        'post_content'  => $post->post_content,
+        'post_status'   => 'draft',
+        'post_type'     => $post->post_type,
+        'post_author'   => get_current_user_id(),
+        'post_excerpt'  => $post->post_excerpt,
+        'post_password' => $post->post_password,
+    );
+
+    $new_post_id = wp_insert_post( $new_post_args );
+
+    if ( ! is_wp_error( $new_post_id ) ) {
+        
+        $taxonomies = get_object_taxonomies( $post->post_type );
+        foreach ( $taxonomies as $taxonomy ) {
+            $post_terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
+            if ( ! is_wp_error( $post_terms ) && ! empty( $post_terms ) ) {
+                wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
+            }
+        }
+
+        // --- DIRECT DB INSERT FOR METADATA ---
+        global $wpdb;
+        
+        $post_meta_infos = $wpdb->get_results( 
+            $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d", $post_id ) 
+        );
+
+        if ( ! empty( $post_meta_infos ) ) {
+            // PHP 8 safe: ensure it's an array/object before looping
+            foreach ( $post_meta_infos as $meta_info ) {
+                if ( in_array( $meta_info->meta_key, array( '_wp_old_slug', '_edit_lock', '_edit_last' ), true ) ) {
+                    continue;
+                }
+                
+                $wpdb->insert(
+                    $wpdb->postmeta,
+                    array(
+                        'post_id'    => $new_post_id,
+                        'meta_key'   => $meta_info->meta_key,
+                        'meta_value' => $meta_info->meta_value
+                    ),
+                    array( '%d', '%s', '%s' ) // WP Standard: explicitly declare data types for DB insertion
+                );
+            }
+        }        
+
+        $redirect_url = add_query_arg(
+            array(
+                'post_type'        => $post->post_type,
+                'saswp_duplicated' => $new_post_id
+            ),
+            admin_url( 'edit.php' )
+        );
+        
+        wp_safe_redirect( $redirect_url );
+        exit;
+        
+    } else {
+        wp_die( esc_html__( 'Error duplicating post: ', 'schema-and-structured-data-for-wp' ) . esc_html( $new_post_id->get_error_message() ) );
+    }
+}
+
+/**
+ * 3. Display Admin Success Notice
+ */
+add_action( 'admin_notices', 'saswp_duplication_success_notice' );
+
+function saswp_duplication_success_notice() {
+    // WP Standard: Unslash and sanitize GET variables before comparison 
+    if ( isset( $_GET['saswp_duplicated'], $_GET['post_type'] ) && 'saswp' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {
+        
+        $duplicated_id = absint( wp_unslash( $_GET['saswp_duplicated'] ) );
+        
+        // Prevent notice from firing if the ID is 0
+        if ( 0 === $duplicated_id ) {
+            return;
+        }
+
+        $edit_url = get_edit_post_link( $duplicated_id );
+        
+        ?>
+        <div class="notice notice-success is-dismissible">
+            <p>
+                <?php 
+                printf(
+                    wp_kses_post( __( 'Item successfully duplicated. <a href="%s">Edit the new item</a>.', 'schema-and-structured-data-for-wp' ) ),
+                    esc_url( $edit_url )
+                ); 
+                ?>
+            </p>
+        </div>
+        <?php
+    }
+}
