@@ -9725,3 +9725,65 @@ function saswp_website_schema_markup( $schema_id, $schema_post_id, $all_post_met
 
     return $input1;
 }
+
+/**
+ * Schema markup for Offer Catalog schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.60
+ * */
+function saswp_offer_catalog_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+    
+    $input1['@context']              = saswp_context_url();
+    $input1['@type']                 = 'OfferCatalog';
+
+    if ( ! empty( $all_post_meta['saswp_offer_catalog_name_'.$schema_id][0] ) ) {
+        $input1['name'] = saswp_remove_warnings( $all_post_meta, 'saswp_offer_catalog_name_'.$schema_id, 'saswp_array' );
+    }
+
+    if ( ! empty( $all_post_meta['saswp_offer_catalog_url_'.$schema_id][0] ) ) {
+        $input1['url'] = saswp_remove_warnings( $all_post_meta, 'saswp_offer_catalog_url_'.$schema_id, 'saswp_array' );
+    }
+
+    $item_list_element = get_post_meta( $schema_post_id, 'item_list_element_'.$schema_id, true );
+    $array_list   =   [];
+    if ( ! empty( $item_list_element ) && is_array( $item_list_element ) ) {
+        foreach ( $item_list_element as $key => $element ) {
+
+            $itemOffered    =   [];
+            $list           =   [];
+            if ( ! empty( $element['saswp_offer_catalog_element_name'] ) ) {
+                $itemOffered['@type']   =   'Product';
+                $itemOffered['name']    =   $element['saswp_offer_catalog_element_name'];
+            }
+            $list['@type']  =   'Offer';
+            if ( ! empty( $itemOffered ) ) {
+                $list['itemOffered']    =   $itemOffered;
+            }
+            if ( ! empty( $element['saswp_offer_catalog_element_price'] ) ) {
+                $list['price']          =   $element['saswp_offer_catalog_element_price'];    
+            }
+            if ( ! empty( $element['saswp_offer_catalog_element_currency'] ) ) {
+                $list['priceCurrency']  =   $element['saswp_offer_catalog_element_currency'];    
+            }
+            if ( ! empty( $element['saswp_offer_catalog_element_url'] ) ) {
+                $list['url']            =   $element['saswp_offer_catalog_element_url'];    
+            }
+            
+            $array_list[]               =   $list;
+
+        }
+
+    }
+
+    if ( ! empty( $array_list ) ) {
+        $input1['itemListElement']      =   $array_list;       
+    }
+
+    return $input1;
+
+}

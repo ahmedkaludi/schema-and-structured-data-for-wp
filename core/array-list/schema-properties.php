@@ -13026,6 +13026,23 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         break;
 
+                    case 'OfferCatalog':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_offer_catalog_name_'.$schema_id,
+                                'type'       => 'text',   
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_offer_catalog_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink()                            
+                            ),
+                        );
+
+                        break;
+
                 default:
                     break;
             } 

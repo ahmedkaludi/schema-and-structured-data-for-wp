@@ -157,6 +157,9 @@ return array( 'schema_type_element' => array(
 	                    'sports-team-member-of' => 'sports_team_member_of',
 	                    'sports-team-athlete'   => 'sports_team_athlete'	                    
 	                  ),
+			    'OfferCatalog' => array(
+	                    'item-list-element' => 'item_list_element',	                    
+	                  ),
 
 						                                                                          
                     ),
@@ -1395,6 +1398,28 @@ return array( 'schema_type_element' => array(
 			array(
 				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
 				'name'      => 'saswp_sports_team_as_name',
+				'type'      => 'text',                        
+			),
+		),
+		'item_list_element'	     =>	array(
+			array(
+				'label'     => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+				'name'      => 'saswp_offer_catalog_element_name',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => esc_html__( 'Price', 'schema-and-structured-data-for-wp' ),
+				'name'      => 'saswp_offer_catalog_element_price',
+				'type'      => 'number',                        
+			),
+			array(
+				'label'     => esc_html__( 'Currency', 'schema-and-structured-data-for-wp' ),
+				'name'      => 'saswp_offer_catalog_element_currency',
+				'type'      => 'text',                        
+			),
+			array(
+				'label'     => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+				'name'      => 'saswp_offer_catalog_element_url',
 				'type'      => 'text',                        
 			),
 		),
