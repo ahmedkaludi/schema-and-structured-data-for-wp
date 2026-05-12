@@ -9228,16 +9228,6 @@ Class SASWP_Output_Service{
                             $input1['headline'] = $custom_fields['saswp_collection_page_headline'];
                         }   
                 break;
-
-                case 'OfferCatalog':
-                    if ( ! empty( $custom_fields['saswp_offer_catalog_name'] ) ) {
-                        $input1['name']                     =    $custom_fields['saswp_offer_catalog_name'];
-                    }
-                    if ( ! empty( $custom_fields['saswp_offer_catalog_url'] ) ) {
-                        $input1['url']                      =    $custom_fields['saswp_offer_catalog_url'];
-                    }
-
-                break;
                
                      default:
                          break;

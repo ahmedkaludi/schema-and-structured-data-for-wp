@@ -3229,25 +3229,6 @@ function saswp_schema_output() {
                             $input1 = apply_filters( 'saswp_modify_website_final_schema_output', $input1 );
                             
                             break;
-
-                            case 'OfferCatalog':
-                                                                                    
-                                $input1['@context']                     =   saswp_context_url();
-                                $input1['@type']                        =   'OfferCatalog';
-                                $input1['name']                         =   saswp_get_the_title();                       
-
-                                $input1 = apply_filters( 'saswp_modify_offer_catalog_schema_output', $input1 );
-
-                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
-                                
-                                if($modified_schema == 1){
-                                    
-                                    $input1 = saswp_offer_catalog_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
-                                }
-                                
-                                $input1 = apply_filters( 'saswp_modify_offer_catalog_final_schema_output', $input1 );
-                                
-                            break;
                             
                             default:
                                 break;
