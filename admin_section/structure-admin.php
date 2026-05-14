@@ -2720,8 +2720,8 @@ function saswp_add_duplicate_schema_link( $actions, $post ) {
             $item_title 
         );
         
-        $actions['duplicate'] = sprintf(
-            '<a href="%1$s" title="%2$s" class="saswp-duplicate-btn" style="color: #d63638;">%3$s</a>',
+        $actions['saswp_duplicate'] = sprintf(
+            '<a href="%1$s" title="%2$s" class="saswp-duplicate-btn">%3$s</a>',
             esc_url( $duplicate_url ),
             esc_attr( $dynamic_text ),
             esc_html( $dynamic_text )
