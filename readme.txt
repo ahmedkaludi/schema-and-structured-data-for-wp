@@ -320,17 +320,4 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Location property issue in LiveBlogPosting #2270
 * Fixed: Improvement in global modification for author and editor for NewsArticle schema #2275
 
-= 1.42 (6 March 2025) =
-* Fixed: Resolved issue with Airbnb Rooms platform reviews #2179
-* Fixed: Resolved issue with TripAdvisor platform reviews #2225
-* Enhancement: Setting page UI Changes #2226
-* Fixed: Valid Through date issue while modifying post individually #2253
-* Feature: Added ImageGallery Schema type and made it's compatibility with FooGallery plugin  #2254
-* Feature: Added Location type attribute in LiveBlogPosting schema #2255
-* Fixed: Resolved issue with CreativeWork schema #2258
-* Feature: Added MediaGallery schema #2259
-* Fixed: Author image issue in schema markup #2261
-* Enhancement: Added Coverage Time in LiveBlogPosting schema  #2263
-* Fixed: Review collection nonce issue #2267
-
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
