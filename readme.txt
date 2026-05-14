@@ -2,9 +2,9 @@
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 1.59
+Stable tag: 1.60
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.60 (14 May 2026) =
+* Feature: Added Support for OfferCatalog Schema #2421
+* Feature: Added schema data duplicate feature #2328
+* Fixed: Elementor Pro Loops Breaks style when Schema is enabled #2435
+* Fixed: Vulnerability reported by Patch stack and researched by Mohamed Bassia
 
 = 1.59 (22 April 2026) =
 * Fixed: FAQ Blocks duplicating in Divi Builder #2430
