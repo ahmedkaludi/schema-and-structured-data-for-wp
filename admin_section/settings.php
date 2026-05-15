@@ -1063,6 +1063,7 @@ function saswp_general_page_callback() {
                         'options' => array(                                
                                 'DetailedItemList'      => 'DetailedItemList',
                                 'ItemList'              => 'ItemList',                                          
+                                'OfferCatalog'          => 'OfferCatalog',                                          
                         )
                 );
 

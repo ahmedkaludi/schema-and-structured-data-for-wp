@@ -3008,7 +3008,15 @@ function saswp_get_mainEntity($schema_id){
                         $post_content = apply_filters('the_content', $post->post_content);
                     }
                 }else{
-                    $post_content = apply_filters('the_content', $post->post_content);
+
+                    // Check if this post is built with Elementor
+                    $is_elementor = get_post_meta( $post->ID, '_elementor_edit_mode', true );
+                    if ( $is_elementor === 'builder' ) {
+                        $post_content   = $post->post_content;       
+                    }else{
+                        $post_content = apply_filters('the_content', $post->post_content);
+                    }
+                
                 }
             }
             

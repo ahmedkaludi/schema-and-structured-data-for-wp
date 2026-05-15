@@ -3798,11 +3798,31 @@ function saswp_woocommerce_category_schema() {
 			while( $category_loop->have_posts() ): $category_loop->the_post();
                 
                         $category_posts = array();
-                        $category_posts['@type']       = 'ListItem';
-                        $category_posts['position']    = $i;
+                
                         if ( isset( $sd_data['saswp_woocommerce_archive_list_type']) && $sd_data['saswp_woocommerce_archive_list_type'] == 'ItemList'){
+                            $category_posts['@type']       = 'ListItem';
+                            $category_posts['position']    = $i;
                             $category_posts['url'] = saswp_get_permalink();
+                        } else if ( isset( $sd_data['saswp_woocommerce_archive_list_type']) && $sd_data['saswp_woocommerce_archive_list_type'] == 'OfferCatalog'){
+                            
+                            if ( function_exists( 'wc_get_product' ) ) {
+                                $product_object = wc_get_product(get_the_ID() ); 
+                 
+                                if( is_object( $product_object ) ) {
+
+                                    $category_posts['@type']                     =   'Offer';
+                                    $category_posts['itemOffered']['@type']      =   'Product';
+                                    $category_posts['itemOffered']['name']       =   $product_object->get_name();
+                                    $category_posts['price']                     =   $product_object->get_price();
+                                    $category_posts['priceCurrency']             =   get_woocommerce_currency();
+                                    $category_posts['url']                       =   $product_object->get_permalink();
+
+                                }
+                            }
+                            
                         }else{
+                            $category_posts['@type']       = 'ListItem';
+                            $category_posts['position']    = $i;
     			            $category_posts['item']        = $service->saswp_schema_markup_generator('Product');
                             if ( ! empty( $product_schema_id) ) {
                                 $category_posts['item'] = saswp_append_fetched_reviews($category_posts['item'], $product_schema_id);
@@ -3837,9 +3857,20 @@ function saswp_woocommerce_category_schema() {
                 
                 if($list_item){                    
                     
+                    $list_type  =   'ItemList';
+                    if ( isset( $sd_data['saswp_woocommerce_archive_list_type']) && $sd_data['saswp_woocommerce_archive_list_type'] == 'OfferCatalog') {
+                        $list_type  = 'OfferCatalog';       
+                    }
+
                     $item_list_schema['@context']        = saswp_context_url();
-                    $item_list_schema['@type']           = 'ItemList';    
-                    $item_list_schema['@id']             = saswp_get_category_link($term->term_id).'#ItemList';    
+                    $item_list_schema['@type']           = $list_type;    
+                    $item_list_schema['@id']             = saswp_get_category_link($term->term_id).'#'.$list_type; 
+
+                    if ( isset( $sd_data['saswp_woocommerce_archive_list_type']) && $sd_data['saswp_woocommerce_archive_list_type'] == 'OfferCatalog') {
+                        if ( ! empty( $term->name ) ) {
+                            $item_list_schema['name']             = $term->name; 
+                        }       
+                    }   
 
                     if(saswp_has_slash($current_url) ) {
                         $item_list_schema['url'] =  saswp_get_category_link($term->term_id);    
@@ -3849,7 +3880,7 @@ function saswp_woocommerce_category_schema() {
                     
                     $item_list_schema['itemListElement'] = $list_item;
                 }
-                                                                                
+                                                                             
 		return $item_list_schema;
                 
 	endif;
