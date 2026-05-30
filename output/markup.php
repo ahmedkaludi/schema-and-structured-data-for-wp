@@ -8058,6 +8058,40 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
             $input1['potentialAction']['startOffset-input'] = 'required name=seek_to_second_number';
 
         }
+
+        $broadcast_events_meta = isset($all_post_meta['video_broadcast_event_'.$schema_id][0]) ? $all_post_meta['video_broadcast_event_'.$schema_id][0] : '';
+        
+        if ( ! empty( $broadcast_events_meta ) && ! is_array( $broadcast_events_meta ) ) {
+            $broadcast_events_meta = maybe_unserialize( $broadcast_events_meta );
+        }
+        
+        $publications = array();
+        if ( is_array( $broadcast_events_meta ) && ! empty( $broadcast_events_meta ) ) {
+            foreach ( $broadcast_events_meta as $event ) {
+                $is_live = isset( $event['saswp_video_broadcast_is_live'] ) ? $event['saswp_video_broadcast_is_live'] : '';
+                
+                if ( $is_live === '1' || strtolower( $is_live ) === 'yes' ) {
+                    $pub = array(
+                        '@type'           => 'BroadcastEvent',
+                        'isLiveBroadcast' => true,
+                    );
+                    
+                    if ( ! empty( $event['saswp_video_broadcast_start_time'] ) ) {
+                        $pub['startDate'] = sanitize_text_field( $event['saswp_video_broadcast_start_time'] );
+                    }
+                    
+                    if ( ! empty( $event['saswp_video_broadcast_end_time'] ) ) {
+                        $pub['endDate'] = sanitize_text_field( $event['saswp_video_broadcast_end_time'] );
+                    }
+                    
+                    $publications[] = $pub;
+                }
+            }
+        }
+
+        if ( ! empty( $publications ) ) {
+            $input1['publication'] = $publications;
+        }
     
     return $input1;
     

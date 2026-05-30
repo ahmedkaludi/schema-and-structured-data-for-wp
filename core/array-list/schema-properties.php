@@ -7896,7 +7896,10 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_organization_logo_'.$schema_id,
                             'type'    => 'media',
                             'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
-                    ),    
+                    ),
+                    'VideoObject' => array(
+                            'publication' => 'video_broadcast_event'
+                        ),    
                    );
                     break;
                 

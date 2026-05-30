@@ -6912,6 +6912,30 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url']) ) {
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);
                     }
+                    // Map BroadcastEvent Repeater Data
+                    if ( isset( $custom_fields['video_broadcast_event'] ) && is_array( $custom_fields['video_broadcast_event'] ) ) {
+                        $publications = array();
+                        foreach ( $custom_fields['video_broadcast_event'] as $event ) {
+                            $is_live = isset( $event['saswp_video_broadcast_is_live'] ) ? $event['saswp_video_broadcast_is_live'] : '';
+                            
+                            if ( $is_live === '1' || strtolower( $is_live ) === 'yes' ) {
+                                $pub = array(
+                                    '@type'           => 'BroadcastEvent',
+                                    'isLiveBroadcast' => true,
+                                );
+                                if ( ! empty( $event['saswp_video_broadcast_start_time'] ) ) {
+                                    $pub['startDate'] = sanitize_text_field( $event['saswp_video_broadcast_start_time'] );
+                                }
+                                if ( ! empty( $event['saswp_video_broadcast_end_time'] ) ) {
+                                    $pub['endDate'] = sanitize_text_field( $event['saswp_video_broadcast_end_time'] );
+                                }
+                                $publications[] = $pub;
+                            }
+                        }
+                        if ( ! empty( $publications ) ) {
+                            $input1['publication'] = $publications;
+                        }
+                    }
                     if ( ! empty( $custom_fields['saswp_video_object_main_entity_id']) ) {
                         $input1['mainEntity']['@type'] =    'WebPage';
                         $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
