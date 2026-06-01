@@ -9504,6 +9504,44 @@ function saswp_place_schema_markup( $schema_id, $schema_post_id, $all_post_meta 
 }
 
 /**
+ * Schema markup for EventVenue schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.47
+ * */
+function saswp_EventVenue_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+
+    $input1['@context']                     = saswp_context_url();
+    $input1['@type']                        = 'EventVenue'; 
+
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_name_'.$schema_id][0]) ) {
+        $input1['name']                         = saswp_remove_warnings( $all_post_meta, 'saswp_eventvenue_schema_name_'.$schema_id, 'saswp_array' );    
+    }  
+    $input1['address']['@type']             = 'PostalAddress';
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_streetaddress_'.$schema_id][0]) ) {
+        $input1['address']['streetAddress'] = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_streetaddress_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_country_'.$schema_id][0]) ) {
+        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_country_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_locality_'.$schema_id][0]) ) {
+        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_locality_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_region_'.$schema_id][0]) ) {
+        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_region_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_postalcode_'.$schema_id][0]) ) {
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_postalcode_'.$schema_id, 'saswp_array');
+    }
+    
+    return $input1;
+}
+
+/**
  * Schema markup for PlGameace schema
  * @param   $schema_id          integer
  * @param   $schema_post_id     integer

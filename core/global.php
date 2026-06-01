@@ -95,6 +95,7 @@ $without_aggregate = array(
         'MediaGallery',
         'ProfilePage',
         'Place',
+        'EventVenue',
 );
 $translation_labels = array(
     'translation-pros'            => 'Pros',

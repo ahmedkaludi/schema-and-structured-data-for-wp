@@ -12633,6 +12633,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                 break;
 
+                case 'EventVenue':
+                    
+                    $meta_field = array(
+                            array(
+                                    'label' => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_name_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Street Address', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_streetaddress_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Locality', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_locality_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Region', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_region_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'PostalCode', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_postalcode_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
+                                    'id'    => 'saswp_eventvenue_schema_country_'.$schema_id,
+                                    'type'  => 'text',                                
+                            ),
+                        );
+                break;
+
                 case 'Game':
                     
                     $meta_field = array(
