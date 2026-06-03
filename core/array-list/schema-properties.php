@@ -4676,6 +4676,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'    => 'saswp_event_schema_performer_name_'.$schema_id,
                                 'type'  => 'text',                                
                         ),
+                        array(
+                                'label' => esc_html__( 'Performer Type', 'schema-and-structured-data-for-wp' ),
+                                'id'    => 'saswp_event_schema_performer_type_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
                     );
                     break;
                 

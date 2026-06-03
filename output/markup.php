@@ -701,32 +701,38 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                 }
 
                     //Performer starts here
-                    $performer  = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
-
+                    $performer = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
                     $performer_arr = array();
 
-                    if ( isset( $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0]) ) {
+                    if ( isset( $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0] ) ) {
+                        
+                        // Check if the custom type is provided; otherwise, default to 'Person'
+                        $custom_type = 'Person';
+                        if ( ! empty( $all_post_meta['saswp_event_schema_performer_type_'.$schema_id][0] ) ) {
+                            $custom_type = $all_post_meta['saswp_event_schema_performer_type_'.$schema_id][0];
+                        }
+
                         $performer_arr[] = array(
-                            '@type' => 'Person',
+                            '@type' => $custom_type,
                             'name'  => $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0]
                         );
                     }
 
-                    if ( ! empty( $performer) ) {
-
-                        foreach( $performer as $val){
-
+                    if ( ! empty( $performer ) ) {
+                        
+                        foreach( $performer as $val ) {
                             $supply_data = array();
-                            $supply_data['@type']        = $val['saswp_event_performer_type'];
-                            $supply_data['name']         = $val['saswp_event_performer_name'];                                    
-                            $supply_data['url']          = $val['saswp_event_performer_url'];
+                            $supply_data['@type'] = $val['saswp_event_performer_type'];
+                            $supply_data['name']  = $val['saswp_event_performer_name'];                                  
+                            $supply_data['url']   = $val['saswp_event_performer_url'];
 
-                            $performer_arr[] =  $supply_data;
+                            $performer_arr[] = $supply_data;
                         }                       
-
+                        
                     }
-                    if($performer_arr){
-                        $input1['performer'] = $performer_arr;    
+
+                    if ( $performer_arr ) {
+                        $input1['performer'] = $performer_arr;  
                     }                    
                     //Performer ends here
 
