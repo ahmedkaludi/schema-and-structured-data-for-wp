@@ -686,6 +686,11 @@ jQuery(document).ready(function($){
           }else{
           $(".saswp-schema-modify-section").show();      
           }
+          if(schematype == 'ItemList'){  
+          $(".saswp-schema-modify-section").hide();  
+          }else{
+          $(".saswp-schema-modify-section").show();      
+          }
         if(schematype == 'FAQ'){
           $(".saswp-enable-faq-markup-class").parent().parent().show();
         }else{
@@ -816,6 +821,11 @@ jQuery(document).ready(function($){
                 $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }
              if(schematype == 'BreadCrumbs'){  
+              $(".saswp-schema-modify-section").hide();  
+              }else{
+              $(".saswp-schema-modify-section").show();      
+              }
+              if(schematype == 'ItemList'){  
               $(".saswp-schema-modify-section").hide();  
               }else{
               $(".saswp-schema-modify-section").show();      
