@@ -67,11 +67,16 @@ class SASWP_Output_Compatibility{
      * */
     public function saswp_yoast_index_exclude_saswp_type( $post_types ) {
 
-        if ( isset( $post_types['saswp'] ) ) {
-            unset($post_types['saswp']);
-        }
-        return $post_types;
+    // List of post types to exclude from Yoast indexing
+    $excluded_types = array( 'saswp', 'saswp-collections', 'saswp_reviews' );
 
+    foreach ( $excluded_types as $type ) {
+            if ( isset( $post_types[ $type ] ) ) {
+                unset( $post_types[ $type ] );
+            }
+        }
+
+        return $post_types;
     }
 
     public function saswp_override_schema_markup() {
