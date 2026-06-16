@@ -1414,6 +1414,14 @@ return array( 'schema_type_element' => array(
                             'default'    => '1'
                         ),
                         array(
+                            'label'      => esc_html__( 'Broadcast Name', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_video_broadcast_name',
+                            'type'      => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'First scheduled broadcast', 'schema-and-structured-data-for-wp' )
+                            )                        
+                        ),
+                        array(
                             'label'      => esc_html__( 'Broadcast Start', 'schema-and-structured-data-for-wp' ),
                             'name'       => 'saswp_video_broadcast_start_time',
                             'type'      => 'text',

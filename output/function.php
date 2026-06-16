@@ -3721,33 +3721,7 @@ function saswp_default_video_object_schema() {
     }    
 
     $input1 = array();
-    $video_links      = saswp_get_video_metadata();
-
-    // Fetch and prepare Publication Repeater safely
-    $broadcast_meta = get_post_meta( get_the_ID(), 'video_broadcast_event', true );
-    if ( ! empty( $broadcast_meta ) && ! is_array( $broadcast_meta ) ) {
-        $broadcast_meta = maybe_unserialize( $broadcast_meta );
-    }
-    
-    $publications = array();
-    if ( is_array( $broadcast_meta ) && ! empty( $broadcast_meta ) ) {
-        foreach ( $broadcast_meta as $event ) {
-            $is_live = isset( $event['saswp_video_broadcast_is_live'] ) ? $event['saswp_video_broadcast_is_live'] : '';
-            if ( $is_live === '1' || strtolower( $is_live ) === 'yes' ) {
-                $pub = array(
-                    '@type'           => 'BroadcastEvent',
-                    'isLiveBroadcast' => true,
-                );
-                if ( ! empty( $event['saswp_video_broadcast_start_time'] ) ) {
-                    $pub['startDate'] = sanitize_text_field( $event['saswp_video_broadcast_start_time'] );
-                }
-                if ( ! empty( $event['saswp_video_broadcast_end_time'] ) ) {
-                    $pub['endDate'] = sanitize_text_field( $event['saswp_video_broadcast_end_time'] );
-                }
-                $publications[] = $pub;
-            }
-        }
-    }  
+    $video_links      = saswp_get_video_metadata();  
     
     if ( ! empty( $video_links) ) {
         $Conditionals = saswp_get_all_schema_posts(); 
@@ -3819,10 +3793,6 @@ function saswp_default_video_object_schema() {
                     }else{
                         $vnewarr['description']   = $description; 
                     }
-
-                    if ( ! empty( $publications ) ) {
-                        $vnewarr['publication'] = $publications;
-                    }
                     
                     $input1['itemListElement'][] = $vnewarr;
                 }
@@ -3855,9 +3825,7 @@ function saswp_default_video_object_schema() {
                     $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
                     
                 }
-                if ( ! empty( $publications ) ) {
-                    $input1['publication'] = $publications;
-                }
+            
             }
         }
     }

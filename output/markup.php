@@ -8070,27 +8070,28 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         if ( ! empty( $broadcast_events_meta ) && ! is_array( $broadcast_events_meta ) ) {
             $broadcast_events_meta = maybe_unserialize( $broadcast_events_meta );
         }
-        
+
         $publications = array();
-        if ( is_array( $broadcast_events_meta ) && ! empty( $broadcast_events_meta ) ) {
-            foreach ( $broadcast_events_meta as $event ) {
-                $is_live = isset( $event['saswp_video_broadcast_is_live'] ) ? $event['saswp_video_broadcast_is_live'] : '';
-                
-                if ( $is_live === '1' || strtolower( $is_live ) === 'yes' ) {
-                    $pub = array(
-                        '@type'           => 'BroadcastEvent',
-                        'isLiveBroadcast' => true,
-                    );
-                    
-                    if ( ! empty( $event['saswp_video_broadcast_start_time'] ) ) {
-                        $pub['startDate'] = sanitize_text_field( $event['saswp_video_broadcast_start_time'] );
+        $broadcasts   =   get_post_meta( $schema_post_id, 'video_broadcast_event_'.$schema_id, true );
+
+        if ( ! empty( $broadcasts ) && is_array( $broadcasts ) ) {
+            foreach ( $broadcasts as  $broadcast ) {
+                if ( ! empty( $broadcast ) && is_array( $broadcast ) ) {
+
+                    $broadcast_array                    =   [];
+                    $broadcast_array['@type']           =   'BroadcastEvent';
+                    $broadcast_array['isLiveBroadcast'] = isset( $broadcast['saswp_video_broadcast_is_live'] ) ? true : false;
+                    if ( ! empty( $broadcast['saswp_video_broadcast_name'] ) ) {
+                        $broadcast_array['name']        = sanitize_text_field( $broadcast['saswp_video_broadcast_name'] );
+                    }
+                    if ( ! empty( $broadcast['saswp_video_broadcast_start_time'] ) ) {
+                        $broadcast_array['startDate']   = sanitize_text_field( $broadcast['saswp_video_broadcast_start_time'] );
+                    }
+                    if ( ! empty( $broadcast['saswp_video_broadcast_end_time'] ) ) {
+                        $broadcast_array['endDate']     = sanitize_text_field( $broadcast['saswp_video_broadcast_end_time'] );
                     }
                     
-                    if ( ! empty( $event['saswp_video_broadcast_end_time'] ) ) {
-                        $pub['endDate'] = sanitize_text_field( $event['saswp_video_broadcast_end_time'] );
-                    }
-                    
-                    $publications[] = $pub;
+                    $publications[]     =   $broadcast_array;
                 }
             }
         }

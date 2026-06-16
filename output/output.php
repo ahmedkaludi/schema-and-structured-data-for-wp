@@ -2677,30 +2677,6 @@ function saswp_schema_output() {
                             case 'VideoObject':
                                 
                                 $video_links      = saswp_get_video_metadata(); 
-                                $broadcast_meta = get_post_meta( get_the_ID(), 'video_broadcast_event', true );
-        if ( ! empty( $broadcast_meta ) && ! is_array( $broadcast_meta ) ) {
-            $broadcast_meta = maybe_unserialize( $broadcast_meta );
-        }
-        
-        $publications = array();
-        if ( is_array( $broadcast_meta ) && ! empty( $broadcast_meta ) ) {
-            foreach ( $broadcast_meta as $event ) {
-                $is_live = isset( $event['saswp_video_broadcast_is_live'] ) ? $event['saswp_video_broadcast_is_live'] : '';
-                if ( $is_live === '1' || strtolower( $is_live ) === 'yes' ) {
-                    $pub = array(
-                        '@type'           => 'BroadcastEvent',
-                        'isLiveBroadcast' => true,
-                    );
-                    if ( ! empty( $event['saswp_video_broadcast_start_time'] ) ) {
-                        $pub['startDate'] = sanitize_text_field( $event['saswp_video_broadcast_start_time'] );
-                    }
-                    if ( ! empty( $event['saswp_video_broadcast_end_time'] ) ) {
-                        $pub['endDate'] = sanitize_text_field( $event['saswp_video_broadcast_end_time'] );
-                    }
-                    $publications[] = $pub;
-                }
-            }
-        } 
                                 $description = saswp_get_the_excerpt();
 
                                 if(!$description){
@@ -2753,10 +2729,6 @@ function saswp_schema_output() {
                                             $vnewarr['description']   = $v_val['description'];                                    
                                         }else{
                                             $vnewarr['description']   = $description;
-                                        }
-
-                                        if ( ! empty( $publications ) ) {
-                                            $vnewarr['publication'] = $publications;
                                         }
                                         
                                         $input1['itemListElement'][] = $vnewarr;
@@ -2829,10 +2801,6 @@ function saswp_schema_output() {
                                             }
                                         }
 
-                                    }
-
-                                    if ( ! empty( $publications ) ) {
-                                        $input1['publication'] = $publications;
                                     }
                                  
                                     $input1 = apply_filters('saswp_modify_video_object_final_schema_output', $input1 );
