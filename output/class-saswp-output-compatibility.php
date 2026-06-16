@@ -68,7 +68,7 @@ class SASWP_Output_Compatibility{
     public function saswp_yoast_index_exclude_saswp_type( $post_types ) {
 
     // List of post types to exclude from Yoast indexing
-    $excluded_types = array( 'saswp', 'saswp-collections', 'saswp_reviews' );
+    $excluded_types = array( 'saswp', 'saswp-collections', 'saswp_reviews', 'saswp_template' );
 
     foreach ( $excluded_types as $type ) {
             if ( isset( $post_types[ $type ] ) ) {
