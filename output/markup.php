@@ -9518,7 +9518,7 @@ function saswp_place_schema_markup( $schema_id, $schema_post_id, $all_post_meta 
  * @return  $input1             array
  * @since   1.47
  * */
-function saswp_EventVenue_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+function saswp_eventvenue_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
 
     $input1 = array();
 
