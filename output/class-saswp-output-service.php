@@ -5255,8 +5255,10 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_event_schema_image']) ) {
                         $input1['image'] =    $custom_fields['saswp_event_schema_image'];
                     }
+                    if ( isset( $custom_fields['saswp_event_schema_performer_type']) ) {
+                        $input1['performer']['@type'] =   $custom_fields['saswp_event_schema_performer_type'];
+                    }   
                     if ( isset( $custom_fields['saswp_event_schema_performer_name']) ) {
-                        $input1['performer']['@type'] =    $custom_fields['saswp_event_schema_performer_type'];
                         $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
                     }
 
