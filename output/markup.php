@@ -701,32 +701,38 @@ function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                 }
 
                     //Performer starts here
-                    $performer  = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
-
+                    $performer = get_post_meta($schema_post_id, 'performer_'.$schema_id, true);
                     $performer_arr = array();
 
-                    if ( isset( $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0]) ) {
+                    if ( isset( $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0] ) ) {
+                        
+                        // Check if the custom type is provided; otherwise, default to 'Person'
+                        $custom_type = 'Person';
+                        if ( ! empty( $all_post_meta['saswp_event_schema_performer_type_'.$schema_id][0] ) ) {
+                            $custom_type = $all_post_meta['saswp_event_schema_performer_type_'.$schema_id][0];
+                        }
+
                         $performer_arr[] = array(
-                            '@type' => 'Person',
+                            '@type' => $custom_type,
                             'name'  => $all_post_meta['saswp_event_schema_performer_name_'.$schema_id][0]
                         );
                     }
 
-                    if ( ! empty( $performer) ) {
-
-                        foreach( $performer as $val){
-
+                    if ( ! empty( $performer ) ) {
+                        
+                        foreach( $performer as $val ) {
                             $supply_data = array();
-                            $supply_data['@type']        = $val['saswp_event_performer_type'];
-                            $supply_data['name']         = $val['saswp_event_performer_name'];                                    
-                            $supply_data['url']          = $val['saswp_event_performer_url'];
+                            $supply_data['@type'] = $val['saswp_event_performer_type'];
+                            $supply_data['name']  = $val['saswp_event_performer_name'];                                  
+                            $supply_data['url']   = $val['saswp_event_performer_url'];
 
-                            $performer_arr[] =  $supply_data;
+                            $performer_arr[] = $supply_data;
                         }                       
-
+                        
                     }
-                    if($performer_arr){
-                        $input1['performer'] = $performer_arr;    
+
+                    if ( $performer_arr ) {
+                        $input1['performer'] = $performer_arr;  
                     }                    
                     //Performer ends here
 
@@ -8058,6 +8064,41 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
             $input1['potentialAction']['startOffset-input'] = 'required name=seek_to_second_number';
 
         }
+
+        $broadcast_events_meta = isset($all_post_meta['video_broadcast_event_'.$schema_id][0]) ? $all_post_meta['video_broadcast_event_'.$schema_id][0] : '';
+        
+        if ( ! empty( $broadcast_events_meta ) && ! is_array( $broadcast_events_meta ) ) {
+            $broadcast_events_meta = maybe_unserialize( $broadcast_events_meta );
+        }
+
+        $publications = array();
+        $broadcasts   =   get_post_meta( $schema_post_id, 'video_broadcast_event_'.$schema_id, true );
+
+        if ( ! empty( $broadcasts ) && is_array( $broadcasts ) ) {
+            foreach ( $broadcasts as  $broadcast ) {
+                if ( ! empty( $broadcast ) && is_array( $broadcast ) ) {
+
+                    $broadcast_array                    =   [];
+                    $broadcast_array['@type']           =   'BroadcastEvent';
+                    $broadcast_array['isLiveBroadcast'] = isset( $broadcast['saswp_video_broadcast_is_live'] ) ? true : false;
+                    if ( ! empty( $broadcast['saswp_video_broadcast_name'] ) ) {
+                        $broadcast_array['name']        = sanitize_text_field( $broadcast['saswp_video_broadcast_name'] );
+                    }
+                    if ( ! empty( $broadcast['saswp_video_broadcast_start_time'] ) ) {
+                        $broadcast_array['startDate']   = sanitize_text_field( $broadcast['saswp_video_broadcast_start_time'] );
+                    }
+                    if ( ! empty( $broadcast['saswp_video_broadcast_end_time'] ) ) {
+                        $broadcast_array['endDate']     = sanitize_text_field( $broadcast['saswp_video_broadcast_end_time'] );
+                    }
+                    
+                    $publications[]     =   $broadcast_array;
+                }
+            }
+        }
+
+        if ( ! empty( $publications ) ) {
+            $input1['publication'] = $publications;
+        }
     
     return $input1;
     
@@ -9464,6 +9505,44 @@ function saswp_place_schema_markup( $schema_id, $schema_post_id, $all_post_meta 
     }
     if ( ! empty( $all_post_meta['saswp_place_schema_postalcode_'.$schema_id][0]) ) {
         $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_place_schema_postalcode_'.$schema_id, 'saswp_array');
+    }
+    
+    return $input1;
+}
+
+/**
+ * Schema markup for EventVenue schema
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.47
+ * */
+function saswp_eventvenue_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+
+    $input1['@context']                     = saswp_context_url();
+    $input1['@type']                        = 'EventVenue'; 
+
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_name_'.$schema_id][0]) ) {
+        $input1['name']                         = saswp_remove_warnings( $all_post_meta, 'saswp_eventvenue_schema_name_'.$schema_id, 'saswp_array' );    
+    }  
+    $input1['address']['@type']             = 'PostalAddress';
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_streetaddress_'.$schema_id][0]) ) {
+        $input1['address']['streetAddress'] = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_streetaddress_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_country_'.$schema_id][0]) ) {
+        $input1['address']['addressCountry']    = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_country_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_locality_'.$schema_id][0]) ) {
+        $input1['address']['addressLocality']   = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_locality_'.$schema_id, 'saswp_array');    
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_region_'.$schema_id][0]) ) {
+        $input1['address']['addressRegion']     = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_region_'.$schema_id, 'saswp_array');
+    }
+    if ( ! empty( $all_post_meta['saswp_eventvenue_schema_postalcode_'.$schema_id][0]) ) {
+        $input1['address']['postalCode']        = saswp_remove_warnings($all_post_meta, 'saswp_eventvenue_schema_postalcode_'.$schema_id, 'saswp_array');
     }
     
     return $input1;

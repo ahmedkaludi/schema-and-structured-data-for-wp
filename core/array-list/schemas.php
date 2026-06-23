@@ -99,7 +99,8 @@ return array(
             'TouristDestination'              => 'TouristDestination',
             'LandmarksOrHistoricalBuildings'  => 'LandmarksOrHistoricalBuildings',
             'TouristTrip'                     => 'TouristTrip',
-            'Place'                           => 'Place',  
+            'Place'                           => 'Place',
+            'EventVenue'                      => 'EventVenue',  
         ),
         'PlaceOfWorship' => array(
             'BuddhistTemple'      => 'BuddhistTemple',

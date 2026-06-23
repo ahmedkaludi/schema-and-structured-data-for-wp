@@ -5255,6 +5255,9 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_event_schema_image']) ) {
                         $input1['image'] =    $custom_fields['saswp_event_schema_image'];
                     }
+                    if ( isset( $custom_fields['saswp_event_schema_performer_type']) ) {
+                        $input1['performer']['@type'] =   $custom_fields['saswp_event_schema_performer_type'];
+                    }   
                     if ( isset( $custom_fields['saswp_event_schema_performer_name']) ) {
                         $input1['performer']['name'] =    $custom_fields['saswp_event_schema_performer_name'];
                     }
@@ -6912,6 +6915,7 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_video_object_embed_url']) && wp_http_validate_url($custom_fields['saswp_video_object_embed_url']) ) {
                      $input1['embedUrl']   =    saswp_validate_url($custom_fields['saswp_video_object_embed_url']);
                     }
+                    
                     if ( ! empty( $custom_fields['saswp_video_object_main_entity_id']) ) {
                         $input1['mainEntity']['@type'] =    'WebPage';
                         $input1['mainEntity']['@id'] =    $custom_fields['saswp_video_object_main_entity_id'];
@@ -9025,6 +9029,30 @@ Class SASWP_Output_Service{
                     }  
                     if ( ! empty( $custom_fields['saswp_place_schema_country'] ) ) {
                         $input1['address']['addressCountry']         =   $custom_fields['saswp_place_schema_country'];
+                    }  
+
+                break;
+
+                case 'EventVenue':
+
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_name'] ) ) {
+                        $input1['name']         =   $custom_fields['saswp_eventvenue_schema_name'];
+                    }  
+                    $input1['address']['@type'] =   'PostalAddress';
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_streetaddress'] ) ) {
+                        $input1['address']['streetAddress']         =   $custom_fields['saswp_eventvenue_schema_streetaddress'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_locality'] ) ) {
+                        $input1['address']['addressLocality']         =   $custom_fields['saswp_eventvenue_schema_locality'];
+                    }  
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_region'] ) ) {
+                        $input1['address']['addressRegion']         =   $custom_fields['saswp_eventvenue_schema_region'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_postalcode'] ) ) {
+                        $input1['address']['postalCode']         =   $custom_fields['saswp_eventvenue_schema_postalcode'];
+                    }  
+                    if ( ! empty( $custom_fields['saswp_eventvenue_schema_country'] ) ) {
+                        $input1['address']['addressCountry']         =   $custom_fields['saswp_eventvenue_schema_country'];
                     }  
 
                 break;

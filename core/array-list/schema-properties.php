@@ -4676,6 +4676,11 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'id'    => 'saswp_event_schema_performer_name_'.$schema_id,
                                 'type'  => 'text',                                
                         ),
+                        array(
+                                'label' => esc_html__( 'Performer Type', 'schema-and-structured-data-for-wp' ),
+                                'id'    => 'saswp_event_schema_performer_type_'.$schema_id,
+                                'type'  => 'text',                                
+                        ),
                     );
                     break;
                 
@@ -7896,7 +7901,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'id'      => 'saswp_video_object_organization_logo_'.$schema_id,
                             'type'    => 'media',
                             'default' => isset($sd_data['sd_logo']['url']) ? $sd_data['sd_logo']['url'] : ''
-                    ),    
+                    ),
                    );
                     break;
                 
@@ -12625,6 +12630,42 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             array(
                                     'label' => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
                                     'id'    => 'saswp_place_schema_country_'.$schema_id,
+                                    'type'  => 'text',                                
+                            ),
+                        );
+                break;
+
+                case 'EventVenue':
+                    
+                    $meta_field = array(
+                            array(
+                                    'label' => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_name_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Street Address', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_streetaddress_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Locality', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_locality_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Region', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_region_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'PostalCode', 'schema-and-structured-data-for-wp' ),
+                                    'id' => 'saswp_eventvenue_schema_postalcode_'.$schema_id,
+                                    'type' => 'text',                                
+                            ),
+                            array(
+                                    'label' => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
+                                    'id'    => 'saswp_eventvenue_schema_country_'.$schema_id,
                                     'type'  => 'text',                                
                             ),
                         );

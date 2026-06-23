@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 1.60
+Stable tag: 1.61
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,13 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.61 (16 June 2026) =
+* Feature: Added EventVenue Schema #1804
+* Feature: Added BroadcastEvent to VideoObject Schema #2321
+* Fixed: Item List Schema Output Dropdown Too Narrow #2400
+* Enhancement: Added Performer Type in Event Schema #2443
+* Fixed: Yoast SEO Continuously Reindexes SASWP Reviews and Collections Post Types #2444
 
 = 1.60 (14 May 2026) =
 * Feature: Added Support for OfferCatalog Schema #2421
@@ -305,19 +312,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Live blog update gutenebrg block improvement #2283
 * Enhancement: Place new published live blog updates on top #2284
 * Enhancement: TimeZone display improvement to Live Blog Update on Frontend #2285
-
-
-= 1.43 (25 March 2025) =
-* Enhancement: Improvement in VacationRental schema properties #2109
-* Enhancement: Featured image of the latest article is automatically fetched in the NewsMediaOrganization schema #2214
-* Enhancement: Featured image of the latest article is automatically fetched in the NewsMediaOrganization schema #2214
-* Feature: DiscussionForumPosting Schema compatibility with BBPress Forum Within BuddyPress Group #2256
-* Fixed: Conflict with Yoast Seo helper #2262
-* Feature: Added a Gutenberg Block for LiveBlogPosting schema Update #2264
-* Fixed: LiveBlogPosting URL parameter placement issue #2265
-* Enhancement: Improvement in LiveBlogPosting schema properties #2266
-* Enhancement: Added time property LiveBlog Update in LiveBlogPosting schema #2269
-* Fixed: Location property issue in LiveBlogPosting #2270
-* Fixed: Improvement in global modification for author and editor for NewsArticle schema #2275
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

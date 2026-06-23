@@ -3,6 +3,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 return array( 'schema_type_element' => array( 
+			   'VideoObject' => array(
+                            'publication' => 'video_broadcast_event'
+                        ),
                         'ItemList' => array(
                                'itemlist_item'       => 'itemlist_item',                                                     
                         ),
@@ -1398,6 +1401,43 @@ return array( 'schema_type_element' => array(
 				'type'      => 'text',                        
 			),
 		),
+
+		'video_broadcast_event' => array(                    
+                        array(
+                            'label'      => esc_html__( 'Is Live Broadcast?', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_video_broadcast_is_live',
+                            'type'       => 'select',
+                            'options'    => array(
+                                '1' => esc_html__( 'Yes', 'schema-and-structured-data-for-wp' ),
+                                '0' => esc_html__( 'No', 'schema-and-structured-data-for-wp' )
+                            ),
+                            'default'    => '1'
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Broadcast Name', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_video_broadcast_name',
+                            'type'      => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'First scheduled broadcast', 'schema-and-structured-data-for-wp' )
+                            )                        
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Broadcast Start', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_video_broadcast_start_time',
+                            'type'      => 'text',
+                            'attributes' => array(
+                                'placeholder' => '2024-10-27T14:00:00+00:00'
+                            )                        
+                        ),    
+                        array(
+                            'label'      => esc_html__( 'Broadcast End', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_video_broadcast_end_time',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '2024-10-27T14:37:14+00:00'
+                            )                         
+                        )                                        
+                    ),
 		                    
         )    
 );

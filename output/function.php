@@ -3825,6 +3825,7 @@ function saswp_default_video_object_schema() {
                     $input1['embedUrl']   = saswp_validate_url($video_links[0]['video_url']);
                     
                 }
+            
             }
         }
     }
