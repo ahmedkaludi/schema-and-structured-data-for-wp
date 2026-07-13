@@ -3270,3 +3270,23 @@ span.saswp_inactive_Reviews { font-weight: 400; font-size: 14px; color: #000; }
     width: 69%;
     display: inline-block;
 }
+
+/* Hide all Tools sub-tabs by default once JS has set the state attribute */
+html[data-saswp-tools-tab] #saswp-advanced-sub-tab,
+html[data-saswp-tools-tab] #saswp-migration-sub-tab,
+html[data-saswp-tools-tab] #saswp-import-export-sub-tab,
+html[data-saswp-tools-tab] #saswp-misc-sub-tab,
+html[data-saswp-tools-tab] #saswp-translation-sub-tab,
+html[data-saswp-tools-tab] #saswp-license-sub-tab {
+    display: none !important;
+}
+
+/* Show only the one matching the active state */
+html[data-saswp-tools-tab="saswp-advanced-sub-tab"] #saswp-advanced-sub-tab,
+html[data-saswp-tools-tab="saswp-migration-sub-tab"] #saswp-migration-sub-tab,
+html[data-saswp-tools-tab="saswp-import-export-sub-tab"] #saswp-import-export-sub-tab,
+html[data-saswp-tools-tab="saswp-misc-sub-tab"] #saswp-misc-sub-tab,
+html[data-saswp-tools-tab="saswp-translation-sub-tab"] #saswp-translation-sub-tab,
+html[data-saswp-tools-tab="saswp-license-sub-tab"] #saswp-license-sub-tab {
+    display: block !important;
+}
