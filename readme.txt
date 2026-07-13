@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 1.61
+Stable tag: 1.62
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.62 (13 July 2026) =
+* Fixed: Missing thumbnailUrl in VideoObject Schema When Modified Per Post, Even After Setting a Thumbnail #2445
+* Fixed: Custom breadcrumb warning #2445
+* Enhancement: Sub tabs in under parent Advanced tab should keep it's state on realod of page #2451
 
 = 1.61 (16 June 2026) =
 * Feature: Added EventVenue Schema #1804
@@ -298,19 +303,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Added a contentLocation field in the NewsArticle schema #2291
 * Enhancement: Code improvement for image in the markup #2292
 * Enhancement: Fixed Incorrect upvoteCount/downvoteCount Output #2293
-
-= 1.44 (4 April 2025) =
-* Enhancement: Added Citation field in Blogposting schema #1946
-* Feature: Added Profilepage schema type #2065
-* Feature: Added CriticReview schema type #2100
-* Feature: Added Address Field for Product Seller Organizations #2203
-* Enhancement: Added Event fields in LiveBlogPosting gutenberg block #2277
-* Fixed: Live Blog Update date and time picker issue #2278
-* Enhancement: Added option for Embed of YouTube, X etc #2280
-* Enhancement: Live Blog Update image placement improvement for gutenberg block #2281
-* Enhancement: Live blog update UI improvement #2282
-* Enhancement: Live blog update gutenebrg block improvement #2283
-* Enhancement: Place new published live blog updates on top #2284
-* Enhancement: TimeZone display improvement to Live Blog Update on Frontend #2285
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
