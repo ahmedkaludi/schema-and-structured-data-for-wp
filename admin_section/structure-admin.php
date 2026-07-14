@@ -1464,8 +1464,11 @@ function saswp_custom_breadcrumbs() {
             $taxonomy_exists = taxonomy_exists($custom_taxonomy);
             
             if(empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
-                   
-                $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+                
+                $taxonomy_terms = [];
+                if ( ! empty( $post->ID ) ) {
+                  $taxonomy_terms = get_the_terms( $post->ID, $custom_taxonomy );
+                }  
 
                 if( isset($taxonomy_terms[0]) ){
                     

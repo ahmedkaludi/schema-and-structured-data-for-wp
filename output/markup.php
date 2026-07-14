@@ -8015,7 +8015,7 @@ function saswp_video_object_schema_markup($schema_id, $schema_post_id, $all_post
         }
 
         // If image is a custom URL then display url only
-        if ( ! isset( $input1['thumbnail'] ) ) {
+        if ( isset( $all_post_meta['saswp_video_object_thumbnail_url_'.$schema_id][0]) ) {
             $input1['thumbnailUrl']    =   saswp_remove_warnings($all_post_meta, 'saswp_video_object_thumbnail_url_'.$schema_id, 'saswp_array');      
         }
 

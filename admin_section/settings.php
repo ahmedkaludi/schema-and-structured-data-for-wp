@@ -461,13 +461,17 @@ function saswp_admin_interface_render() {
                         
                             echo '<div id="saswp-tools-tabs" style="margin-top: 10px;">';
 
-                            echo '<a class="saswp-tools-tab-nav saswp-global-selected" href="#" data-div-id="saswp-advanced-sub-tab">'. esc_html__( 'Advanced', 'schema-and-structured-data-for-wp' ) .'</a> | <a class="saswp-tools-tab-nav" href="#" data-div-id="saswp-migration-sub-tab">'. esc_html__( 'Migration', 'schema-and-structured-data-for-wp' ) .'</a> | <a class="saswp-tools-tab-nav" href="#" data-div-id="saswp-import-export-sub-tab">'. esc_html__( 'Import / Export', 'schema-and-structured-data-for-wp' ) .'</a> | <a class="saswp-tools-tab-nav" href="#" data-div-id="saswp-misc-sub-tab">'. esc_html__( 'Misc', 'schema-and-structured-data-for-wp' ) .'</a> | <a href="#" class="saswp-tools-tab-nav" data-div-id="saswp-translation-sub-tab">'. esc_html__( 'Translation Panel', 'schema-and-structured-data-for-wp' ) .'</a>';
+                            echo '<a class="saswp-tools-tab-nav saswp-global-selected" href="#saswp-advanced-sub-tab" data-div-id="saswp-advanced-sub-tab">'. esc_html__( 'Advanced', 'schema-and-structured-data-for-wp' ) .'</a> | '
+                               . '<a class="saswp-tools-tab-nav" href="#saswp-migration-sub-tab" data-div-id="saswp-migration-sub-tab">'. esc_html__( 'Migration', 'schema-and-structured-data-for-wp' ) .'</a> | '
+                               . '<a class="saswp-tools-tab-nav" href="#saswp-import-export-sub-tab" data-div-id="saswp-import-export-sub-tab">'. esc_html__( 'Import / Export', 'schema-and-structured-data-for-wp' ) .'</a> | '
+                               . '<a class="saswp-tools-tab-nav" href="#saswp-misc-sub-tab" data-div-id="saswp-misc-sub-tab">'. esc_html__( 'Misc', 'schema-and-structured-data-for-wp' ) .'</a> | '
+                               . '<a class="saswp-tools-tab-nav" href="#saswp-translation-sub-tab" data-div-id="saswp-translation-sub-tab">'. esc_html__( 'Translation Panel', 'schema-and-structured-data-for-wp' ) .'</a>';
 
-                            if(saswp_ext_installed_status() ) {
+                            if ( saswp_ext_installed_status() ) {
                                 echo ' | <a class="saswp-tools-tab-nav" href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ) . '" data-div-id="saswp-license-sub-tab">' . esc_html__( 'License', 'schema-and-structured-data-for-wp' ) . '</a>';
                             }
-                            
-                            echo'</div> ';
+
+                            echo '</div> ';
 			     // Status
                         
 			        do_settings_sections( 'saswp_tools_section' );	// Page slug
@@ -5242,3 +5246,25 @@ function saswp_dequeue_publishpress_scripts( $scripts ) {
         }
     }
 };
+
+function saswp_enqueue_tools_tab_state_script( $hook ) {
+
+    if ( $hook !== 'saswp_page_structured_data_options' ) {
+        return;
+    }
+
+    // Empty src registers a handle purely for attaching inline JS.
+    // $in_footer = false prints it in <head>, before <body> is parsed.
+    wp_register_script( 'saswp-tools-tab-state', '', array(), SASWP_VERSION, false );
+    wp_enqueue_script( 'saswp-tools-tab-state' );
+
+    $inline_js = "(function(){
+        var ids = ['saswp-advanced-sub-tab','saswp-migration-sub-tab','saswp-import-export-sub-tab','saswp-misc-sub-tab','saswp-translation-sub-tab','saswp-license-sub-tab'];
+        var hash = window.location.hash ? window.location.hash.substring(1) : '';
+        var target = ( ids.indexOf( hash ) !== -1 ) ? hash : 'saswp-advanced-sub-tab';
+        document.documentElement.setAttribute( 'data-saswp-tools-tab', target );
+    })();";
+
+    wp_add_inline_script( 'saswp-tools-tab-state', $inline_js );
+}
+add_action( 'admin_enqueue_scripts', 'saswp_enqueue_tools_tab_state_script' );
