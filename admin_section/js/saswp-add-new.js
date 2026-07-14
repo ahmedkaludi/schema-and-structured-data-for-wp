@@ -273,6 +273,11 @@ jQuery(document).ready(function($) {
              $(".saswp-review-text-field-tr").show(); 
              $(".saswp-option-table-class tr").find('select').attr('disabled', false);
              }  
+            if(schematype == 'CustomSchema'){
+                $(".saswp-custom-schema-tr").show();
+            }else{
+                $(".saswp-custom-schema-tr").hide();
+            }
             $(".saswp-schem-type-note").addClass('saswp_hide');
              
            saswp_enable_rating_review(); 

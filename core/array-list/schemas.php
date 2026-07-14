@@ -118,5 +118,8 @@ return array(
             'RentAction'                        => 'RentAction',                                                              
             'ProfilePage'                       => 'ProfilePage',
             'SportsTeam'                        => 'SportsTeam'                                                                                 
+        ),
+        'Custom' => array(
+            'CustomSchema'                      => 'Custom Schema',
         )
      );

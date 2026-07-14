@@ -392,6 +392,12 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>                      
                    </td>
                 </tr>   
+                 <tr class="saswp-custom-schema-tr" <?php echo ($schema_type == 'CustomSchema') ? '' : 'style="display:none;"'; ?>>
+                    <td><label for="saswp_custom_schema_field"><?php echo esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ); ?></label></td>
+                    <td>
+                        <textarea style="margin-left:5px;" placeholder="<?php echo esc_attr("{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"Organization Name\",\n  \"url\": \"https://www.example.com\",\n  \"logo\": \"https://www.example.com/logo.png\"\n}"); ?>" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="10" cols="85"><?php echo esc_textarea(get_post_meta($post_id, 'saswp_custom_schema_field', true)); ?></textarea>
+                    </td>
+                </tr>
             <?php if($style_business_type){ 
                 ?>
                 <tr class="saswp-business-type-tr" style="display:none;">
@@ -1168,7 +1174,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                 
             </div>
             
-            <div class="saswp-schema-modify-section">
+            <div class="saswp-schema-modify-section" <?php echo ($schema_type == 'CustomSchema') ? 'style="display:none;"' : ''; ?>>
                 
                 <!-- custom fields for schema output starts here -->
                               
@@ -1605,6 +1611,14 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
             update_post_meta( $post_id, 'schema_type', sanitize_text_field( wp_unslash( $_POST['schema_type'] ) ) );
         }else{
             delete_post_meta( $post_id, 'schema_type');
+        } 
+
+        if ( isset( $_POST['saswp_custom_schema_field']) ) {
+            $allowed_html = saswp_expanded_allowed_tags();
+            $custom_schema = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+            update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
+        } else {
+            delete_post_meta( $post_id, 'saswp_custom_schema_field');
         } 
 
         if ( isset( $_POST['saswp_loc_display_on_front']) ) {
