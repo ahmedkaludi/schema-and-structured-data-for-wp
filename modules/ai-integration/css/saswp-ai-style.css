@@ -1,0 +1,202 @@
+/**
+ * Styling for AI Schema Integration
+ */
+
+/* Premium Gradient button with subtle glow and transitions */
+.saswp-ai-btn {
+    background: linear-gradient(135deg, #8a2387 0%, #e94057 50%, #f27121 100%) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    padding: 2px 14px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 5px rgba(233, 64, 87, 0.3) !important;
+    text-shadow: none !important;
+    height: auto !important;
+    line-height: 28px !important;
+}
+
+.saswp-ai-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7c1a79 0%, #d83248 50%, #e06213 100%) !important;
+    box-shadow: 0 4px 10px rgba(233, 64, 87, 0.5) !important;
+    transform: translateY(-1px);
+}
+
+.saswp-ai-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(233, 64, 87, 0.2) !important;
+}
+
+.saswp-ai-btn:disabled {
+    background: #dcdcdd !important;
+    color: #a6a6a7 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}
+
+.saswp-ai-subtabs-nav a {
+    transition: all 0.2s ease-in-out;
+}
+
+.saswp-ai-subtabs-nav a:hover {
+    color: #0073aa !important;
+}
+
+/* AI Settings layout - Label left, Field right */
+.saswp-ai_settings .saswp-knowledge-label {
+    float: left;
+    clear: both;
+    width: 230px;
+}
+
+.saswp-ai_settings .saswp-settings-list ul li {
+    display: inline-block;
+    width: 100%;
+}
+
+/* Natively collapse empty WordPress table headers in this tab */
+.saswp-ai_settings table th {
+    width: auto;
+    padding: 0px;
+}
+
+.saswp-ai_settings table td {
+    padding: 5px;
+}
+
+.saswp-ai_settings table {
+    margin-top: 0px;
+}
+
+/* Editor AI Box Container & Controls */
+.saswp-ai-editor-box {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 15px !important;
+    flex-wrap: wrap !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 12px 16px !important;
+    margin: 12px 0 16px 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.saswp-ai-field-group {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+.saswp-ai-label {
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    color: #334155 !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    float: none !important;
+    line-height: 34px !important;
+}
+
+.saswp-ai-select {
+    height: 34px !important;
+    line-height: 24px !important;
+    padding: 4px 30px 4px 12px !important;
+    border-radius: 4px !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #1e293b !important;
+    min-width: 230px !important;
+    max-width: 100% !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+}
+
+.saswp-ai-select:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+    outline: none !important;
+}
+
+.saswp-ai-btn {
+    height: 34px !important;
+    line-height: 34px !important;
+    padding: 0 16px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
+}
+
+.saswp-ai-feedback {
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Fetch Models Button in AI Settings */
+.saswp-fetch-models-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    height: 30px !important;
+    line-height: 28px !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    margin-left: 8px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.saswp-fetch-models-btn .dashicons {
+    font-size: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    line-height: 15px !important;
+    display: inline-block !important;
+    margin: 0 !important;
+}
+
+.saswp-fetch-models-btn:hover:not(:disabled) {
+    background-color: #f0f0f1 !important;
+    border-color: #2271b1 !important;
+    color: #2271b1 !important;
+}
+
+.saswp-fetch-models-btn:disabled {
+    opacity: 0.7 !important;
+    cursor: not-allowed !important;
+}
+
+.saswp-fetch-status {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin-left: 10px !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 30px !important;
+}
+
+

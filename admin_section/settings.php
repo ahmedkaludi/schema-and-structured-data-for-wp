@@ -98,7 +98,7 @@ function saswp_admin_interface_render() {
 		settings_errors();               
 	}
         
-        $tab = saswp_get_tab('general', apply_filters( 'saswp_extra_settings_tab', array('general', 'amp','review','compatibility','email_schema', 'tools','premium_features', 'services', 'support') ));            
+        $tab = saswp_get_tab('general', apply_filters( 'saswp_extra_settings_tab', array('general', 'amp','review','compatibility','email_schema', 'tools','premium_features', 'services', 'support', 'ai_settings') ));            
 	
 	?>
 <div class="saswp-settings-container">
@@ -398,7 +398,8 @@ function saswp_admin_interface_render() {
                                         '<a href="' . esc_url(saswp_admin_link('tools')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Advanced', 'schema-and-structured-data-for-wp' ) . '</a>',                                       
                                         '<a href="' . esc_url( admin_url( 'admin.php?page=structured_data_options&tab=premium_features' ) ).'" data-extmgr="'. ( class_exists('SASWPPROExtensionManager')? "yes": "no" ).'" class="nav-tab ' . esc_attr( $tab == 'premium_features' ? 'nav-tab-active' : '') . '"><span class=""></span> '.$license_alert.'' . esc_html__( 'Premium Features', 'schema-and-structured-data-for-wp' ) . '</a>',
                                         '<a href="' . esc_url(saswp_admin_link('services')) . '" class="nav-tab ' . esc_attr( $tab == 'services' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Services', 'schema-and-structured-data-for-wp' ) . '</a>',
-                                        '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Support', 'schema-and-structured-data-for-wp' ) . '</a>'                                        
+                                        '<a href="' . esc_url(saswp_admin_link('support')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'Support', 'schema-and-structured-data-for-wp' ) . '</a>',                                        
+                                        '<a href="' . esc_url(saswp_admin_link('ai_settings')) . '" class="nav-tab ' . esc_attr( $tab == 'ai_settings' ? 'nav-tab-active' : '') . '"><span class=""></span> ' . esc_html__( 'AI Settings', 'schema-and-structured-data-for-wp' ) . '</a>'                                        
                                 ), $tab);
                                 
                                 foreach( $tab_links as $link_escaped){
@@ -490,6 +491,15 @@ function saswp_admin_interface_render() {
                         echo "<div class='saswp-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";
 			     // Status                        
 			        do_settings_sections( 'saswp_support_section' );	// Page slug
+			echo "</div>";
+
+                        echo "<div class='saswp-ai_settings' ".( $tab != 'ai_settings' ? 'style="display:none;"' : '').">";
+                            echo '<div id="saswp-ai-tabs" style="margin-top: 10px; margin-bottom: 15px; padding-left: 5px;">';
+                                echo '<a class="saswp-ai-tab-nav saswp-global-selected" href="#saswp-ai-providers-tab" data-div-id="saswp-ai-providers-tab" style="text-decoration: none;">' . esc_html__('AI Providers', 'schema-and-structured-data-for-wp') . '</a> | ';
+                                echo '<a class="saswp-ai-tab-nav" href="#saswp-ai-autogen-tab" data-div-id="saswp-ai-autogen-tab" style="text-decoration: none;">' . esc_html__('Automatic Generation', 'schema-and-structured-data-for-wp') . '</a>';
+                            echo '</div> ';
+			     // Status                        
+			        do_settings_sections( 'saswp_ai_settings_section' );	// Page slug
 			echo "</div>";
 
                         apply_filters('saswp_extra_settings_tab_div', $tab);
@@ -620,6 +630,16 @@ function saswp_settings_init() {
                             'saswp_services_callback',					// Callback
                             'saswp_services_section',							// Page slug
                             'saswp_services_section'							// Settings Section ID
+                    );
+                    
+                    add_settings_section('saswp_ai_settings_section', __return_false(), '__return_false', 'saswp_ai_settings_section');
+                
+                    add_settings_field(
+                            'saswp_ai_settings',								// ID
+                            '',			// Title
+                            'saswp_ai_settings_callback',					// Callback
+                            'saswp_ai_settings_section',							// Page slug
+                            'saswp_ai_settings_section'							// Settings Section ID
                     );
 }
 

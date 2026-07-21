@@ -27,8 +27,8 @@ define( 'SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SASWP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'SASWP_EDD_STORE_URL', 'http://structured-data-for-wp.com/' );
 
-// define( 'SASWP_ENVIRONMENT', 'development' );
-define( 'SASWP_ENVIRONMENT', 'production' );
+define( 'SASWP_ENVIRONMENT', 'development' );
+// define( 'SASWP_ENVIRONMENT', 'production' );
 // including the output file
 require_once SASWP_DIR_NAME .'/output/function.php';
 require_once SASWP_DIR_NAME .'/output/output.php';
@@ -115,6 +115,10 @@ require_once SASWP_DIR_NAME.'/core/global.php';
 //Module files load
 require_once SASWP_DIR_NAME.'/modules/gutenberg/includes/class-saswp-gutenberg.php';
 require_once SASWP_DIR_NAME.'/modules/elementor/class-saswp-elementor-loader.php';
+
+//Loading AI Integration module
+require_once SASWP_DIR_NAME.'/modules/ai-integration/ai-integration-setup.php';
+
 
 //Loading Third party files
 require_once SASWP_DIR_NAME.'/core/3rd-party/class-saswp-aq-resize.php';
