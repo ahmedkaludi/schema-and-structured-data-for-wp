@@ -21,8 +21,11 @@ add_action('wp_ajax_saswp_fetch_ai_models', 'saswp_ajax_fetch_ai_models');
 // Settings framework registration
 add_filter('saswp_default_settings_vals', 'saswp_ai_default_settings');
 
-// Hook background auto-generation on publish
-add_action('transition_post_status', 'saswp_ai_auto_generate_on_publish', 10, 3);
+// Hook background auto-generation on publish (just schedules, doesn't block save)
+add_action('transition_post_status', 'saswp_ai_schedule_auto_generate', 10, 3);
+
+// The actual cron worker that runs AI generation asynchronously
+add_action('saswp_ai_run_auto_generate', 'saswp_ai_run_auto_generate_cron', 10, 1);
 
 /**
  * Enqueue CSS/JS on post-edit and settings screens
@@ -76,7 +79,13 @@ function saswp_ai_settings_callback() {
     $field_objs = new SASWP_Fields_Generator();
 
     // Auto Gen settings
-    $post_types     = isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types']) ? $sd_data['saswp_ai_post_types'] : array('post');
+    if (isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types'])) {
+        $post_types = $sd_data['saswp_ai_post_types'];
+    } elseif (isset($sd_data['saswp_ai_enable']) || isset($sd_data['saswp_ai_provider'])) {
+        $post_types = array();
+    } else {
+        $post_types = array('post');
+    }
     $all_post_types = get_post_types(array('public' => true), 'objects');
 
     // Build model option lists ensuring saved values persist
@@ -113,6 +122,12 @@ function saswp_ai_settings_callback() {
     if (!array_key_exists($saved_openai_model, $openai_options)) {
         $openai_options[$saved_openai_model] = $saved_openai_model;
     }
+
+    $selected_provider = isset($sd_data['saswp_ai_provider']) ? $sd_data['saswp_ai_provider'] : 'gemini';
+    $unselected        = ($selected_provider === 'gemini') ? 'openai' : 'gemini';
+
+    // Output initial CSS to hide unselected provider row before DOM paint
+    echo "<style>.saswp-ai_settings li:has(.saswp-ai-row." . esc_attr($unselected) . ") { display: none; }</style>";
 
     // Output our settings wrapper div, showing/hiding it exactly like native tabs
     echo "<div class='saswp-ai-settings-tab-wrapper' style='width: 100%;'>";
@@ -202,7 +217,7 @@ function saswp_ai_settings_callback() {
             $field_objs->saswp_field_generator($autogen_fields, $sd_data);
 
             // Output Target Post Types selector vertically stacked inside standard li
-            $post_types_markup = '';
+            $post_types_markup = '<input type="hidden" name="sd_data[saswp_ai_post_types]" value="" />';
             foreach ($all_post_types as $pt_key => $pt_obj) {
                 if (in_array($pt_key, array('revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block', 'saswp', 'saswp_template', 'saswp-collections', 'saswp_rvs_location', 'saswp_reviews'))) {
                     continue;
@@ -297,21 +312,30 @@ function saswp_ai_settings_callback() {
                 $('#' + divId).removeClass('saswp_hide');
             });
 
-            // Synchronize visible checkboxes to their corresponding hidden input values
-            $(document).on('change', '#saswp-ai-enable-checkbox, #saswp-ai-auto-gen-checkbox, #saswp-ai-overwrite-checkbox', function() {
-                var val = $(this).is(':checked') ? 1 : 0;
-                var id = $(this).attr('id');
-                var hiddenId = '';
-                if (id === 'saswp-ai-enable-checkbox') {
-                    hiddenId = 'saswp_ai_enable';
-                } else if (id === 'saswp-ai-auto-gen-checkbox') {
-                    hiddenId = 'saswp_ai_auto_gen';
-                } else if (id === 'saswp-ai-overwrite-checkbox') {
-                    hiddenId = 'saswp_ai_overwrite';
-                }
+            // Map checkbox IDs to their hidden input IDs
+            var checkboxMap = {
+                'saswp-ai-enable-checkbox':   'saswp_ai_enable',
+                'saswp-ai-auto-gen-checkbox': 'saswp_ai_auto_gen',
+                'saswp-ai-overwrite-checkbox':'saswp_ai_overwrite'
+            };
+
+            // Sync a single checkbox to its hidden input
+            function syncCheckbox(checkbox) {
+                var id = $(checkbox).attr('id');
+                var hiddenId = checkboxMap[id];
                 if (hiddenId) {
-                    $('#' + hiddenId).val(val);
+                    $('#' + hiddenId).val($(checkbox).is(':checked') ? 1 : 0);
                 }
+            }
+
+            // Initialize hidden inputs from current checkbox state on page load
+            $.each(checkboxMap, function(checkId) {
+                syncCheckbox($('#' + checkId));
+            });
+
+            // Keep syncing on every change
+            $(document).on('change', '#saswp-ai-enable-checkbox, #saswp-ai-auto-gen-checkbox, #saswp-ai-overwrite-checkbox', function() {
+                syncCheckbox(this);
             });
 
             // Dynamically append "Fetch Models" buttons next to Gemini and OpenAI model dropdowns
@@ -442,45 +466,92 @@ function saswp_ajax_generate_ai_schema() {
 }
 
 /**
- * Automate schema generation when a post is published
+ * Schedule async schema generation when a post is published.
+ * Runs fast — only validates conditions and queues a cron job.
  */
-function saswp_ai_auto_generate_on_publish($new_status, $old_status, $post) {
+function saswp_ai_schedule_auto_generate($new_status, $old_status, $post) {
+    // Only on first-time publish transitions
     if ($new_status !== 'publish' || $old_status === 'publish') {
         return;
     }
-
-    $sd_data = get_option('sd_data', array());
-    $enable     = isset($sd_data['saswp_ai_enable']) ? $sd_data['saswp_ai_enable'] : 0;
-    $auto_gen   = isset($sd_data['saswp_ai_auto_gen']) ? $sd_data['saswp_ai_auto_gen'] : 0;
-    $post_types = isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types']) ? $sd_data['saswp_ai_post_types'] : array('post');
-    $overwrite  = isset($sd_data['saswp_ai_overwrite']) ? $sd_data['saswp_ai_overwrite'] : 0;
-
-    if (!$enable || !$auto_gen || !in_array($post->post_type, $post_types)) {
+    if (wp_is_post_autosave($post->ID) || wp_is_post_revision($post->ID)) {
         return;
     }
 
-    // Check if custom schema already exists
-    $existing = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
-    if (!empty($existing) && !$overwrite) {
+    $sd_data  = get_option('sd_data', array());
+    $enable   = intval(isset($sd_data['saswp_ai_enable'])   ? $sd_data['saswp_ai_enable']   : 0);
+    $auto_gen = intval(isset($sd_data['saswp_ai_auto_gen']) ? $sd_data['saswp_ai_auto_gen'] : 0);
+
+    // Resolve target post types
+    if (isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types'])) {
+        $post_types = $sd_data['saswp_ai_post_types'];
+    } else {
+        $post_types = array('post');
+    }
+
+    if ($enable !== 1 || $auto_gen !== 1 || !in_array($post->post_type, $post_types)) {
         return;
     }
 
-    // Read schema mapping for this post type
-    $schema_mapping = isset($sd_data['saswp_ai_schema_mapping']) ? $sd_data['saswp_ai_schema_mapping'] : array();
-    $target_type = isset($schema_mapping[$post->post_type]) ? $schema_mapping[$post->post_type] : 'auto';
+    $overwrite = intval(isset($sd_data['saswp_ai_overwrite']) ? $sd_data['saswp_ai_overwrite'] : 0);
+    $existing  = get_post_meta($post->ID, 'saswp_custom_schema_field', true);
+    if (!empty($existing) && $overwrite !== 1) {
+        return;
+    }
 
-    // Generate automatically
-    $result = SASWP_AI_Service::generate_schema($post->post_title, $post->post_content, $target_type, $post->ID);
+    // Schedule an async cron event to do the actual AI call (runs in next WP-Cron cycle)
+    if (!wp_next_scheduled('saswp_ai_run_auto_generate', array($post->ID))) {
+        wp_schedule_single_event(time(), 'saswp_ai_run_auto_generate', array($post->ID));
 
-    if ($result['success'] && !empty($result['schema'])) {
-        update_post_meta($post->ID, 'saswp_custom_schema_field', $result['schema']);
-        
-        // Also enable the custom schema switch on this post so it shows in source
+        // PRE-SET the toggle to "enabled" (custom = 0) RIGHT NOW, synchronously.
+        // This ensures the custom schema section is visible when the user opens
+        // the post editor after publish — even before the cron AI call completes.
         $schema_enable = get_post_meta($post->ID, 'saswp_enable_disable_schema', true);
         if (!is_array($schema_enable)) {
             $schema_enable = array();
         }
-        $schema_enable['custom'] = 0; // 0 means enabled in plugin's logic
+        // $schema_enable['custom'] = 0; // 0 = enabled / schema visible
         update_post_meta($post->ID, 'saswp_enable_disable_schema', $schema_enable);
+
+        // Immediately spawn a non-blocking cron request so the event fires right away
+        spawn_cron();
+    }
+}
+
+/**
+ * Actual AI schema generation — runs inside a WP-Cron event, safely asynchronous.
+ */
+function saswp_ai_run_auto_generate_cron($post_id) {
+    $post = get_post($post_id);
+    if (!$post || $post->post_status !== 'publish') {
+        return;
+    }
+
+    $sd_data   = get_option('sd_data', array());
+    $overwrite = intval(isset($sd_data['saswp_ai_overwrite']) ? $sd_data['saswp_ai_overwrite'] : 0);
+
+    // Re-check overwrite guard in cron context
+    $existing = get_post_meta($post_id, 'saswp_custom_schema_field', true);
+    if (!empty($existing) && $overwrite !== 1) {
+        return;
+    }
+
+    // Determine schema type from mapping
+    $schema_mapping = isset($sd_data['saswp_ai_schema_mapping']) ? $sd_data['saswp_ai_schema_mapping'] : array();
+    $target_type    = isset($schema_mapping[$post->post_type]) ? $schema_mapping[$post->post_type] : 'auto';
+
+    // Generate schema via AI (this is the slow external HTTP call)
+    $result = SASWP_AI_Service::generate_schema($post->post_title, $post->post_content, $target_type, $post_id);
+
+    if ($result['success'] && !empty($result['schema'])) {
+        update_post_meta($post_id, 'saswp_custom_schema_field', $result['schema']);
+
+        // Ensure custom schema is ENABLED (custom = 0 means enabled in plugin logic)
+        $schema_enable = get_post_meta($post_id, 'saswp_enable_disable_schema', true);
+        if (!is_array($schema_enable)) {
+            $schema_enable = array();
+        }
+        $schema_enable['custom'] = 0; // 0 = enabled/visible
+        update_post_meta($post_id, 'saswp_enable_disable_schema', $schema_enable);
     }
 }
