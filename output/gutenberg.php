@@ -408,8 +408,10 @@ function saswp_get_gutenberg_block_data($block){
             if($blocks){
 
                 foreach ( $blocks as $parse_blocks){
+                    if ( is_array( $parse_blocks ) && ! empty( $parse_blocks['blockName'] ) ) {
                         $block_list[] = $parse_blocks['blockName'];
                         $block_data[$parse_blocks['blockName']] = $parse_blocks;
+                    }
                 }
 
             }        
