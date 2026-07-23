@@ -4,37 +4,18 @@
 
 /* Premium Gradient button with subtle glow and transitions */
 .saswp-ai-btn {
-    background: linear-gradient(135deg, #8a2387 0%, #e94057 50%, #f27121 100%) !important;
-    border: none !important;
     border-radius: 4px !important;
-    color: #ffffff !important;
-    font-weight: bold !important;
+    font-weight: 600 !important;
     padding: 2px 14px !important;
     font-size: 13px !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 2px 5px rgba(233, 64, 87, 0.3) !important;
-    text-shadow: none !important;
     height: auto !important;
     line-height: 28px !important;
 }
 
-.saswp-ai-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #7c1a79 0%, #d83248 50%, #e06213 100%) !important;
-    box-shadow: 0 4px 10px rgba(233, 64, 87, 0.5) !important;
-    transform: translateY(-1px);
-}
-
-.saswp-ai-btn:active:not(:disabled) {
-    transform: translateY(1px);
-    box-shadow: 0 1px 3px rgba(233, 64, 87, 0.2) !important;
-}
-
 .saswp-ai-btn:disabled {
-    background: #dcdcdd !important;
-    color: #a6a6a7 !important;
     cursor: not-allowed !important;
-    box-shadow: none !important;
 }
 
 .saswp-ai-subtabs-nav a {

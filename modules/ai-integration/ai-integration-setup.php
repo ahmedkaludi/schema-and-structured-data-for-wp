@@ -32,8 +32,14 @@ add_action('saswp_ai_run_auto_generate', 'saswp_ai_run_auto_generate_cron', 10, 
  */
 function saswp_ai_enqueue_assets($hook) {
     // Load CSS on settings pages to apply standard layout alignments
+
+    $min = '';
+    if ( SASWP_ENVIRONMENT == 'production' ) {
+        $min    =   '.min';
+    }
+
     if ( strpos($hook, 'structured_data_options') !== false ) {
-        wp_enqueue_style( 'saswp-ai-style', plugin_dir_url(__FILE__) . 'css/saswp-ai-style.css', array(), '1.0' );
+        wp_enqueue_style( 'saswp-ai-style', plugin_dir_url(__FILE__) . "css/saswp-ai-style{$min}.css", array(), SASWP_VERSION );
     }
 
     // Load full assets on post edit screens
@@ -43,8 +49,8 @@ function saswp_ai_enqueue_assets($hook) {
         if ( ! $enable ) {
             return;
         }
-        wp_enqueue_style( 'saswp-ai-style', plugin_dir_url(__FILE__) . 'css/saswp-ai-style.css', array(), '1.0' );
-        wp_enqueue_script( 'saswp-ai-editor', plugin_dir_url(__FILE__) . 'js/saswp-ai-editor.js', array('jquery'), '1.0', true );
+        wp_enqueue_style( 'saswp-ai-style', plugin_dir_url(__FILE__) . "css/saswp-ai-style{$min}.css", array(), SASWP_VERSION );
+        wp_enqueue_script( 'saswp-ai-editor', plugin_dir_url(__FILE__) . "js/saswp-ai-editor{$min}.js", array('jquery'), SASWP_VERSION, true );
         wp_localize_script( 'saswp-ai-editor', 'saswp_ai_params', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('saswp_ajax_check_nonce'),
@@ -231,6 +237,13 @@ function saswp_ai_settings_callback() {
                     '</div>';
             }
 
+            // Retrieve all schema types dynamically
+            $schemas_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
+            $all_schemas = array();
+            if ( file_exists( $schemas_file ) ) {
+                $all_schemas = include $schemas_file;
+            }
+
             // Output default schema mapping dropdowns stacked one below the other
             $schema_mapping = isset($sd_data['saswp_ai_schema_mapping']) ? $sd_data['saswp_ai_schema_mapping'] : array();
             $mapping_markup = '';
@@ -239,17 +252,32 @@ function saswp_ai_settings_callback() {
                     continue;
                 }
                 $selected_schema = isset($schema_mapping[$pt_key]) ? $schema_mapping[$pt_key] : 'auto';
+                
+                $options_html = '<option value="auto" ' . selected($selected_schema, 'auto', false) . '>✨ Auto-Detect</option>';
+                
+                if ( ! empty( $all_schemas ) && is_array( $all_schemas ) ) {
+                    foreach ( $all_schemas as $category => $items ) {
+                        if ( is_array( $items ) ) {
+                            $options_html .= '<optgroup label="' . esc_attr( $category ) . '">';
+                            foreach ( $items as $key => $label ) {
+                                if ( $key === 'CustomSchema' ) {
+                                    continue;
+                                }
+                                $value = $key;
+                                if ($key === 'FAQ') {
+                                    $value = 'FAQPage';
+                                }
+                                $options_html .= '<option value="' . esc_attr( $value ) . '" ' . selected($selected_schema, $value, false) . '>' . esc_html( $label ) . '</option>';
+                            }
+                            $options_html .= '</optgroup>';
+                        }
+                    }
+                }
+
                 $mapping_markup .= '<div style="margin-bottom: 8px;">' .
                     '<span style="display:inline-block; min-width: 120px; font-weight: 500;">' . esc_html($pt_obj->label) . ' &rarr; </span>' .
                     '<select name="sd_data[saswp_ai_schema_mapping][' . esc_attr($pt_key) . ']">' .
-                        '<option value="auto" ' . selected($selected_schema, 'auto', false) . '>✨ Auto-Detect</option>' .
-                        '<option value="Article" ' . selected($selected_schema, 'Article', false) . '>Article</option>' .
-                        '<option value="BlogPosting" ' . selected($selected_schema, 'BlogPosting', false) . '>BlogPosting</option>' .
-                        '<option value="FAQPage" ' . selected($selected_schema, 'FAQPage', false) . '>FAQPage</option>' .
-                        '<option value="HowTo" ' . selected($selected_schema, 'HowTo', false) . '>HowTo</option>' .
-                        '<option value="Product" ' . selected($selected_schema, 'Product', false) . '>Product</option>' .
-                        '<option value="Event" ' . selected($selected_schema, 'Event', false) . '>Event</option>' .
-                        '<option value="Recipe" ' . selected($selected_schema, 'Recipe', false) . '>Recipe</option>' .
+                        $options_html .
                     '</select>' .
                     '</div>';
             }

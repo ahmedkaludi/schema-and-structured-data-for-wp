@@ -61,7 +61,7 @@ class SASWP_Gemini_Provider implements SASWP_AI_Provider_Interface {
             return array('success' => false, 'error' => esc_html__('Gemini API Key is required.', 'schema-and-structured-data-for-wp'));
         }
         $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . rawurlencode($api_key);
-        $response = wp_remote_get($url, array('timeout' => 15));
+        $response = wp_remote_get($url, array('timeout' => 15, 'sslverify' => false));
 
         if (is_wp_error($response)) {
             return array('success' => false, 'error' => $response->get_error_message());
@@ -146,7 +146,8 @@ class SASWP_OpenAI_Provider implements SASWP_AI_Provider_Interface {
             'headers' => array(
                 'Authorization' => 'Bearer ' . $api_key
             ),
-            'timeout' => 15
+            'timeout' => 15,
+            'sslverify' => false
         ));
 
         if (is_wp_error($response)) {
@@ -312,10 +313,11 @@ class SASWP_AI_Service {
         $headers = $provider->get_headers($api_key);
         $body = $provider->get_body($prompt, $model);
 
-        $response = wp_safe_remote_post($url, array(
+        $response = wp_remote_post($url, array(
             'headers'     => $headers,
             'body'        => $body,
             'timeout'     => 30,
+            'sslverify'   => false,
             'data_format' => 'body'
         ));
 
