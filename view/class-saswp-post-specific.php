@@ -557,7 +557,9 @@ class SASWP_Post_Specific {
                         $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified, $is_post_specific ); 
                      }                    
                      
-                     
+                     if($schema_type == 'CustomSchema'){
+                         continue;
+                     }
                      if($schema_type == 'ItemList'){
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
                      }

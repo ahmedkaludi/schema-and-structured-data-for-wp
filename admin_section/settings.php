@@ -494,10 +494,6 @@ function saswp_admin_interface_render() {
 			echo "</div>";
 
                         echo "<div class='saswp-ai_settings' ".( $tab != 'ai_settings' ? 'style="display:none;"' : '').">";
-                            echo '<div id="saswp-ai-tabs" style="margin-top: 10px; margin-bottom: 15px; padding-left: 5px;">';
-                                echo '<a class="saswp-ai-tab-nav saswp-global-selected" href="#saswp-ai-providers-tab" data-div-id="saswp-ai-providers-tab" style="text-decoration: none;">' . esc_html__('AI Providers', 'schema-and-structured-data-for-wp') . '</a> | ';
-                                echo '<a class="saswp-ai-tab-nav" href="#saswp-ai-autogen-tab" data-div-id="saswp-ai-autogen-tab" style="text-decoration: none;">' . esc_html__('Automatic Generation', 'schema-and-structured-data-for-wp') . '</a>';
-                            echo '</div> ';
 			     // Status                        
 			        do_settings_sections( 'saswp_ai_settings_section' );	// Page slug
 			echo "</div>";

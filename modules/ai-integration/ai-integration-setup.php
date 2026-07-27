@@ -71,8 +71,7 @@ function saswp_ai_default_settings($defaults) {
     $defaults['saswp_ai_openai_key']     = array('type' => 'text', 'value' => '');
     $defaults['saswp_ai_openai_model']   = array('type' => 'select', 'value' => 'gpt-4o-mini');
     $defaults['saswp_ai_auto_gen']       = array('type' => 'checkbox', 'value' => 0);
-    $defaults['saswp_ai_post_types']     = array('type' => 'checkbox', 'value' => array('post'));
-    $defaults['saswp_ai_schema_mapping'] = array('type' => 'array', 'value' => array('post' => 'auto', 'page' => 'auto'));
+    $defaults['saswp_ai_post_types']     = array('type' => 'checkbox', 'value' => array());
     $defaults['saswp_ai_overwrite']      = array('type' => 'checkbox', 'value' => 0);
     return $defaults;
 }
@@ -83,16 +82,6 @@ function saswp_ai_default_settings($defaults) {
 function saswp_ai_settings_callback() {
     $sd_data = get_option('sd_data', array());
     $field_objs = new SASWP_Fields_Generator();
-
-    // Auto Gen settings
-    if (isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types'])) {
-        $post_types = $sd_data['saswp_ai_post_types'];
-    } elseif (isset($sd_data['saswp_ai_enable']) || isset($sd_data['saswp_ai_provider'])) {
-        $post_types = array();
-    } else {
-        $post_types = array('post');
-    }
-    $all_post_types = get_post_types(array('public' => true), 'objects');
 
     // Build model option lists ensuring saved values persist
     $saved_gemini_model = isset($sd_data['saswp_ai_gemini_model']) ? $sd_data['saswp_ai_gemini_model'] : 'gemini-1.5-flash';
@@ -145,7 +134,7 @@ function saswp_ai_settings_callback() {
             <?php
             $provider_fields = array(
                 array(
-                    'label'  => esc_html__('Enable AI Schema Generation', 'schema-and-structured-data-for-wp'),
+                    'label'  => esc_html__('AI Schema Generation', 'schema-and-structured-data-for-wp'),
                     'id'     => 'saswp-ai-enable-checkbox',                        
                     'name'   => 'saswp-ai-enable-checkbox',
                     'type'   => 'checkbox',
@@ -155,6 +144,35 @@ function saswp_ai_settings_callback() {
                          'id'   => 'saswp_ai_enable',
                          'name' => 'sd_data[saswp_ai_enable]',                             
                     )
+                ),
+                array(
+                    'label'  => esc_html__('Auto-Generate on Publish', 'schema-and-structured-data-for-wp'),
+                    'id'     => 'saswp-ai-auto-gen-checkbox',                        
+                    'name'   => 'saswp-ai-auto-gen-checkbox',
+                    'type'   => 'checkbox',
+                    'class'  => 'checkbox saswp-checkbox',
+                    'note'   => esc_html__('Automatically generate and save schema via AI behind-the-scenes on first post publish.', 'schema-and-structured-data-for-wp'),
+                    'hidden' => array(
+                         'id'   => 'saswp_ai_auto_gen',
+                         'name' => 'sd_data[saswp_ai_auto_gen]',                             
+                    )
+                ),
+                array(
+                    'label'  => esc_html__('Overwrite Manual Schema', 'schema-and-structured-data-for-wp'),
+                    'id'     => 'saswp-ai-overwrite-checkbox',                        
+                    'name'   => 'saswp-ai-overwrite-checkbox',
+                    'type'   => 'checkbox',
+                    'class'  => 'checkbox saswp-checkbox',
+                    'note'   => esc_html__('If checked, background automation is allowed to overwrite manual schema entries.', 'schema-and-structured-data-for-wp'),
+                    'hidden' => array(
+                         'id'   => 'saswp_ai_overwrite',
+                         'name' => 'sd_data[saswp_ai_overwrite]',                             
+                    )
+                ),
+                array(
+                    'label'  => esc_html__('Target Post Types', 'schema-and-structured-data-for-wp'),
+                    'id'     => 'saswp-ai-target-post-types',                        
+                    'type'   => 'saswp_ai_target_post_types',
                 ),
                 array(
                     'label'   => esc_html__('Active AI Provider', 'schema-and-structured-data-for-wp'),
@@ -196,123 +214,9 @@ function saswp_ai_settings_callback() {
                     'class'   => 'regular-text saswp-ai-row openai',
                     'type'    => 'select',
                     'options' => $openai_options
-                )
+                ),
             );
             $field_objs->saswp_field_generator($provider_fields, $sd_data);
-            ?>
-        </div>
-
-        <!-- Sub-Tab 2: Automatic Generation -->
-        <div id="saswp-ai-autogen-tab" class="saswp-ai-tab-content saswp_hide">
-            <h2 class="saswp-advanced-heading"><?php echo esc_html__( 'Automatic Schema Generation', 'schema-and-structured-data-for-wp' ); ?></h2> 
-            <?php
-            $autogen_fields = array(
-                array(
-                    'label'  => esc_html__('Auto-Generate on Publish', 'schema-and-structured-data-for-wp'),
-                    'id'     => 'saswp-ai-auto-gen-checkbox',                        
-                    'name'   => 'saswp-ai-auto-gen-checkbox',
-                    'type'   => 'checkbox',
-                    'class'  => 'checkbox saswp-checkbox',
-                    'note'   => esc_html__('Automatically generate and save schema via AI behind-the-scenes on first post publish.', 'schema-and-structured-data-for-wp'),
-                    'hidden' => array(
-                         'id'   => 'saswp_ai_auto_gen',
-                         'name' => 'sd_data[saswp_ai_auto_gen]',                             
-                    )
-                )
-            );
-            $field_objs->saswp_field_generator($autogen_fields, $sd_data);
-
-            // Output Target Post Types selector vertically stacked inside standard li
-            $post_types_markup = '<input type="hidden" name="sd_data[saswp_ai_post_types]" value="" />';
-            foreach ($all_post_types as $pt_key => $pt_obj) {
-                if (in_array($pt_key, array('revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block', 'saswp', 'saswp_template', 'saswp-collections', 'saswp_rvs_location', 'saswp_reviews'))) {
-                    continue;
-                }
-                $checked = in_array($pt_key, $post_types) ? 'checked' : '';
-                $post_types_markup .= '<div style="margin-bottom: 5px;">' .
-                    '<label>' .
-                    '<input type="checkbox" name="sd_data[saswp_ai_post_types][]" value="' . esc_attr($pt_key) . '" ' . $checked . ' /> ' .
-                    esc_html($pt_obj->label) .
-                    '</label>' .
-                    '</div>';
-            }
-
-            // Retrieve all schema types dynamically
-            $schemas_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
-            $all_schemas = array();
-            if ( file_exists( $schemas_file ) ) {
-                $all_schemas = include $schemas_file;
-            }
-
-            // Output default schema mapping dropdowns stacked one below the other
-            $schema_mapping = isset($sd_data['saswp_ai_schema_mapping']) ? $sd_data['saswp_ai_schema_mapping'] : array();
-            $mapping_markup = '';
-            foreach ($all_post_types as $pt_key => $pt_obj) {
-                if (in_array($pt_key, array('revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block', 'saswp', 'saswp_template', 'saswp-collections', 'saswp_rvs_location', 'saswp_reviews'))) {
-                    continue;
-                }
-                $selected_schema = isset($schema_mapping[$pt_key]) ? $schema_mapping[$pt_key] : 'auto';
-                
-                $options_html = '<option value="auto" ' . selected($selected_schema, 'auto', false) . '>✨ Auto-Detect</option>';
-                
-                if ( ! empty( $all_schemas ) && is_array( $all_schemas ) ) {
-                    foreach ( $all_schemas as $category => $items ) {
-                        if ( is_array( $items ) ) {
-                            $options_html .= '<optgroup label="' . esc_attr( $category ) . '">';
-                            foreach ( $items as $key => $label ) {
-                                if ( $key === 'CustomSchema' ) {
-                                    continue;
-                                }
-                                $value = $key;
-                                if ($key === 'FAQ') {
-                                    $value = 'FAQPage';
-                                }
-                                $options_html .= '<option value="' . esc_attr( $value ) . '" ' . selected($selected_schema, $value, false) . '>' . esc_html( $label ) . '</option>';
-                            }
-                            $options_html .= '</optgroup>';
-                        }
-                    }
-                }
-
-                $mapping_markup .= '<div style="margin-bottom: 8px;">' .
-                    '<span style="display:inline-block; min-width: 120px; font-weight: 500;">' . esc_html($pt_obj->label) . ' &rarr; </span>' .
-                    '<select name="sd_data[saswp_ai_schema_mapping][' . esc_attr($pt_key) . ']">' .
-                        $options_html .
-                    '</select>' .
-                    '</div>';
-            }
-
-            echo '<div><div class="saswp-settings-list"><ul>';
-            
-            // Post Types row
-            echo '<li>';
-            echo '<div class="saswp-knowledge-label"><label class="saswp-tooltip" for="saswp_ai_post_types">' . esc_html__('Target Post Types', 'schema-and-structured-data-for-wp') . ' <span class="saswp-tooltiptext"></span></label></div>';
-            echo '<div class="saswp-knowledge-field">' . $post_types_markup . '</div>';
-            echo '</li>';
-
-            // Schema mapping row stacked one below the other
-            echo '<li>';
-            echo '<div class="saswp-knowledge-label"><label class="saswp-tooltip" for="saswp_ai_schema_mapping">' . esc_html__('Default Schema Mapping', 'schema-and-structured-data-for-wp') . ' <span class="saswp-tooltiptext"></span></label></div>';
-            echo '<div class="saswp-knowledge-field">' . $mapping_markup . '</div>';
-            echo '</li>';
-            
-            echo '</ul></div></div>';
-
-            $overwrite_fields = array(
-                array(
-                    'label'  => esc_html__('Overwrite Manual Schema', 'schema-and-structured-data-for-wp'),
-                    'id'     => 'saswp-ai-overwrite-checkbox',                        
-                    'name'   => 'saswp-ai-overwrite-checkbox',
-                    'type'   => 'checkbox',
-                    'class'  => 'checkbox saswp-checkbox',
-                    'note'   => esc_html__('If checked, background automation is allowed to overwrite manual schema entries.', 'schema-and-structured-data-for-wp'),
-                    'hidden' => array(
-                         'id'   => 'saswp_ai_overwrite',
-                         'name' => 'sd_data[saswp_ai_overwrite]',                             
-                    )
-                )
-            );
-            $field_objs->saswp_field_generator($overwrite_fields, $sd_data);
             ?>
         </div>
     </div>
@@ -565,8 +469,7 @@ function saswp_ai_run_auto_generate_cron($post_id) {
     }
 
     // Determine schema type from mapping
-    $schema_mapping = isset($sd_data['saswp_ai_schema_mapping']) ? $sd_data['saswp_ai_schema_mapping'] : array();
-    $target_type    = isset($schema_mapping[$post->post_type]) ? $schema_mapping[$post->post_type] : 'auto';
+    $target_type    = 'auto';
 
     // Generate schema via AI (this is the slow external HTTP call)
     $result = SASWP_AI_Service::generate_schema($post->post_title, $post->post_content, $target_type, $post_id);
