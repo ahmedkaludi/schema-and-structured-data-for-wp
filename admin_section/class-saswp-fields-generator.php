@@ -725,17 +725,17 @@ class SASWP_Fields_Generator {
 
                                                 $all_post_types = get_post_types(array('public' => true), 'objects');
                                                 $post_types     = array();
-                                                // Auto Gen settings
-                                                if (isset($sd_data['saswp_ai_post_types']) && is_array($sd_data['saswp_ai_post_types'])) {
-                                                    $post_types = $sd_data['saswp_ai_post_types'];
-                                                } elseif (isset($sd_data['saswp_ai_enable']) || isset($sd_data['saswp_ai_provider'])) {
+                                                // Auto Gen settings — use $settings (the parameter passed to this function)
+                                                if (isset($settings['saswp_ai_post_types']) && is_array($settings['saswp_ai_post_types'])) {
+                                                    $post_types = $settings['saswp_ai_post_types'];
+                                                } elseif (isset($settings['saswp_ai_enable']) || isset($settings['saswp_ai_provider'])) {
                                                     $post_types = array();
                                                 }
 
                                                 // Output Target Post Types selector vertically stacked inside standard li
                                                 $post_types_markup = '<input type="hidden" name="sd_data[saswp_ai_post_types]" value="" />';
                                                 foreach ($all_post_types as $pt_key => $pt_obj) {
-                                                    if (in_array($pt_key, array('revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block', 'saswp', 'saswp_template', 'saswp-collections', 'saswp_rvs_location', 'saswp_reviews', 'media'))) {
+                                                    if (in_array($pt_key, array('revision', 'nav_menu_item', 'custom_css', 'customize_changeset', 'oembed_cache', 'user_request', 'wp_block', 'saswp', 'saswp_template', 'saswp-collections', 'saswp_rvs_location', 'saswp_reviews', 'media', 'attachment'))) {
                                                         continue;
                                                     }
                                                     $checked = in_array($pt_key, $post_types) ? 'checked' : '';

@@ -40,6 +40,11 @@ function saswp_ai_enqueue_assets($hook) {
 
     if ( strpos($hook, 'structured_data_options') !== false ) {
         wp_enqueue_style( 'saswp-ai-style', plugin_dir_url(__FILE__) . "css/saswp-ai-style{$min}.css", array(), SASWP_VERSION );
+        wp_enqueue_script( 'saswp-ai-settings', plugin_dir_url(__FILE__) . "js/saswp-ai-settings{$min}.js", array('jquery'), SASWP_VERSION, true );
+        wp_localize_script( 'saswp-ai-settings', 'saswp_ai_settings_params', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('saswp_ajax_check_nonce'),
+        ));
     }
 
     // Load full assets on post edit screens
@@ -64,15 +69,15 @@ function saswp_ai_enqueue_assets($hook) {
  * Register defaults to plugin setting fields array
  */
 function saswp_ai_default_settings($defaults) {
-    $defaults['saswp_ai_enable']         = array('type' => 'checkbox', 'value' => 0);
-    $defaults['saswp_ai_provider']       = array('type' => 'select', 'value' => 'gemini');
-    $defaults['saswp_ai_gemini_key']     = array('type' => 'text', 'value' => '');
-    $defaults['saswp_ai_gemini_model']   = array('type' => 'select', 'value' => 'gemini-1.5-flash');
-    $defaults['saswp_ai_openai_key']     = array('type' => 'text', 'value' => '');
-    $defaults['saswp_ai_openai_model']   = array('type' => 'select', 'value' => 'gpt-4o-mini');
-    $defaults['saswp_ai_auto_gen']       = array('type' => 'checkbox', 'value' => 0);
-    $defaults['saswp_ai_post_types']     = array('type' => 'checkbox', 'value' => array());
-    $defaults['saswp_ai_overwrite']      = array('type' => 'checkbox', 'value' => 0);
+    $defaults['saswp_ai_enable']         = 0;
+    $defaults['saswp_ai_provider']       = 'gemini';
+    $defaults['saswp_ai_gemini_key']     = '';
+    $defaults['saswp_ai_gemini_model']   = 'gemini-1.5-flash';
+    $defaults['saswp_ai_openai_key']     = '';
+    $defaults['saswp_ai_openai_model']   = 'gpt-4o-mini';
+    $defaults['saswp_ai_auto_gen']       = 0;
+    $defaults['saswp_ai_post_types']     = array();
+    $defaults['saswp_ai_overwrite']      = 0;
     return $defaults;
 }
 
@@ -83,7 +88,6 @@ function saswp_ai_settings_callback() {
     $sd_data = get_option('sd_data', array());
     $field_objs = new SASWP_Fields_Generator();
 
-    // Build model option lists ensuring saved values persist
     $saved_gemini_model = isset($sd_data['saswp_ai_gemini_model']) ? $sd_data['saswp_ai_gemini_model'] : 'gemini-1.5-flash';
     $saved_openai_model = isset($sd_data['saswp_ai_openai_model']) ? $sd_data['saswp_ai_openai_model'] : 'gpt-4o-mini';
 
@@ -100,7 +104,7 @@ function saswp_ai_settings_callback() {
         'gemini-3.1-pro'   => 'gemini-3.1-pro (Next-gen High Quality)',
         'gemini-1.0-pro'   => 'gemini-1.0-pro (Legacy Stable)'
     );
-    if (!array_key_exists($saved_gemini_model, $gemini_options)) {
+    if ( ! in_array( $saved_gemini_model, $gemini_options ) ) {
         $gemini_options[$saved_gemini_model] = $saved_gemini_model;
     }
 
@@ -114,7 +118,7 @@ function saswp_ai_settings_callback() {
         'gpt-4'       => 'gpt-4 (Stable Legacy)',
         'gpt-3.5-turbo' => 'gpt-3.5-turbo (Legacy Fast)'
     );
-    if (!array_key_exists($saved_openai_model, $openai_options)) {
+    if ( ! in_array( $saved_openai_model, $openai_options ) ) {
         $openai_options[$saved_openai_model] = $saved_openai_model;
     }
 
@@ -172,7 +176,8 @@ function saswp_ai_settings_callback() {
                 array(
                     'label'  => esc_html__('Target Post Types', 'schema-and-structured-data-for-wp'),
                     'id'     => 'saswp-ai-target-post-types',                        
-                    'type'   => 'saswp_ai_target_post_types',
+                    'type'   => 'saswp-ai-target-post-types',
+                    'note'   => esc_html__('Check the types to automatically generate the schema on first publish.', 'schema-and-structured-data-for-wp'),
                 ),
                 array(
                     'label'   => esc_html__('Active AI Provider', 'schema-and-structured-data-for-wp'),
@@ -221,121 +226,7 @@ function saswp_ai_settings_callback() {
         </div>
     </div>
 
-    <!-- Toggle logic script & Fetch Models handlers -->
-    <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            // Provider switching logic for generator rows
-            function switchProvider() {
-                var selected = $('#saswp_ai_provider').val();
-                $('li:has(.saswp-ai-row.gemini)').toggle(selected === 'gemini');
-                $('li:has(.saswp-ai-row.openai)').toggle(selected === 'openai');
-            }
-            $('#saswp_ai_provider').on('change', switchProvider);
-            switchProvider();
-
-            // Sub-tabs navigation matching tools tab behavior
-            $(document).on('click', '.saswp-ai-tab-nav[data-div-id]', function(e) {
-                e.preventDefault();
-                var divId = $(this).attr('data-div-id');
-                $('.saswp-ai-tab-nav').removeClass('saswp-global-selected');
-                $(this).addClass('saswp-global-selected');
-                
-                $('.saswp-ai-tab-content').addClass('saswp_hide');
-                $('#' + divId).removeClass('saswp_hide');
-            });
-
-            // Map checkbox IDs to their hidden input IDs
-            var checkboxMap = {
-                'saswp-ai-enable-checkbox':   'saswp_ai_enable',
-                'saswp-ai-auto-gen-checkbox': 'saswp_ai_auto_gen',
-                'saswp-ai-overwrite-checkbox':'saswp_ai_overwrite'
-            };
-
-            // Sync a single checkbox to its hidden input
-            function syncCheckbox(checkbox) {
-                var id = $(checkbox).attr('id');
-                var hiddenId = checkboxMap[id];
-                if (hiddenId) {
-                    $('#' + hiddenId).val($(checkbox).is(':checked') ? 1 : 0);
-                }
-            }
-
-            // Initialize hidden inputs from current checkbox state on page load
-            $.each(checkboxMap, function(checkId) {
-                syncCheckbox($('#' + checkId));
-            });
-
-            // Keep syncing on every change
-            $(document).on('change', '#saswp-ai-enable-checkbox, #saswp-ai-auto-gen-checkbox, #saswp-ai-overwrite-checkbox', function() {
-                syncCheckbox(this);
-            });
-
-            // Dynamically append "Fetch Models" buttons next to Gemini and OpenAI model dropdowns
-            if ($('#saswp_ai_gemini_model').length && !$('#saswp-fetch-gemini-models').length) {
-                $('#saswp_ai_gemini_model').after(' <button type="button" id="saswp-fetch-gemini-models" class="button button-secondary saswp-fetch-models-btn" data-provider="gemini" data-key-id="saswp_ai_gemini_key" data-model-id="saswp_ai_gemini_model"><span class="dashicons dashicons-update"></span> Fetch Models</button><span class="saswp-fetch-status" id="saswp-fetch-status-gemini"></span>');
-            }
-            if ($('#saswp_ai_openai_model').length && !$('#saswp-fetch-openai-models').length) {
-                $('#saswp_ai_openai_model').after(' <button type="button" id="saswp-fetch-openai-models" class="button button-secondary saswp-fetch-models-btn" data-provider="openai" data-key-id="saswp_ai_openai_key" data-model-id="saswp_ai_openai_model"><span class="dashicons dashicons-update"></span> Fetch Models</button><span class="saswp-fetch-status" id="saswp-fetch-status-openai"></span>');
-            }
-
-            // Click handler for Fetch Models from API
-            $(document).on('click', '.saswp-fetch-models-btn', function(e) {
-                e.preventDefault();
-                var btn = $(this);
-                var provider = btn.attr('data-provider');
-                var keyId = btn.attr('data-key-id');
-                var modelId = btn.attr('data-model-id');
-                var apiKey = $('#' + keyId).val();
-                var statusEl = $('#saswp-fetch-status-' + provider);
-
-                if (!apiKey) {
-                    statusEl.css('color', '#d63638').text('Please enter an API Key first.');
-                    return;
-                }
-
-                btn.prop('disabled', true);
-                statusEl.css('color', '#666').text('Fetching models from API...');
-
-                $.ajax({
-                    url: ajaxurl,
-                    type: 'POST',
-                    data: {
-                        action: 'saswp_fetch_ai_models',
-                        saswp_security_nonce: '<?php echo wp_create_nonce("saswp_ajax_check_nonce"); ?>',
-                        provider: provider,
-                        api_key: apiKey
-                    },
-                    success: function(response) {
-                        btn.prop('disabled', false);
-                        if (response.success && response.data.models) {
-                            var modelSelect = $('#' + modelId);
-                            var currentVal = modelSelect.val();
-                            modelSelect.empty();
-                            
-                            $.each(response.data.models, function(i, m) {
-                                modelSelect.append($('<option>', {
-                                    value: m.id,
-                                    text: m.name
-                                }));
-                            });
-
-                            if (currentVal && modelSelect.find('option[value="' + currentVal + '"]').length) {
-                                modelSelect.val(currentVal);
-                            }
-                            statusEl.css('color', '#00a32a').text('Successfully loaded ' + response.data.models.length + ' models!');
-                        } else {
-                            var err = (response.data && response.data.error) ? response.data.error : 'Failed to fetch models.';
-                            statusEl.css('color', '#d63638').text(err);
-                        }
-                    },
-                    error: function() {
-                        btn.prop('disabled', false);
-                        statusEl.css('color', '#d63638').text('Network error while fetching models.');
-                    }
-                });
-            });
-        });
-    </script>
+    <!-- JS logic is loaded via saswp-ai-settings.js (enqueued in saswp_ai_enqueue_assets) -->
     <?php
     echo "</div>";
 }
