@@ -414,6 +414,7 @@ function saswp_get_gutenberg_block_data($block){
                     }
                 }
 
+
             }        
     }
     
