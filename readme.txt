@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.0
 Requires PHP: 5.6.20
-Stable tag: 1.62
+Stable tag: 1.63
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -150,6 +150,12 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.63 (27 July 2026) =
+* Feature: Added Option To Create Global Custom Schema via GUI with Code Input #2325
+* Feature: AI Integration for Automatic Schema Generation #2453
+* Fixed: PHP Deprecated Warning: Null Used as Array Offset in gutenberg.php (Line 412) #2456
+* Fixed: PHP Warning: Undefined Array Key "text" in output/markup.php on Line 376 #2457
+
 = 1.62 (13 July 2026) =
 * Fixed: Missing thumbnailUrl in VideoObject Schema When Modified Per Post, Even After Setting a Thumbnail #2445
 * Fixed: Custom breadcrumb warning #2445
@@ -293,15 +299,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Added filter hook for image attachment for custom url handling #2301
 * Enhancement: Added Support for mainEntityOfPage property in VideoObject schema #2302
 * Enhancement: Code improvement #2303
-
-= 1.45 (5 May 2025) =
-* Enhancement: Added about and sameAs property in WebPage schema #2049
-* Enhancement: Added the associatedMedia property in the NewsArticle schema #2216
-* Enhancement: Added new fields to LiveBlogPosting gutenberg block #2288
-* Fixed: Issue with ItemList schema on taxonomy #2289
-* Fixed: Tested with new version of wordpress i.e. 6.8v #2290
-* Enhancement: Added a contentLocation field in the NewsArticle schema #2291
-* Enhancement: Code improvement for image in the markup #2292
-* Enhancement: Fixed Incorrect upvoteCount/downvoteCount Output #2293
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

@@ -687,13 +687,17 @@ function saswp_comparison_logic_checker($input, $post){
               if ( is_tax() || is_tag() || is_category() ) {
 
                 $queried_obj   = get_queried_object();
-                $termChoices[] = $queried_obj->slug;
+                if ( is_object( $queried_obj ) && isset( $queried_obj->slug ) ) {
+                  $termChoices[] = $queried_obj->slug;
+                }
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
               }elseif( isset( $_GET['tag_ID'] ) && is_admin() ) {
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
                 $term_object = get_term( intval( $_GET['tag_ID'] ) );
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason: We are not processing form information but only loading it inside the admin_init hook.
-                $termChoices[] = $term_object->slug;
+                if ( is_object( $term_object ) && isset( $term_object->slug ) ) {
+                  $termChoices[] = $term_object->slug;
+                }
 
               }else{
 

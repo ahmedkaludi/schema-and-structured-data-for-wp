@@ -458,12 +458,61 @@ class SASWP_Post_Specific {
              }
             
              
-                $cus_schema .= '<div id="saswp_specific_custom" class="saswp-post-specific-wrapper saswp_hide">';                                      
-                $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'"><textarea style="margin-left:5px;" placeholder="'.esc_attr__('JSON-LD', 'schema-and-structured-data-for-wp' ).'" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
-                            .  $custom_markp
-                            .  '</textarea>';
-                $cus_schema .= '<span><strong>'.esc_html__( 'Note', 'schema-and-structured-data-for-wp' ).': </strong>'.esc_html__( 'Please enter the valid Json-ld. Whatever you enter will be added in page source', 'schema-and-structured-data-for-wp' ).'</span>';
-                $cus_schema .= '</div>';
+                  $sd_data   = get_option('sd_data', array());
+                  $ai_enable = isset($sd_data['saswp_ai_enable']) ? $sd_data['saswp_ai_enable'] : 0;
+                  
+                  $ai_controls_html = '';
+                  if ( ! empty( $ai_enable ) ) {
+                      // Retrieve all schema types dynamically
+                      $schemas_file = SASWP_DIR_NAME . '/core/array-list/schemas.php';
+                      $all_schemas = array();
+                      if ( file_exists( $schemas_file ) ) {
+                          $all_schemas = include $schemas_file;
+                      }
+
+                      $options_html = '<option value="auto">' . esc_html__( 'Auto-Detect (Recommended)', 'schema-and-structured-data-for-wp' ) . '</option>';
+
+                      if ( ! empty( $all_schemas ) && is_array( $all_schemas ) ) {
+                          foreach ( $all_schemas as $category => $items ) {
+                              if ( is_array( $items ) ) {
+                                  $options_html .= '<optgroup label="' . esc_attr( $category ) . '">';
+                                  foreach ( $items as $key => $label ) {
+                                      if ( $key === 'CustomSchema' ) {
+                                          continue;
+                                      }
+                                      $value = $key;
+                                      if ($key === 'FAQ') {
+                                          $value = 'FAQPage';
+                                      }
+                                      $options_html .= '<option value="' . esc_attr( $value ) . '">' . esc_html( $label ) . ' Schema</option>';
+                                  }
+                                  $options_html .= '</optgroup>';
+                              }
+                          }
+                      }
+
+                      $ai_controls_html = '<div id="saswp-ai-editor-controls" class="saswp-ai-editor-box">'
+                          . '<div class="saswp-ai-field-group">'
+                              . '<label class="saswp-ai-label" for="saswp-ai-type-select">' . esc_html__( 'Schema Type:', 'schema-and-structured-data-for-wp' ) . '</label>'
+                              . '<select id="saswp-ai-type-select" class="saswp-ai-select">'
+                                  . $options_html
+                              . '</select>'
+                          . '</div>'
+                          . '<button type="button" id="saswp-ai-generate-btn" class="button button-primary saswp-ai-btn">'
+                              . esc_html__( '✨ Generate Schema with AI', 'schema-and-structured-data-for-wp' )
+                          . '</button>'
+                          . '<span id="saswp-ai-feedback" class="saswp-ai-feedback"></span>'
+                      . '</div>';
+                  }
+              
+                 $cus_schema .= '<div id="saswp_specific_custom" class="saswp-post-specific-wrapper saswp_hide">';                                      
+                 $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'">'
+                             .  $ai_controls_html
+                             .  '<textarea style="margin-left:5px;" placeholder="'.esc_attr__('JSON-LD', 'schema-and-structured-data-for-wp' ).'" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
+                             .  $custom_markp
+                             .  '</textarea>';
+                 $cus_schema .= '<p><strong>'.esc_html__( 'Note', 'schema-and-structured-data-for-wp' ).': </strong>'.esc_html__( 'Please enter the valid Json-ld. Whatever you enter will be added in page source', 'schema-and-structured-data-for-wp' ).'</p>';
+                 $cus_schema .= '</div>';
                 $cus_schema .= $disable_btn;
                 $cus_schema .= '</div>';
                           
@@ -508,7 +557,9 @@ class SASWP_Post_Specific {
                         $output            = $this->_common_view->saswp_post_specific_schema($schema_type, $saswp_meta_fields, $post->ID, $schema->ID, null, $disabled, $modify_this, $modified, $is_post_specific ); 
                      }                    
                      
-                     
+                     if($schema_type == 'CustomSchema'){
+                         continue;
+                     }
                      if($schema_type == 'ItemList'){
                          $item_type         = '('.get_post_meta($schema->ID, 'saswp_itemlist_item_type', true).')';
                      }

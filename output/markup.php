@@ -373,7 +373,7 @@ function saswp_howto_schema_markup($schema_id, $schema_post_id, $all_post_meta){
                 $supply_data['url']     = get_permalink().'#step'.++$key;
                 $supply_data['name']    = $val['saswp_howto_step_name'];    
 
-                if($direction['text'] ||  $tip['text']){
+                if ( isset( $direction['text'] ) ||  isset( $tip['text'] ) ) {
                     $supply_data['itemListElement']  = array($direction, $tip);
                 }
 

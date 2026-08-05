@@ -15,6 +15,12 @@ jQuery(document).ready(function($){
       $(".saswp-business-type-tr").show();
     }); 
   }
+  if(busines_stype == 'CustomSchema'){
+    $(document).ready(function(){
+      $(".saswp-custom-schema-tr").show();
+      $(".saswp-schema-modify-section").hide();
+    }); 
+  }
 
 // home page title start
   //add the home title name
@@ -686,10 +692,15 @@ jQuery(document).ready(function($){
           }else{
           $(".saswp-schema-modify-section").show();      
           }
-          if(schematype == 'ItemList'){  
+          if(schematype == 'ItemList' || schematype == 'CustomSchema'){  
           $(".saswp-schema-modify-section").hide();  
           }else{
           $(".saswp-schema-modify-section").show();      
+          }
+          if(schematype == 'CustomSchema'){
+              $(".saswp-custom-schema-tr").show();
+          }else{
+              $(".saswp-custom-schema-tr").hide();
           }
         if(schematype == 'FAQ'){
           $(".saswp-enable-faq-markup-class").parent().parent().show();
