@@ -5494,7 +5494,7 @@ Class SASWP_Output_Service{
                     }
                    
                     if ( ! empty( $custom_fields['saswp_tech_article_about']) && isset($custom_fields['saswp_tech_article_about']) ) {         
-                        $input1['about']['@type'] = 'Event';                   
+                        $input1['about']['@type'] = 'Thing';                   
                         $input1['about']['name'] = explode(',', $custom_fields['saswp_tech_article_about']);    
                     } 
                     
