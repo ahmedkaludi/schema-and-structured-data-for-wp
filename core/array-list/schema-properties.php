@@ -4721,6 +4721,12 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'default' => saswp_strip_all_tags(get_the_excerpt())
                     ) ,
                     array(
+                            'label'   => esc_html__( 'Article Body', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_tech_article_body_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => is_object( $post ) ? saswp_strip_all_tags( $post->post_content ) : ''
+                    ),
+                    array(
                             'label'   => esc_html__( 'hasPart', 'schema-and-structured-data-for-wp' ),
                             'id'      => 'saswp_tech_article_haspart_'.$schema_id,
                             'type'    => 'text',
