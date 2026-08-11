@@ -9883,7 +9883,7 @@ Class SASWP_Output_Service{
                 $dw_qa['name']        = bbp_get_topic_title($post_id); 
                 $dw_qa['upvoteCount'] = bbp_get_topic_reply_count();    
                 $dw_qa['text']        = wp_strip_all_tags(bbp_get_topic_content());                                
-                $dw_qa['dateCreated'] = date_format(date_create(get_post_time( get_option( 'date_format' ), false, $post_id, true )), "Y-m-d\TH:i:s\Z");
+                $dw_qa['dateCreated'] = get_post_time('c', true, $post_id);
                                                                           
                 $dw_qa['author']      = array(
                                                  '@type' => 'Person',
