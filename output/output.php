@@ -4075,7 +4075,7 @@ function saswp_archive_output() {
                     if ( $category_id > 0 ) {
                         $cat_term       =   get_term( $category_id );
                         if ( is_object( $cat_term ) && ! empty( $cat_term ) ) {
-                            $cat_description    =   isset( $cat->description ) ? wp_strip_all_tags( $cat->description ) : '';
+                            $cat_description    =   isset( $cat_term->description ) ? wp_strip_all_tags( $cat_term->description ) : '';
                         }
                     }
 
