@@ -118,6 +118,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 		) );
 		
 		wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL.'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+		wp_enqueue_style('saswp-select2-wp-style', SASWP_PLUGIN_URL.'admin_section/css/saswp-select2-wp.css', array('saswp-select2-style'), SASWP_VERSION . '.5');
 		wp_enqueue_script('saswp-select2-script', SASWP_PLUGIN_URL.'admin_section/js/select2.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);        
 		wp_enqueue_script('saswp-select2-extended-script', SASWP_PLUGIN_URL.'admin_section/js/select2-extended.min.js', array( 'jquery', 'jquery-core', 'jquery-ui-core' ), SASWP_VERSION, true);
 

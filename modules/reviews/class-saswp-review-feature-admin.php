@@ -128,6 +128,7 @@ class SASWP_Review_Feature_Admin {
 
 	        wp_enqueue_style( 'saswp-rf-page-admin-style', SASWP_PLUGIN_URL . 'admin_section/css/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-review-feature-admin.min.css' : 'saswp-review-feature-admin.css'), false , SASWP_VERSION );
 	        wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+	        wp_enqueue_style('saswp-select2-wp-style', SASWP_PLUGIN_URL. 'admin_section/css/saswp-select2-wp.css', array('saswp-select2-style'), SASWP_VERSION . '.5');
 
 	        wp_register_script( 'saswp-rf-page-admin-script', SASWP_PLUGIN_URL . 'admin_section/js/'.(SASWP_ENVIRONMENT == 'production' ? 'saswp-review-feature-admin.min.js' : 'saswp-review-feature-admin.js'), array( 'jquery' ), SASWP_VERSION , true );
 	        wp_enqueue_script( 'saswp-rf-page-admin-script' );
