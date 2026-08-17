@@ -6627,7 +6627,8 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
                 'image'				            => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_image_'.$schema_id, 'saswp_array'),
                 'headline'			            => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_headline_'.$schema_id, 'saswp_array'),
                 'description'                   => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_description_'.$schema_id, 'saswp_array'),
-                'keywords'		                => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_keywords_'.$schema_id, 'saswp_array'),
+                'articleBody'                   => saswp_remove_warnings($all_post_meta, 'saswp_tech_article_body_'.$schema_id, 'saswp_array'),
+                'keywords'		                => saswp_remove_warnings( $all_post_meta, 'saswp_tech_article_keywords_'.$schema_id, 'saswp_array'),
                 'datePublished'                 => isset($all_post_meta['saswp_tech_article_date_published_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_tech_article_date_published_'.$schema_id][0], get_post_time('h:i:s')) :'',
                 'dateModified'                  => isset($all_post_meta['saswp_tech_article_date_modified_'.$schema_id][0])? saswp_format_date_time($all_post_meta['saswp_tech_article_date_modified_'.$schema_id][0], get_the_modified_time('h:i:s')) :'',                
                 'publisher'			=> array(
@@ -6740,7 +6741,7 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
             }
         }
         if( !empty($all_post_meta['saswp_tech_article_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_about_'.$schema_id][0] ) ) {
-            $input1['about']['@type']       = 'Event';
+            $input1['about']['@type']       = 'Thing';
             $input1['about']['name']       = explode(',', $all_post_meta['saswp_tech_article_about_'.$schema_id][0]);
         }
         if( !empty($all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0] ) ) {

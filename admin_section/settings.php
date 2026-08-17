@@ -5122,6 +5122,7 @@ function saswp_enqueue_saswp_select2_js( $hook ) {
         }
                 
         wp_enqueue_style('saswp-select2-style', SASWP_PLUGIN_URL. 'admin_section/css/select2.min.css' , false, SASWP_VERSION);
+        wp_enqueue_style('saswp-select2-wp-style', SASWP_PLUGIN_URL. 'admin_section/css/saswp-select2-wp.css', array('saswp-select2-style'), SASWP_VERSION . '.5');
         wp_enqueue_script('select2', SASWP_PLUGIN_URL. 'admin_section/js/select2.min.js', array( 'jquery'), SASWP_VERSION, true);
         wp_enqueue_script('select2-extended-script', SASWP_PLUGIN_URL. 'admin_section/js/select2-extended.min.js', array( 'jquery' ), SASWP_VERSION, true);
         	                                        

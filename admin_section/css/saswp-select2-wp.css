@@ -1,0 +1,158 @@
+/* ===== Select2 → WordPress standard select UI overrides ===== */
+
+/* Prevent horizontal page scrollbar in WP admin */
+html.wp-admin,
+body.wp-admin {
+    overflow-x: hidden !important;
+}
+
+/* Prevent hidden select2 elements from causing layout/scroll shifts */
+html body.wp-admin #wpwrap .select2-hidden-accessible {
+    position: fixed !important;
+}
+
+/* Base container height and width overrides */
+html body.wp-admin #wpwrap .select2-container {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+html body.wp-admin #wpwrap .select2-container .select2-selection--single {
+    height: 40px !important;
+    box-sizing: border-box !important;
+}
+
+/* Single-select: outer container styling to match .wp-core-ui select */
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--single {
+    background-color: #fff !important;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%231e1e1e%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px top 55% !important;
+    background-size: 16px 16px !important;
+    border: 1px solid #949494 !important;
+    border-radius: 2px !important;
+    height: 40px !important;
+    line-height: 38px !important;
+    padding-right: 24px !important;
+    box-shadow: none !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    vertical-align: middle !important;
+}
+
+/* Hover state */
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--single:hover {
+    border-color: #2271b1 !important;
+}
+
+/* Focus and Open states */
+html body.wp-admin #wpwrap .select2-container--default.select2-container--focus .select2-selection--single,
+html body.wp-admin #wpwrap .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #2271b1 !important;
+    box-shadow: 0 0 0 1px #2271b1 !important;
+    outline: 2px solid transparent !important;
+}
+
+/* Hide default Select2 down arrow */
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+    display: none !important;
+}
+
+/* Rendered selected text styling */
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #1e1e1e !important;
+    line-height: 38px !important;
+    padding-left: 12px !important;
+    padding-right: 0 !important;
+    text-align: left !important;
+    font-size: 14px !important;
+}
+
+/* RTL Support */
+html body.wp-admin.rtl #wpwrap .select2-container--default .select2-selection--single {
+    background-position: left 8px top 55% !important;
+    padding-left: 24px !important;
+    padding-right: 0 !important;
+}
+html body.wp-admin.rtl #wpwrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-right: 12px !important;
+    padding-left: 0 !important;
+    text-align: right !important;
+}
+
+/* Dropdown styling (Note: Select2 dropdown is appended to body, outside #wpwrap) */
+html body.wp-admin .select2-dropdown {
+    border: 1px solid #949494 !important;
+    border-radius: 2px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    z-index: 99999 !important;
+    font-size: 14px !important;
+    max-width: 100% !important;
+}
+html body.wp-admin .select2-container--open .select2-dropdown--below {
+    border-top: none !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+html body.wp-admin .select2-container--open .select2-dropdown--above {
+    border-bottom: none !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* Dropdown Search field */
+html body.wp-admin .select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #949494 !important;
+    border-radius: 2px !important;
+    padding: 6px 8px !important;
+    outline: none !important;
+    font-size: 14px !important;
+}
+html body.wp-admin .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+    border-color: #2271b1 !important;
+    box-shadow: 0 0 0 1px #2271b1 !important;
+}
+
+/* Dropdown options list items */
+html body.wp-admin .select2-container--default .select2-results__option {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
+html body.wp-admin .select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #f0f0f1 !important;
+    color: #1e1e1e !important;
+}
+html body.wp-admin .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #2271b1 !important;
+    color: #fff !important;
+}
+
+/* Multi-select styling */
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--multiple {
+    border: 1px solid #949494 !important;
+    border-radius: 2px !important;
+    min-height: 40px !important;
+    background-color: #fff !important;
+    font-size: 14px !important;
+}
+html body.wp-admin #wpwrap .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #2271b1 !important;
+    box-shadow: 0 0 0 1px #2271b1 !important;
+    outline: 0 !important;
+}
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f0f0f1 !important;
+    border: 1px solid #949494 !important;
+    border-radius: 2px !important;
+    padding: 4px 8px !important;
+    margin-top: 5px !important;
+}
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #cc1818 !important;
+    margin-right: 5px !important;
+}
+html body.wp-admin #wpwrap .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #990000 !important;
+    background-color: transparent !important;
+}
