@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.63
+Stable tag: 1.64
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.64 (17 August 2026) =
+* Fixed: PHP Warning in bbPress QAPage Schema When Generating dateCreated #2455
+* Fixed: Removed event field from about in techarticle schema #2458
+* Fixed: Archive page JSON-LD category description by using $cat_term instead of $cat #2459
+* Enhancement: articleBody Property Not Available for TechArticle Schema #2460
+* Enhancement: Improved select2 UI to match with WordPress 7.0 #2462
+* Tested Upto WordPress 7.1
 
 = 1.63 (27 July 2026) =
 * Feature: Added Option To Create Global Custom Schema via GUI with Code Input #2325
