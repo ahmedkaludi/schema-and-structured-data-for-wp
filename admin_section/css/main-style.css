@@ -365,13 +365,10 @@ Tooltip css ends here
     
 }
 .saswp-placement-button{
-    padding: 3px 10px; 
-    color: #0d0d0d; 
-    font-size: 14px; 
-    border: 1px solid #aaa; 
-    border-radius: 2px; 
-    background: linear-gradient(#ededed, #ffffff);
+    cursor: pointer;
+    vertical-align: middle;
 }
+
 .saswp-placement-table td {
     padding: 5px 10px !important;
 }
