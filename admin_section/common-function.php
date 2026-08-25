@@ -5323,13 +5323,66 @@ function saswp_get_image_details($url)
         return $image; 
     }
     
-    // 2. Local Path Conversion
-    $upload_dir = wp_upload_dir();
-    $path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $url);
-    
-    // 3. check if image 200 or 404
+    // 2. Robust Local Path Conversion
+    $normalized_url = str_replace('\\', '/', $url);
+    $normalized_abspath = str_replace('\\', '/', ABSPATH);
+    $normalized_wp_content_dir = str_replace('\\', '/', WP_CONTENT_DIR);
+
+    $path = '';
+
+    // If it is already a local filesystem path, use it directly
+    if (strpos($normalized_url, $normalized_abspath) === 0 || strpos($normalized_url, $normalized_wp_content_dir) === 0) {
+        $path = $url;
+    } else {
+        // It's a URL or root-relative URL. Parse the URL path.
+        $url_path = wp_parse_url($url, PHP_URL_PATH);
+
+        if (!empty($url_path)) {
+            // Check content url first (for relocated content directories)
+            $content_path = wp_parse_url(content_url(), PHP_URL_PATH);
+            if (!empty($content_path)) {
+                $content_path = rtrim($content_path, '/');
+                if (strpos($url_path, $content_path) === 0) {
+                    $path = WP_CONTENT_DIR . substr($url_path, strlen($content_path));
+                }
+            }
+
+            // Fallback: resolve relative to ABSPATH
+            if (empty($path)) {
+                $site_path = wp_parse_url(site_url(), PHP_URL_PATH);
+                $site_path = !empty($site_path) ? rtrim($site_path, '/') : '';
+                
+                if (!empty($site_path) && strpos($url_path, $site_path) === 0) {
+                    $path = ABSPATH . ltrim(substr($url_path, strlen($site_path)), '/');
+                } else {
+                    $path = ABSPATH . ltrim($url_path, '/');
+                }
+            }
+        }
+    }
+
+    if (empty($path)) {
+        return $image;
+    }
+
+    // Convert back directory separators to match the system
+    $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+    // Make sure the path is not just a root directory separator
+    if ($path === DIRECTORY_SEPARATOR) {
+        return $image;
+    }
+
+    // 3. check if image exists
     if (!file_exists($path) || is_dir($path)) {
         return $image; 
+    }
+
+    // 4. Skip dimension detection for SVG images
+    $path_info = pathinfo($path);
+    $ext = isset($path_info['extension']) ? strtolower($path_info['extension']) : '';
+    if ($ext === 'svg') {
+        return $image;
     }
 
     $img_details = apply_filters('saswp_get_image_details', false, $url);
@@ -5337,7 +5390,7 @@ function saswp_get_image_details($url)
         return $img_details;
     }
     
-    // 4. Get Image Size
+    // 5. Get Image Size
     if (!function_exists('wp_getimagesize')) {
         require_once(ABSPATH . 'wp-admin/includes/media.php');
     }
