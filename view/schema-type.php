@@ -392,12 +392,6 @@ function saswp_schema_type_meta_box_callback( $post) {
                     </select>                      
                    </td>
                 </tr>   
-                 <tr class="saswp-custom-schema-tr" <?php echo ($schema_type == 'CustomSchema') ? '' : 'style="display:none;"'; ?>>
-                    <td><label for="saswp_custom_schema_field"><?php echo esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ); ?></label></td>
-                    <td>
-                        <textarea style="margin-left:5px;" placeholder="<?php echo esc_attr("{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"Organization Name\",\n  \"url\": \"https://www.example.com\",\n  \"logo\": \"https://www.example.com/logo.png\"\n}"); ?>" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="10" cols="85"><?php echo esc_textarea(get_post_meta($post_id, 'saswp_custom_schema_field', true)); ?></textarea>
-                    </td>
-                </tr>
             <?php if($style_business_type){ 
                 ?>
                 <tr class="saswp-business-type-tr" style="display:none;">
@@ -927,9 +921,14 @@ function saswp_schema_type_meta_box_callback( $post) {
                         ?>
                     </select>                                                                
                     </td>
-                </tr>                                                                        
-                
                 <!-- Review Schema type ends here -->
+
+                <tr class="saswp-custom-schema-tr" <?php echo ($schema_type == 'CustomSchema') ? '' : 'style="display:none;"'; ?>>
+                    <td><label for="saswp_custom_schema_field"><?php echo esc_html__( 'Custom Schema', 'schema-and-structured-data-for-wp' ); ?></label></td>
+                    <td>
+                        <textarea style="margin-left:5px;" placeholder="<?php echo esc_attr("{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"Organization Name\",\n  \"url\": \"https://www.example.com\",\n  \"logo\": \"https://www.example.com/logo.png\"\n}"); ?>" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="10" cols="85"><?php echo esc_textarea(get_post_meta($post_id, 'saswp_custom_schema_field', true)); ?></textarea>
+                    </td>
+                </tr>
 
                 <tr>
                    <td>
