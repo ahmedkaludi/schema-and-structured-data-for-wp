@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.64
+Stable tag: 1.65
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -149,6 +149,10 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.65 (27 August 2026) =
+* Fixed: Select2 CSS conflicts with WooCommerce product search modal #2465
+* Fixed: file_exists() receives a URL path instead of a filesystem path — open_basedir warning in common-function.php:5331 #2466
 
 = 1.64 (17 August 2026) =
 * Fixed: PHP Warning in bbPress QAPage Schema When Generating dateCreated #2455
@@ -299,13 +303,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Feature: Course schema compatible with Amelia #2307
 * Enhancement: Added a new field to newsArticle schema #2310
 * Fixed: Issue with free google reviews with location code #2316
-
-= 1.46 (13 May 2025) =
-* Feature: Comments Review Module #2260
-* Fixed: Issue in associatedMedia property of NewsArticle  schema #2299
-* Enhancement: Added new properties StreetAddress and AddressRegion to Service schema #2300
-* Enhancement: Added filter hook for image attachment for custom url handling #2301
-* Enhancement: Added Support for mainEntityOfPage property in VideoObject schema #2302
-* Enhancement: Code improvement #2303
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
