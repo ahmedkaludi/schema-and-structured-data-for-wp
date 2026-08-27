@@ -170,7 +170,7 @@ function saswp_render_omnireview_ad() {
             </div>
             <div class="saswp-or-actions">
                 <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary"><?php echo esc_html__( 'Install OmniReview Free', 'schema-and-structured-data-for-wp' ); ?></a>
-                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
+                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary" id="saswp-omnireview-banner-lm"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
             </div>
         </div>
         <button type="button" class="saswp-or-dismiss">

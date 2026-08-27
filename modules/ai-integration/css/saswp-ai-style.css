@@ -180,4 +180,6 @@
     line-height: 30px !important;
 }
 
-
+.saswp-ai-tab-content .saswp-knowledge-field input[type="text"]{
+    width: 25em !important;
+}

@@ -148,7 +148,7 @@ jQuery(document).ready(function($){
         
         if($(".saswp-enable-append-reviews").is(":checked")){
             tb_show(saswp_localize_data.translable_txt.attach_review, "#TB_inline??width=615&height=400&inlineId=saswp-embed-code-div");
-            $(document).find('#TB_window').width(600).height(415).css({'top':'200px', 'margin-top': '0px'});
+            $(document).find('#TB_window').width(600).height(430).css({'top':'200px', 'margin-top': '0px'});
             $(".saswp-attached-rv-count").show();
         }else{
             $(".saswp-attached-rv-count").hide();

@@ -50,6 +50,7 @@
     font-size: 14px;
     opacity: 0.9;
     max-width: 600px;
+    color: #fff;
 }
 
 .saswp-or-actions {
@@ -102,4 +103,8 @@
 
 .saswp-or-dismiss .dashicons {
     font-size: 18px;
+}
+
+.saswp-omnireview-banner #saswp-omnireview-banner-lm {
+    color: #fff;
 }
