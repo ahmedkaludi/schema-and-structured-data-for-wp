@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.64
+Version: 1.65
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,7 +13,7 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SASWP_VERSION', '1.64' );
+define( 'SASWP_VERSION', '1.65' );
 define( 'SASWP_DIR_NAME_FILE', __FILE__ );
 define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
 define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
@@ -170,7 +170,7 @@ function saswp_render_omnireview_ad() {
             </div>
             <div class="saswp-or-actions">
                 <a href="https://wordpress.org/plugins/omnireview/" target="_blank" class="saswp-btn-primary"><?php echo esc_html__( 'Install OmniReview Free', 'schema-and-structured-data-for-wp' ); ?></a>
-                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
+                <a href="https://omnireview.site/" target="_blank" class="saswp-link-secondary" id="saswp-omnireview-banner-lm"><?php echo esc_html__( 'Learn More', 'schema-and-structured-data-for-wp' ); ?> &rarr;</a>
             </div>
         </div>
         <button type="button" class="saswp-or-dismiss">
