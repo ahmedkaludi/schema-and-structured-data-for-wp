@@ -13073,6 +13073,38 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
 
                         break;
 
+                    case 'DefinedTermSet':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dts_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => saswp_get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Glossary / Term Set Name', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dts_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_get_the_excerpt(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Description of the defined term set', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dts_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => saswp_get_permalink(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'https://example.com/glossary', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
                 default:
                     break;
             } 

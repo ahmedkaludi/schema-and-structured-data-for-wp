@@ -60,6 +60,7 @@ return array(
                 'Certification'            => 'Certification',
                 'Guide'                    => 'Guide',
                 'WebSite'                  => 'WebSite',
+                'DefinedTermSet'           => 'DefinedTermSet',
         ),
         'Event' => array(
             'Event'                    => 'Event',
