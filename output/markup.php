@@ -9805,3 +9805,94 @@ function saswp_website_schema_markup( $schema_id, $schema_post_id, $all_post_met
 
     return $input1;
 }
+
+/**
+ * Schema markup for DefinedTermSet
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.66
+ * */
+function saswp_defined_term_set_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    $input1['@context'] = saswp_context_url();
+    $input1['@type']    = 'DefinedTermSet';
+
+    // Name
+    if ( ! empty( $all_post_meta['saswp_dts_name_'.$schema_id][0] ) ) {
+        $input1['name'] = saswp_remove_warnings( $all_post_meta, 'saswp_dts_name_'.$schema_id, 'saswp_string' );
+    } else {
+        $input1['name'] = saswp_get_the_title();
+    }
+
+    // Description
+    if ( ! empty( $all_post_meta['saswp_dts_description_'.$schema_id][0] ) ) {
+        $input1['description'] = saswp_remove_warnings( $all_post_meta, 'saswp_dts_description_'.$schema_id, 'saswp_string' );
+    } else {
+        $excerpt = saswp_get_the_excerpt();
+        if ( ! empty( $excerpt ) ) {
+            $input1['description'] = $excerpt;
+        }
+    }
+
+    // URL
+    if ( ! empty( $all_post_meta['saswp_dts_url_'.$schema_id][0] ) ) {
+        $set_url = saswp_remove_warnings( $all_post_meta, 'saswp_dts_url_'.$schema_id, 'saswp_string' );
+    } else {
+        $set_url = saswp_get_permalink();
+    }
+    if ( ! empty( $set_url ) ) {
+        $input1['url'] = $set_url;
+        $input1['@id'] = $set_url . '#DefinedTermSet';
+    }
+
+    // Defined Terms Repeater (hasDefinedTerm)
+    $terms_raw = array();
+    if ( ! empty( $all_post_meta['defined_term_items_'.$schema_id] ) && is_array( $all_post_meta['defined_term_items_'.$schema_id] ) && ! empty( $all_post_meta['defined_term_items_'.$schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['defined_term_items_'.$schema_id][0] ) ) {
+            $terms_raw = maybe_unserialize( $all_post_meta['defined_term_items_'.$schema_id][0] );
+        } elseif ( is_array( $all_post_meta['defined_term_items_'.$schema_id][0] ) ) {
+            $terms_raw = $all_post_meta['defined_term_items_'.$schema_id][0];
+        }
+    }
+
+    if ( ! empty( $terms_raw ) && is_array( $terms_raw ) ) {
+        $defined_terms = array();
+        foreach ( $terms_raw as $term_data ) {
+            $term_name = ! empty( $term_data['saswp_defined_term_name'] ) ? sanitize_text_field( $term_data['saswp_defined_term_name'] ) : '';
+            if ( ! empty( $term_name ) ) {
+                $term_item = array(
+                    '@type' => 'DefinedTerm',
+                    'name'  => $term_name,
+                );
+
+                if ( ! empty( $term_data['saswp_defined_term_code'] ) ) {
+                    $term_item['termCode'] = sanitize_text_field( $term_data['saswp_defined_term_code'] );
+                }
+
+                if ( ! empty( $term_data['saswp_defined_term_description'] ) ) {
+                    $term_item['description'] = sanitize_text_field( $term_data['saswp_defined_term_description'] );
+                }
+
+                if ( ! empty( $term_data['saswp_defined_term_url'] ) ) {
+                    $term_item['url'] = esc_url_raw( $term_data['saswp_defined_term_url'] );
+                }
+
+                if ( ! empty( $set_url ) ) {
+                    $term_item['inDefinedTermSet'] = $set_url;
+                }
+
+                $defined_terms[] = $term_item;
+            }
+        }
+
+        if ( ! empty( $defined_terms ) ) {
+            $input1['hasDefinedTerm'] = $defined_terms;
+        }
+    }
+
+    return $input1;
+}

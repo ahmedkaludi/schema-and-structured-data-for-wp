@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.65
+Stable tag: 1.66
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -91,6 +91,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Game
 * Certification
 * Guide
+* DefinedTermSet
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -149,6 +150,11 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.66 (08 September 2026) =
+* Feature: Added Support for DefinedTermSet Schema #2368
+* Fixed: Vulnerability reported by Revanth Hari Narayana Matte, Shirshak and Thomas Valadez and researched by WPScan and Jetpack #2469
+* Enhancement: Deactivate feedback form improvement #2471
 
 = 1.65 (27 August 2026) =
 * Fixed: Select2 CSS conflicts with WooCommerce product search modal #2465
@@ -294,14 +300,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Added image property in Recipe and BlogPost Schema #2332
 * Feature: Added new properties to vehicle schema #2329
 * Fixed: Markup code improvement #2334
-
-= 1.47 (13 June 2025) =
-* Feature: Added Place schema type #2272
-* Feature: Added Game schema type #2294
-* Fixed: Fatal Error After Upgrading to v1.46 (wp_is_block_theme Undefined) #2305
-* Fixed: Job location delete issue with JobPosting schema #2306
-* Feature: Course schema compatible with Amelia #2307
-* Enhancement: Added a new field to newsArticle schema #2310
-* Fixed: Issue with free google reviews with location code #2316
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

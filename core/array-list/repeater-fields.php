@@ -160,7 +160,9 @@ return array( 'schema_type_element' => array(
 	                    'sports-team-member-of' => 'sports_team_member_of',
 	                    'sports-team-athlete'   => 'sports_team_athlete'	                    
 	                  ),
-
+			      'DefinedTermSet' => array(
+	                    'defined-term-items' => 'defined_term_items',
+	                  ),
 						                                                                          
                     ),
     'meta_name' => array(
@@ -1437,6 +1439,40 @@ return array( 'schema_type_element' => array(
                                 'placeholder' => '2024-10-27T14:37:14+00:00'
                             )                         
                         )                                        
+                    ),
+                    'defined_term_items' => array(
+                        array(
+                            'label'      => esc_html__( 'Term Name', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_defined_term_name',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g., Schema Markup', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Term Code', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_defined_term_code',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g., LD-JSON', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Term Description', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_defined_term_description',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'Definition of the term', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Term URL', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_defined_term_url',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g., https://example.com/glossary/#term', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
                     ),
 		                    
         )    

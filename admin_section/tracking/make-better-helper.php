@@ -74,9 +74,24 @@ function saswp_send_feedback() {
        return;  
     }
 
+    $selected_reason = isset( $form['saswp_disable_reason'] ) ? $form['saswp_disable_reason'] : '';
+    $reason_array = [ 'temporary', 'stopped', 'another plugin' ];
+    if ( in_array( $selected_reason, $reason_array ) ) {
+        wp_die();
+    }  
+
     $text = '';
     if( isset( $form['saswp_disable_text'] ) ) {
         $text = implode( "\n\r", $form['saswp_disable_text'] );
+    }
+
+    $string_count   =   '';
+    if ( function_exists( 'str_word_count' ) ) {
+        $string_count   =   str_word_count( trim( $text ) );
+    }
+
+    if ( $string_count <= 2 ) {
+        wp_die();    
     }
 
     $headers = array();

@@ -267,11 +267,15 @@ function saswp_ajax_generate_ai_schema() {
         wp_send_json_error(array('error' => esc_html__('Unauthorized capability.', 'schema-and-structured-data-for-wp')));
     }
 
-    $post_id     = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $post_id     = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
     $target_type = isset($_POST['target_type']) ? sanitize_text_field($_POST['target_type']) : 'auto';
 
     if (!$post_id) {
         wp_send_json_error(array('error' => esc_html__('Invalid post ID.', 'schema-and-structured-data-for-wp')));
+    }
+
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        wp_send_json_error( array( 'error' => esc_html__( 'Unauthorized capability.', 'schema-and-structured-data-for-wp' ) ) );
     }
 
     $post = get_post($post_id);

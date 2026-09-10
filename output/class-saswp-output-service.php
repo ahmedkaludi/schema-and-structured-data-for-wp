@@ -8629,6 +8629,22 @@ Class SASWP_Output_Service{
                     }  
                 break;
                 
+                case 'DefinedTermSet':
+                    if ( isset( $custom_fields['saswp_dts_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_dts_name'];
+                    } else {
+                        $input1['name'] = saswp_get_the_title();
+                    }
+                    if ( isset( $custom_fields['saswp_dts_description'] ) ) {
+                        $input1['description'] = $custom_fields['saswp_dts_description'];
+                    }
+                    if ( isset( $custom_fields['saswp_dts_url'] ) ) {
+                        $input1['url'] = $custom_fields['saswp_dts_url'];
+                    } else {
+                        $input1['url'] = saswp_get_permalink();
+                    }
+                break;
+                
                 case 'LiveBlogPosting':
                     
                     if ( ! empty( $custom_fields['saswp_lbp_id'] ) ) {

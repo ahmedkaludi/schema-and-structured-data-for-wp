@@ -1281,8 +1281,16 @@ class SASWP_Review_Feature_Frontend {
 		$comment_id      	= isset( $_REQUEST['comment_id'] ) 		? absint( $_REQUEST['comment_id'] ) : null;
 		$comment_data 		= get_comment( $comment_id );
 		$review_edit 		= 'yes';
-		if ( $review_edit != 'yes' || $comment_data->user_id != get_current_user_id() ) {
-			wp_send_json_error( esc_html__( 'Sorry! You do not have permission.', 'schema-and-structured-data-for-wp' ) );
+		
+		// Only allow logged-in users to edit comments, and match user IDs strictly:
+		$current_user_id = get_current_user_id();
+		if ( empty( $current_user_id ) || (int) $comment_data->user_id !== (int) $current_user_id ) {
+		    wp_send_json_error( esc_html__( 'Sorry! You do not have permission.', 'schema-and-structured-data-for-wp' ) );
+		    return;
+		}
+		if ( ! $this->check_support( $get_post ) || ! saswp_check_stars_rating() ) {
+		    wp_send_json_error( esc_html__( 'Review feature is not supported on this post.', 'schema-and-structured-data-for-wp' ) );
+		    return;
 		}
 
 		ob_start();

@@ -2324,6 +2324,11 @@ function saswp_fields_and_type($data_type = 'value'){
         $content = '';   
         
         if(is_object($post) ) {
+
+            if ( function_exists( 'post_password_required' ) && post_password_required( $post ) ) {
+                return '';
+            }
+
             $content = get_post_field('post_content', $post->ID);            
             $content = wp_strip_all_tags($content);   
             $content = preg_replace('/\[.*?\]/','', $content);            
@@ -2358,6 +2363,10 @@ function saswp_fields_and_type($data_type = 'value'){
         
         
         if(is_object($post) ) {
+
+            if ( function_exists( 'post_password_required' ) && post_password_required( $post ) ) {
+                return '';
+            }
 
         $excerpt = $post->post_excerpt;
 

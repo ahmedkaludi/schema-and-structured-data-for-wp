@@ -734,6 +734,11 @@ class SASWP_Post_Specific {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
 
+        // WordPress meta-capability check for the specific term ID
+        if ( ! current_user_can( 'edit_term', $post_id ) ) {
+            return $post_id;
+        }
+
         $allowed_html = saswp_expanded_allowed_tags(); 
                                                  
         $custom_schema  = isset($_POST['saswp_custom_schema_field'])?wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html):'';
