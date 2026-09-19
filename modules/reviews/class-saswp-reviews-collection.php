@@ -43,7 +43,16 @@ class SASWP_Reviews_Collection {
           add_action( 'saswp_set_collection_card_height', array($this, 'saswp_set_collection_card_height_clbk'), 10);        
 
           add_filter( 'the_content', array( $this, 'saswp_reviews_display_collection' ));
+          
+          add_filter( 'auth_post_meta_saswp_platform_ids',   array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
+          add_filter( 'auth_post_meta_saswp_total_reviews',   array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
+          add_filter( 'auth_post_meta_saswp_collection_where',      array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
+          add_filter( 'auth_post_meta_saswp_collection_where_data', array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
                                  
+        }
+
+        public function saswp_protect_collection_meta( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
+            return user_can( $user_id, 'edit_others_posts' );
         }
         
          /**
@@ -527,7 +536,7 @@ class SASWP_Reviews_Collection {
                         
                         if ( isset( $collection_data['saswp_platform_ids'][0]) ) {
                             if ( ! empty( $collection_data['saswp_platform_ids'][0]) && is_string($collection_data['saswp_platform_ids'][0]) ) {
-                                $platform_id  = unserialize($collection_data['saswp_platform_ids'][0]); 
+                                $platform_id  = unserialize($collection_data['saswp_platform_ids'][0], array('allowed_classes' => false)); 
                             }              
                         }
 
@@ -535,7 +544,7 @@ class SASWP_Reviews_Collection {
                         if ( isset( $collection_data['saswp_platform_ids'][0]) ) {
                             if ( isset( $collection_data['saswp_total_reviews']) && isset($collection_data['saswp_total_reviews'][0]) ) {
                                 if ( ! empty( $collection_data['saswp_total_reviews'][0]) && is_string($collection_data['saswp_total_reviews'][0]) ) {
-                                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0]);
+                                    $total_reviews  = unserialize($collection_data['saswp_total_reviews'][0], array('allowed_classes' => false));
                                     if( is_array($total_reviews) && !empty($total_reviews) ){
                                         $total_reviews_count = count($total_reviews);
                                     }
@@ -600,7 +609,7 @@ class SASWP_Reviews_Collection {
                                     $saswp_total_re = array();
                                     if ( isset( $collection_data['saswp_total_reviews']) && isset($collection_data['saswp_total_reviews'][0]) ) {
                                         if ( ! empty( $collection_data['saswp_total_reviews'][0]) && is_string($collection_data['saswp_total_reviews'][0]) ) {
-                                            $saswp_total_re = unserialize($collection_data['saswp_total_reviews'][0]);
+                                            $saswp_total_re = unserialize($collection_data['saswp_total_reviews'][0], array('allowed_classes' => false));
                                         }
                                     }
                                     $col_average = $this->_service->saswp_get_collection_average_rating($saswp_total_re);
@@ -828,7 +837,7 @@ class SASWP_Reviews_Collection {
                                         if ( isset( $post_meta['saswp_total_reviews'][0]) ) {
                                             $reviews_list = $post_meta['saswp_total_reviews'][0];
                                             if(is_string($reviews_list) ) {
-                                                $reviews_list = unserialize($post_meta['saswp_total_reviews'][0]);
+                                                $reviews_list = unserialize($post_meta['saswp_total_reviews'][0], array('allowed_classes' => false));
                                             }
 
                                             if ( is_array( $reviews_list) ) {
@@ -1054,7 +1063,7 @@ class SASWP_Reviews_Collection {
                                                 $selected_val = array();
                                                 if ( isset( $post_meta['saswp_collection_where']) && isset($post_meta['saswp_collection_where'][0]) ) {
                                                     if ( ! empty( $post_meta['saswp_collection_where'][0]) && is_string($post_meta['saswp_collection_where'][0]) ) {
-                                                        $selected_val = unserialize($post_meta['saswp_collection_where'][0]);
+                                                        $selected_val = unserialize($post_meta['saswp_collection_where'][0], array('allowed_classes' => false));
                                                     }
                                                 }
 
@@ -1089,7 +1098,7 @@ class SASWP_Reviews_Collection {
                                                     $where_data = array();
                                                     if ( isset( $post_meta['saswp_collection_where_data']) && isset($post_meta['saswp_collection_where_data'][0]) ) {
                                                         if ( ! empty( $post_meta['saswp_collection_where_data'][0]) && is_string($post_meta['saswp_collection_where_data'][0]) ) {
-                                                            $where_data = unserialize($post_meta['saswp_collection_where_data'][0]);
+                                                            $where_data = unserialize($post_meta['saswp_collection_where_data'][0], array('allowed_classes' => false));
                                                         }
                                                     }
                                                     
