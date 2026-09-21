@@ -509,7 +509,7 @@ class SASWP_Post_Specific {
                  $cus_schema .= '<div class="'.((isset($schema_enable['custom']) && $schema_enable['custom'] == 0) ? 'saswp_hide' : '').'">'
                              .  $ai_controls_html
                              .  '<textarea style="margin-left:5px;" placeholder="'.esc_attr__('JSON-LD', 'schema-and-structured-data-for-wp' ).'" schema-id="custom" id="saswp_custom_schema_field" name="saswp_custom_schema_field" rows="5" cols="85">'
-                             .  $custom_markp
+                             .  esc_textarea( $custom_markp )
                              .  '</textarea>';
                  $cus_schema .= '<p><strong>'.esc_html__( 'Note', 'schema-and-structured-data-for-wp' ).': </strong>'.esc_html__( 'Please enter the valid Json-ld. Whatever you enter will be added in page source', 'schema-and-structured-data-for-wp' ).'</p>';
                  $cus_schema .= '</div>';
@@ -734,14 +734,14 @@ class SASWP_Post_Specific {
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: Nonce verification done here so unslash is not used.
         if ( !wp_verify_nonce( $_POST['taxonomy_specific_nonce'], 'taxonomy_specific_nonce_data' ) ) return $post_id;	
 
-        // WordPress meta-capability check for the specific term ID
-        if ( ! current_user_can( 'edit_term', $post_id ) ) {
+        // Only users with unfiltered_html (Administrators / Super Admins) may save
+        // term schema fields. Editors pass edit_term on core taxonomies but must not
+        // be allowed to store arbitrary HTML/scripts that execute in an admin's browser.
+        if ( ! current_user_can( 'unfiltered_html' ) ) {
             return $post_id;
         }
 
-        $allowed_html = saswp_expanded_allowed_tags(); 
-                                                 
-        $custom_schema  = isset($_POST['saswp_custom_schema_field'])?wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html):'';
+        $custom_schema  = isset($_POST['saswp_custom_schema_field']) ? saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field'])) : '';
 
         if ( ! empty( $custom_schema) ) {
             update_term_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 
@@ -766,9 +766,7 @@ class SASWP_Post_Specific {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return $post_id;       			
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;    
                                        
-                $allowed_html = saswp_expanded_allowed_tags(); 
-                                                 
-                $custom_schema  = isset($_POST['saswp_custom_schema_field'])?wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html):'';
+                $custom_schema  = isset($_POST['saswp_custom_schema_field']) ? saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field'])) : '';
 
                 if ( ! empty( $custom_schema) ) {
                     update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );                 

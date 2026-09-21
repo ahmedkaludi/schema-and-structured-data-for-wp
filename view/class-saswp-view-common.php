@@ -652,9 +652,9 @@ class SASWP_View_Common {
 					$input = sprintf(
 						'<textarea %s style="width: 100%%" id="%s" name="%s" rows="5">%s</textarea>',
                                                 $attributes,
-						$meta_field['id'],
-						$meta_field['id'],
-						$meta_value
+						esc_attr( $meta_field['id'] ),
+						esc_attr( $meta_field['id'] ),
+						esc_textarea( $meta_value )
 					);
                                         if ( isset( $meta_field['note']) ) {
                                             
@@ -675,12 +675,12 @@ class SASWP_View_Common {
                                             $input = sprintf(
 						'<input %s class="%s" %s id="%s" name="%s" type="%s" value="%s">',
                                                 $attributes,    
-                                                $class,    
+                                                esc_attr( $class ),    
 						$meta_field['type'] !== 'color' ? 'style="width: 100%"' : '',
-						$meta_field['id'],
-						$meta_field['id'],
-						$meta_field['type'],
-						$meta_value                                                                                                 
+						esc_attr( $meta_field['id'] ),
+						esc_attr( $meta_field['id'] ),
+						esc_attr( $meta_field['type'] ),
+						esc_attr( $meta_value )                                                                                                 
 					   );
                                             if ( isset( $meta_field['note']) ) {
                                             $input .='<p>'.$meta_field['note'].'</p>';  
@@ -796,7 +796,7 @@ class SASWP_View_Common {
     						$post_meta[ $meta_field['id'] ] = saswp_sanitize_textarea_field( $post_meta[ $meta_field['id'] ] );
     						break;    
                         default:
-    						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );						
+    						$post_meta[ $meta_field['id'] ] = wp_unslash( $post_meta[ $meta_field['id'] ] );
                                                 
     				}
                 }
