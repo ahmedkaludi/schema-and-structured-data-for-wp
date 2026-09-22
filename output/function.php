@@ -1327,7 +1327,8 @@ function saswp_extract_wp_post_ratings() {
             
             if ( isset( $sd_data['saswp-wppostratings-raring']) && $sd_data['saswp-wppostratings-raring'] == 1 && is_plugin_active('wp-postratings/wp-postratings.php') ) {
                
-                $best   = (int) get_option( 'postratings_max' );
+                $options = get_option( 'wp_postratings_options' );
+                $best    = isset( $options['max'] ) ? (int) $options['max'] : 5;
                 $avg   = get_post_meta(get_the_ID(), 'ratings_average', true);
                 $votes = get_post_meta(get_the_ID(), 'ratings_users', true);                
                 
