@@ -806,7 +806,8 @@ function saswp_get_all_schema_markup_output() {
                         
         if($output){
             
-            $stroutput = '['. trim($output). ']';
+            // Keep a top-level context for consumers that expect a JSON-LD object.
+            $stroutput = '{"@context":'. wp_json_encode( saswp_context_url() ). ',"@graph":['. trim($output). ']}';
             $filter_string = str_replace(',]', ']',$stroutput);               
             $response_html.= '<script type="application/ld+json" class="saswp-schema-markup-output">'; 
             $response_html.= "\n";       
