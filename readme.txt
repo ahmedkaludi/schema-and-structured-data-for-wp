@@ -70,6 +70,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * AudioObject
 * VideoObject
 * MedicalCondition
+* HealthInsurancePlan
 * MusicPlaylist
 * MusicAlbum
 * LocalBusiness with all the sub categories

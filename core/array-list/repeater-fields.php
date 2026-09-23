@@ -163,6 +163,9 @@ return array( 'schema_type_element' => array(
 			      'DefinedTermSet' => array(
 	                    'defined-term-items' => 'defined_term_items',
 	                  ),
+			      'HealthInsurancePlan' => array(
+	                    'health-insurance-plan-formulary' => 'health_insurance_plan_formulary',
+	                  ),
 						                                                                          
                     ),
     'meta_name' => array(
@@ -1471,6 +1474,121 @@ return array( 'schema_type_element' => array(
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => esc_html__( 'e.g., https://example.com/glossary/#term', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                    ),
+                    'health_insurance_plan_formulary' => array(
+                        array(
+                            'label'      => esc_html__( 'Formulary Drug Tier', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_formulary_drug_tier',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'http://healthplan.schema.org/DrugTierGeneric',
+                            ),
+                        ),
+                        array(
+                            'label'   => esc_html__( 'Offers Prescription By Mail', 'schema-and-structured-data-for-wp' ),
+                            'name'    => 'saswp_hip_formulary_mail_order',
+                            'type'    => 'select',
+                            'options' => array(
+                                'true'  => 'True',
+                                'false' => 'False',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Pharmacy Category', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_pharmacy_cat',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '1-MONTH-IN-RETAIL',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Copay Price', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_copay_price',
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '20',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Price Currency', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_currency',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'USD',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Copay Option', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_copay_opt',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'http://healthplan.schema.org/HealthPlanCopayAfterDeductable',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Coinsurance Rate', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_coinsurance_rate',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '0.1',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Retail Coinsurance Option', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_retail_coinsurance_opt',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'http://healthplan.schema.org/HealthPlanCoinsuranceBeforeDeductable',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Pharmacy Category', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_pharmacy_cat',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '1-MONTH-IN-MAIL',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Copay Price', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_copay_price',
+                            'type'       => 'number',
+                            'attributes' => array(
+                                'placeholder' => '0',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Price Currency', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_currency',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'USD',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Copay Option', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_copay_opt',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'http://healthplan.schema.org/HealthPlanCoPayNoCharge',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Coinsurance Rate', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_coinsurance_rate',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => '0.2',
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Mail Coinsurance Option', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_hip_mail_coinsurance_opt',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => 'http://healthplan.schema.org/HealthPlanCoinsuranceNone',
                             ),
                         ),
                     ),
