@@ -159,7 +159,7 @@ class SASWP_Reviews_Admin {
 						'<textarea class="saswp_textarea" id="%s" name="%s" rows="5">%s</textarea>',
 						esc_attr( $meta_field['id']),
 						esc_attr( $meta_field['id']),
-						$meta_value
+						esc_textarea( $meta_value )
 					); 
                                     break;
 

@@ -1871,10 +1871,6 @@ if ( ! defined('ABSPATH') ) exit;
                         'min'          => array(),
                         'max'          => array(),                    
                 );
-                $my_allowed['script'] = array(
-                        'class'        => array(),
-                        'type'         => array(),
-                );
                 //textarea
                  $my_allowed['textarea'] = array(
                         'class' => array(),
@@ -5165,6 +5161,9 @@ function saswp_sanitize_textarea_field( $str ) {
 	$filtered = wp_check_invalid_utf8( $str );
 
 	if ( strpos( $filtered, '<' ) !== false ) {
+		// Normalize whitespace between '<' and tag names or closing slash so obfuscated tags are detected by tag strippers
+		$filtered = preg_replace( '/<\s+(\/?[a-zA-Z!])/', '<$1', $filtered );
+		$filtered = preg_replace( '/<\s+/', '&lt; ', $filtered );
 		$filtered = wp_pre_kses_less_than( $filtered );
 		// This will strip extra whitespace for us.
 		$filtered = wp_strip_all_tags( $filtered, false );
@@ -5213,7 +5212,11 @@ function saswp_sanitize_custom_schema( $custom_schema ) {
 	// 1. Run wp_kses with saswp_expanded_allowed_tags()
 	// This ensures only allowed tags and attributes (script with optional type and class) are kept,
 	// stripping any dangerous attributes like src, id, onload, onerror, style, etc.
-	$allowed_html  = saswp_expanded_allowed_tags();
+	$allowed_html           = saswp_expanded_allowed_tags();
+	$allowed_html['script'] = array(
+		'class' => array(),
+		'type'  => array(),
+	);
 	$custom_schema = wp_kses( $custom_schema, $allowed_html );
 
 	// 2. If <script tag is present, validate that any provided type attribute is strictly 'application/ld+json'
