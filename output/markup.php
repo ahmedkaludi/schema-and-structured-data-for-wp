@@ -558,6 +558,246 @@ function saswp_eop_schema_markup($schema_id, $schema_post_id, $all_post_meta){
         return $input1;
 
 }
+
+/**
+ * Modify HealthInsurancePlan schema markup
+ * @param   $schema_id          int
+ * @param   $schema_post_id     int
+ * @param   $all_post_meta      array
+ * @return  $all_post_meta      array
+ * @since   1.67
+ * */
+function saswp_health_insurance_plan_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+    $checkIdPro = ((isset($all_post_meta['saswp_health_insurance_plan_schema_id_'.$schema_id][0]) && $all_post_meta['saswp_health_insurance_plan_schema_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_health_insurance_plan_schema_id_'.$schema_id][0] : '');
+
+    $input1['@context'] = saswp_context_url();
+    $input1['@type']    = 'HealthInsurancePlan';
+    if($checkIdPro){
+        $input1['@id']  = $checkIdPro;  
+    }
+
+    $plan_id = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_plan_id_'.$schema_id, 'saswp_array');
+    if(empty($plan_id)){
+        $plan_id = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_plan_id_'.$schema_id, true);
+    }
+    if(!empty($plan_id)){
+        $input1['healthPlanId'] = $plan_id;
+    }
+
+    $name = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_name_'.$schema_id, 'saswp_array');
+    if(empty($name)){
+        $name = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_name_'.$schema_id, true);
+    }
+    if(!empty($name)){
+        $input1['name'] = $name;
+    }
+
+    $desc = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_description_'.$schema_id, 'saswp_array');
+    if(empty($desc)){
+        $desc = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_description_'.$schema_id, true);
+    }
+    if(!empty($desc)){
+        $input1['description'] = $desc;
+    }
+
+    $url = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_url_'.$schema_id, 'saswp_array');
+    if(empty($url)){
+        $url = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_url_'.$schema_id, true);
+    }
+    if(!empty($url)){
+        $input1['url'] = $url;
+    }
+
+    $plan_image = get_post_meta( get_the_ID(), 'saswp_health_insurance_plan_schema_image_'.$schema_id.'_detail', true); 
+    if(!empty($plan_image) && isset($plan_image['thumbnail'])){
+        $input1['image']['@type']  = 'ImageObject';
+        $input1['image']['url']    = esc_url($plan_image['thumbnail']);
+        $input1['image']['height'] = isset($plan_image['height']) ? esc_attr($plan_image['height']) : '';
+        $input1['image']['width']  = isset($plan_image['width']) ? esc_attr($plan_image['width']) : '';
+    } elseif(isset($all_post_meta['saswp_health_insurance_plan_schema_image_'.$schema_id][0]) && !empty($all_post_meta['saswp_health_insurance_plan_schema_image_'.$schema_id][0])){
+        $input1['image'] = $all_post_meta['saswp_health_insurance_plan_schema_image_'.$schema_id][0];
+    } else {
+        $schema_image = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_image_'.$schema_id, true);
+        if(!empty($schema_image)){
+            $input1['image'] = $schema_image;
+        }
+    }
+
+    $benefits_summary_url = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_benefits_summary_url_'.$schema_id, 'saswp_array');
+    if(empty($benefits_summary_url)){
+        $benefits_summary_url = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_benefits_summary_url_'.$schema_id, true);
+    }
+    if(!empty($benefits_summary_url)){
+        $valid_b_url = saswp_validate_url($benefits_summary_url);
+        $input1['benefitsSummaryUrl'] = !empty($valid_b_url) ? $valid_b_url : esc_url_raw($benefits_summary_url);
+    }
+
+    $marketing_url = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_marketing_url_'.$schema_id, 'saswp_array');
+    if(empty($marketing_url)){
+        $marketing_url = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_marketing_url_'.$schema_id, true);
+    }
+    if(!empty($marketing_url)){
+        $valid_m_url = saswp_validate_url($marketing_url);
+        $input1['healthPlanMarketingUrl'] = !empty($valid_m_url) ? $valid_m_url : esc_url_raw($marketing_url);
+    }
+
+    $uses_standard = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_uses_id_standard_'.$schema_id, 'saswp_array');
+    if(empty($uses_standard)){
+        $uses_standard = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_uses_id_standard_'.$schema_id, true);
+    }
+    if(!empty($uses_standard)){
+        $input1['usesHealthPlanIdStandard'] = $uses_standard;
+    }
+
+    $drug_option = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_drug_option_'.$schema_id, 'saswp_array');
+    if(empty($drug_option)){
+        $drug_option = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_drug_option_'.$schema_id, true);
+    }
+    if(!empty($drug_option)){
+        $input1['healthPlanDrugOption'] = $drug_option;
+    }
+
+    $network = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_network_'.$schema_id, 'saswp_array');
+    if(empty($network)){
+        $network = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_network_'.$schema_id, true);
+    }
+    if(!empty($network)){
+        $input1['includesHealthPlanNetwork'] = $network;
+    }
+
+    // ContactPoint
+    $contact_email = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_contact_email_'.$schema_id, 'saswp_array');
+    if(empty($contact_email)){
+        $contact_email = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_contact_email_'.$schema_id, true);
+    }
+    $contact_tel = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_contact_telephone_'.$schema_id, 'saswp_array');
+    if(empty($contact_tel)){
+        $contact_tel = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_contact_telephone_'.$schema_id, true);
+    }
+    $contact_type = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_contact_type_'.$schema_id, 'saswp_array');
+    if(empty($contact_type)){
+        $contact_type = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_contact_type_'.$schema_id, true);
+    }
+    if(!empty($contact_email) || !empty($contact_tel) || !empty($contact_type)){
+        $contactPoint = array('@type' => 'ContactPoint');
+        if(!empty($contact_email)){
+            $contactPoint['email'] = $contact_email;
+        }
+        if(!empty($contact_tel)){
+            $contactPoint['telephone'] = $contact_tel;
+        }
+        if(!empty($contact_type)){
+            $contactPoint['contactType'] = $contact_type;
+        }
+        $input1['contactPoint'] = $contactPoint;
+    }
+
+    // Health Plan Drug Tier (array of URIs/strings)
+    $drug_tier_raw = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_drug_tier_'.$schema_id, 'saswp_array');
+    if(empty($drug_tier_raw)){
+        $drug_tier_raw = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_drug_tier_'.$schema_id, true);
+    }
+    if(!empty($drug_tier_raw)){
+        $tiers = array_map('trim', explode(',', $drug_tier_raw));
+        $tiers = array_values(array_filter($tiers));
+        if(!empty($tiers)){
+            $input1['healthPlanDrugTier'] = $tiers;
+        }
+    }
+
+    // includesHealthPlanFormulary: supports JSON textarea or Repeater table
+    $formulary_json = saswp_remove_warnings($all_post_meta, 'saswp_health_insurance_plan_schema_formulary_'.$schema_id, 'saswp_array');
+    if(empty($formulary_json)){
+        $formulary_json = get_post_meta($schema_id, 'saswp_health_insurance_plan_schema_formulary_'.$schema_id, true);
+    }
+    $formularies_repeater = get_post_meta($schema_post_id, 'health_insurance_plan_formulary_'.$schema_id, true);
+    if(empty($formularies_repeater)){
+        $formularies_repeater = get_post_meta($schema_id, 'health_insurance_plan_formulary_'.$schema_id, true);
+    }
+
+    if(!empty($formulary_json)){
+        $decoded_formulary = json_decode(wp_unslash($formulary_json), true);
+        if(!empty($decoded_formulary) && is_array($decoded_formulary)){
+            $input1['includesHealthPlanFormulary'] = $decoded_formulary;
+        }
+    }
+
+    if(empty($input1['includesHealthPlanFormulary']) && !empty($formularies_repeater) && is_array($formularies_repeater)){
+        $formulary_list = array();
+        foreach($formularies_repeater as $f){
+            $f_item = array(
+                '@type' => 'HealthPlanFormulary',
+            );
+            if(!empty($f['saswp_hip_formulary_drug_tier'])){
+                $f_item['healthPlanDrugTier'] = $f['saswp_hip_formulary_drug_tier'];
+            }
+            if(isset($f['saswp_hip_formulary_mail_order'])){
+                $f_item['offersPrescriptionByMail'] = ($f['saswp_hip_formulary_mail_order'] === 'true' || $f['saswp_hip_formulary_mail_order'] === true || $f['saswp_hip_formulary_mail_order'] === '1' || $f['saswp_hip_formulary_mail_order'] === 1);
+            }
+            $costSharing = array();
+            // Retail cost sharing
+            if(!empty($f['saswp_hip_retail_pharmacy_cat']) || (isset($f['saswp_hip_retail_copay_price']) && $f['saswp_hip_retail_copay_price'] !== '')){
+                $retail = array(
+                    '@type'                      => 'HealthPlanCostSharingSpecification',
+                    'healthPlanPharmacyCategory' => !empty($f['saswp_hip_retail_pharmacy_cat']) ? $f['saswp_hip_retail_pharmacy_cat'] : '1-MONTH-IN-RETAIL',
+                );
+                if(isset($f['saswp_hip_retail_copay_price']) && $f['saswp_hip_retail_copay_price'] !== ''){
+                    $retail['healthPlanCopay'] = array(
+                        '@type'         => 'PriceSpecification',
+                        'price'         => is_numeric($f['saswp_hip_retail_copay_price']) ? floatval($f['saswp_hip_retail_copay_price']) : $f['saswp_hip_retail_copay_price'],
+                        'priceCurrency' => !empty($f['saswp_hip_retail_currency']) ? $f['saswp_hip_retail_currency'] : 'USD',
+                    );
+                }
+                if(!empty($f['saswp_hip_retail_copay_opt'])){
+                    $retail['healthPlanCopayOption'] = $f['saswp_hip_retail_copay_opt'];
+                }
+                if(isset($f['saswp_hip_retail_coinsurance_rate']) && $f['saswp_hip_retail_coinsurance_rate'] !== ''){
+                    $retail['healthPlanCoinsuranceRate'] = is_numeric($f['saswp_hip_retail_coinsurance_rate']) ? floatval($f['saswp_hip_retail_coinsurance_rate']) : $f['saswp_hip_retail_coinsurance_rate'];
+                }
+                if(!empty($f['saswp_hip_retail_coinsurance_opt'])){
+                    $retail['healthPlanCoinsuranceOption'] = $f['saswp_hip_retail_coinsurance_opt'];
+                }
+                $costSharing[] = $retail;
+            }
+            // Mail cost sharing
+            if(!empty($f['saswp_hip_mail_pharmacy_cat']) || (isset($f['saswp_hip_mail_copay_price']) && $f['saswp_hip_mail_copay_price'] !== '')){
+                $mail = array(
+                    '@type'                      => 'HealthPlanCostSharingSpecification',
+                    'healthPlanPharmacyCategory' => !empty($f['saswp_hip_mail_pharmacy_cat']) ? $f['saswp_hip_mail_pharmacy_cat'] : '1-MONTH-IN-MAIL',
+                );
+                if(isset($f['saswp_hip_mail_copay_price']) && $f['saswp_hip_mail_copay_price'] !== ''){
+                    $mail['healthPlanCopay'] = array(
+                        '@type'         => 'PriceSpecification',
+                        'price'         => is_numeric($f['saswp_hip_mail_copay_price']) ? floatval($f['saswp_hip_mail_copay_price']) : $f['saswp_hip_mail_copay_price'],
+                        'priceCurrency' => !empty($f['saswp_hip_mail_currency']) ? $f['saswp_hip_mail_currency'] : 'USD',
+                    );
+                }
+                if(!empty($f['saswp_hip_mail_copay_opt'])){
+                    $mail['healthPlanCopayOption'] = $f['saswp_hip_mail_copay_opt'];
+                }
+                if(isset($f['saswp_hip_mail_coinsurance_rate']) && $f['saswp_hip_mail_coinsurance_rate'] !== ''){
+                    $mail['healthPlanCoinsuranceRate'] = is_numeric($f['saswp_hip_mail_coinsurance_rate']) ? floatval($f['saswp_hip_mail_coinsurance_rate']) : $f['saswp_hip_mail_coinsurance_rate'];
+                }
+                if(!empty($f['saswp_hip_mail_coinsurance_opt'])){
+                    $mail['healthPlanCoinsuranceOption'] = $f['saswp_hip_mail_coinsurance_opt'];
+                }
+                $costSharing[] = $mail;
+            }
+            if(!empty($costSharing)){
+                $f_item['healthPlanCostSharing'] = $costSharing;
+            }
+            $formulary_list[] = $f_item;
+        }
+        if(!empty($formulary_list)){
+            $input1['includesHealthPlanFormulary'] = $formulary_list;
+        }
+    }
+
+    return $input1;
+
+}
 function saswp_event_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
             $input1 = array();

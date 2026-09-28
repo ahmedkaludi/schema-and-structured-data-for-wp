@@ -1526,6 +1526,68 @@ Class SASWP_Output_Service{
                         }
                     break;  
 
+                    case 'HealthInsurancePlan':
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_id']) ) {
+                            $input1['@id'] = get_permalink().'#'.$custom_fields['saswp_health_insurance_plan_schema_id'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_plan_id']) ) {
+                            $input1['healthPlanId'] = $custom_fields['saswp_health_insurance_plan_schema_plan_id'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_name']) ) {
+                            $input1['name'] = $custom_fields['saswp_health_insurance_plan_schema_name'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_description']) ) {
+                            $input1['description'] = wp_strip_all_tags(strip_shortcodes( $custom_fields['saswp_health_insurance_plan_schema_description'] ));
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_url']) ) {
+                            $input1['url'] = saswp_validate_url($custom_fields['saswp_health_insurance_plan_schema_url']);
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_image']) ) {
+                            $input1['image'] = $custom_fields['saswp_health_insurance_plan_schema_image'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_benefits_summary_url']) ) {
+                            $input1['benefitsSummaryUrl'] = saswp_validate_url($custom_fields['saswp_health_insurance_plan_schema_benefits_summary_url']);
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_marketing_url']) ) {
+                            $input1['healthPlanMarketingUrl'] = saswp_validate_url($custom_fields['saswp_health_insurance_plan_schema_marketing_url']);
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_uses_id_standard']) ) {
+                            $input1['usesHealthPlanIdStandard'] = $custom_fields['saswp_health_insurance_plan_schema_uses_id_standard'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_drug_tier']) ) {
+                            $tiers = array_map('trim', explode(',', $custom_fields['saswp_health_insurance_plan_schema_drug_tier']));
+                            $tiers = array_values(array_filter($tiers));
+                            if (!empty($tiers)) {
+                                $input1['healthPlanDrugTier'] = $tiers;
+                            }
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_drug_option']) ) {
+                            $input1['healthPlanDrugOption'] = $custom_fields['saswp_health_insurance_plan_schema_drug_option'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_network']) ) {
+                            $input1['includesHealthPlanNetwork'] = $custom_fields['saswp_health_insurance_plan_schema_network'];
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_contact_email']) || isset( $custom_fields['saswp_health_insurance_plan_schema_contact_telephone']) || isset( $custom_fields['saswp_health_insurance_plan_schema_contact_type']) ) {
+                            $contactPoint = array('@type' => 'ContactPoint');
+                            if ( isset( $custom_fields['saswp_health_insurance_plan_schema_contact_email']) ) {
+                                $contactPoint['email'] = $custom_fields['saswp_health_insurance_plan_schema_contact_email'];
+                            }
+                            if ( isset( $custom_fields['saswp_health_insurance_plan_schema_contact_telephone']) ) {
+                                $contactPoint['telephone'] = $custom_fields['saswp_health_insurance_plan_schema_contact_telephone'];
+                            }
+                            if ( isset( $custom_fields['saswp_health_insurance_plan_schema_contact_type']) ) {
+                                $contactPoint['contactType'] = $custom_fields['saswp_health_insurance_plan_schema_contact_type'];
+                            }
+                            $input1['contactPoint'] = $contactPoint;
+                        }
+                        if ( isset( $custom_fields['saswp_health_insurance_plan_schema_formulary']) ) {
+                            $decoded = json_decode(wp_unslash($custom_fields['saswp_health_insurance_plan_schema_formulary']), true);
+                            if (!empty($decoded) && is_array($decoded)) {
+                                $input1['includesHealthPlanFormulary'] = $decoded;
+                            }
+                        }
+                    break;
+
                     case 'Project':      
                         
                         if ( isset( $custom_fields['saswp_project_id']) ) {

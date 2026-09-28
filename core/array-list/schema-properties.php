@@ -3980,6 +3980,131 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 );
                         break;  
 
+                        case 'HealthInsurancePlan':
+                                $meta_field = array(
+                                array(
+                                        'label'      => esc_html__( 'ID', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'default'    => 'HealthInsurancePlan'
+                                ),
+                                array(
+                                        'label'   => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                        'id'      => 'saswp_health_insurance_plan_schema_name_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                        'id'      => 'saswp_health_insurance_plan_schema_description_'.$schema_id,
+                                        'type'    => 'textarea',
+                                        'default' => saswp_strip_all_tags(get_the_excerpt())
+                                ),
+                                array(
+                                        'label'   => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                        'id'      => 'saswp_health_insurance_plan_schema_url_'.$schema_id,
+                                        'type'    => 'text',
+                                        'default' => get_permalink(),
+                                ),
+                                array(
+                                        'label'   => esc_html__( 'Image', 'schema-and-structured-data-for-wp' ),
+                                        'id'      => 'saswp_health_insurance_plan_schema_image_'.$schema_id,
+                                        'type'    => 'media'
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Health Plan ID', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_plan_id_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '12345XX9876543'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Uses Health Plan ID Standard', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_uses_id_standard_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'HIOS'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Benefits Summary URL', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_benefits_summary_url_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'http://url/to/summary/benefits/coverage'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Health Plan Marketing URL', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_marketing_url_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'http://url/to/health/plan/information'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Health Plan Drug Tier', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_drug_tier_'.$schema_id,
+                                        'type'       => 'textarea',
+                                        'attributes' => array(
+                                                'placeholder' => 'http://healthplan.schema.org/PreferredNetwork, http://healthplan.schema.org/NonPreferredNetwork'
+                                        ),
+                                        'note'       => 'Note: Separate multiple tiers by comma ( , )',
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Health Plan Drug Option', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_drug_option_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'Tier 1 - Preferred Generic'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Includes Health Plan Network', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_network_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'https://example.com/network'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Contact Point Email', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_contact_email_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'email@address.com'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Contact Point Telephone', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_contact_telephone_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => '+1-800-555-0199'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                array(
+                                        'label'      => esc_html__( 'Contact Point Type', 'schema-and-structured-data-for-wp' ),
+                                        'id'         => 'saswp_health_insurance_plan_schema_contact_type_'.$schema_id,
+                                        'type'       => 'text',
+                                        'attributes' => array(
+                                                'placeholder' => 'Customer Support'
+                                        ),
+                                        'default'    => ''
+                                ),
+                                );
+                        break;
+
                         case 'CreativeWork':                                        
                                 $meta_field = array(
                                 array(

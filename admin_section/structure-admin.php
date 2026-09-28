@@ -2629,9 +2629,8 @@ function save_extra_user_profile_fields( $user_id ) {
     }
    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.
     if ( ! empty( $_POST['saswp_custom_schema_field']) ) {
-        $allowed_html = saswp_expanded_allowed_tags();                                            
         // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.      
-        $custom_schema  = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);    
+        $custom_schema  = saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field']));    
         update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
     }else{
         delete_user_meta( $user_id, 'saswp_user_custom_schema_field');  

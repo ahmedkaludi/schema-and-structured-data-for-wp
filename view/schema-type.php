@@ -1613,8 +1613,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         } 
 
         if ( isset( $_POST['saswp_custom_schema_field']) ) {
-            $allowed_html = saswp_expanded_allowed_tags();
-            $custom_schema = wp_kses(wp_unslash($_POST['saswp_custom_schema_field']), $allowed_html);
+            $custom_schema = saswp_sanitize_custom_schema( wp_unslash( $_POST['saswp_custom_schema_field'] ) );
             update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
         } else {
             delete_post_meta( $post_id, 'saswp_custom_schema_field');

@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.66
+Stable tag: 1.67
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -70,6 +70,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * AudioObject
 * VideoObject
 * MedicalCondition
+* HealthInsurancePlan
 * MusicPlaylist
 * MusicAlbum
 * LocalBusiness with all the sub categories
@@ -150,6 +151,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.67 (24 September 2026) =
+* Feature: Added Support for HealthInsurancePlan schema #1974
+* Fixed: Vulnerability reported by Revanth Hari Narayana Matte, Shirshak and Thomas Valadez and researched by WPScan and Jetpack #2469
+* Fixed: Compatibility issue with WP-PostRatings 2.0.0 causes bestRating to output 0 instead of 5 #2472
+* Fixed: Vulnerability researched & reported by Ananda Dhakal (Patchstack) #2474
 
 = 1.66 (08 September 2026) =
 * Feature: Added Support for DefinedTermSet Schema #2368
@@ -290,15 +297,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Improvement in elementor faq block #2340
 * Feature: LiveBLogPosting Gutenberg block youTube shorts styling #2341
 * Feature: Added a Filter To Disable Schema For a specific Page and Post #2344
-
-= 1.48 (16 July 2025) =
-* Enhancement: Added the offer URL field to the product schema #2308
-* Fixed: Review schema displays incorrect item type in pages #2309
-* Enhancement: Updated 'Return Type' Property in Product Merchant Schema Markup #2319
-* Enhancement: Review schema date published improvement #2320
-* Feature: Strong testimonials avada builder improvement #2324
-* Fixed: Added image property in Recipe and BlogPost Schema #2332
-* Feature: Added new properties to vehicle schema #2329
-* Fixed: Markup code improvement #2334
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

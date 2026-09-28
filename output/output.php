@@ -1370,6 +1370,27 @@ function saswp_schema_output() {
                         
                             break;
 
+                            case 'HealthInsurancePlan':
+
+                                $input1['@context']     = saswp_context_url();
+                                $input1['@type']        = 'HealthInsurancePlan';
+                                $input1['@id']          = saswp_get_permalink().'#HealthInsurancePlan';
+                                $input1['description']  = saswp_get_the_excerpt();
+                                $input1['name']         = saswp_get_the_title();
+                                $input1['url']          = saswp_get_permalink();
+
+                                $input1 = apply_filters( 'saswp_modify_health_insurance_plan_schema_output', $input1 );
+
+                                $input1 = saswp_get_modified_markup( $input1, $schema_type, $schema_post_id, $schema_options );
+
+                                if($modified_schema == 1){
+                                    $input1 = saswp_health_insurance_plan_schema_markup( $schema_post_id, get_the_ID(), $all_post_meta );
+                                }
+
+                                $input1 = apply_filters( 'saswp_modify_health_insurance_plan_final_schema_output', $input1 );
+
+                            break;
+
                             case 'Event':
                                 
                                 $event_type         = get_post_meta($schema_post_id, 'saswp_event_type', true);  

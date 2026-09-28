@@ -5190,6 +5190,68 @@ function saswp_sanitize_textarea_field( $str ) {
 	return $filtered;
 }
 
+/**
+ * Sanitizes custom schema field input.
+ * Accepts raw JSON or schema markup wrapped in <script> tags.
+ * Only accepts valid script attributes (type="application/ld+json" and class, both optional).
+ * Any other script attributes (src, id, onload, etc.) are stripped by wp_kses.
+ * If a script tag has a type attribute other than application/ld+json, script tags are stripped.
+ *
+ * @param string $custom_schema Raw custom schema string.
+ * @return string Sanitized custom schema string.
+ */
+function saswp_sanitize_custom_schema( $custom_schema ) {
+	if ( empty( $custom_schema ) || ! is_string( $custom_schema ) ) {
+		return '';
+	}
+
+	$custom_schema = trim( $custom_schema );
+	if ( empty( $custom_schema ) ) {
+		return '';
+	}
+
+	// 1. Run wp_kses with saswp_expanded_allowed_tags()
+	// This ensures only allowed tags and attributes (script with optional type and class) are kept,
+	// stripping any dangerous attributes like src, id, onload, onerror, style, etc.
+	$allowed_html  = saswp_expanded_allowed_tags();
+	$custom_schema = wp_kses( $custom_schema, $allowed_html );
+
+	// 2. If <script tag is present, validate that any provided type attribute is strictly 'application/ld+json'
+	if ( stripos( $custom_schema, '<script' ) !== false ) {
+		$custom_schema = preg_replace_callback(
+			'/<script\b([^>]*)>(.*?)<\/script>/is',
+			function( $matches ) {
+				$attrs = $matches[1];
+				$inner = $matches[2];
+
+				// If type attribute is specified, it must be application/ld+json
+				if ( preg_match( '/\btype\s*=\s*(["\']?)([^"\'\s>]+)\1/i', $attrs, $type_match ) ) {
+					if ( 'application/ld+json' !== strtolower( trim( $type_match[2] ) ) ) {
+						// Invalid script type (e.g. text/javascript): strip script tags
+						return preg_replace( '#</?script[^>]*>#i', '', $matches[0] );
+					}
+				} else {
+					// Type attribute was omitted (optional).
+					// If the inner content is not valid JSON, do not allow untyped executable script tags.
+					$test_json = trim( preg_replace( '#</?script[^>]*>#i', '', $inner ) );
+					json_decode( $test_json );
+					if ( json_last_error() !== JSON_ERROR_NONE ) {
+						return preg_replace( '#</?script[^>]*>#i', '', $matches[0] );
+					}
+				}
+
+				// Clean inner content from any nested rogue script tags using codebase pattern
+				$clean_inner = preg_replace( '#</?script[^>]*>#i', '', $inner );
+
+				return '<script' . $attrs . '>' . $clean_inner . '</script>';
+			},
+			$custom_schema
+		);
+	}
+
+	return $custom_schema;
+}
+
 if(!function_exists('saswp_revalidate_product_description') ) {
     function saswp_revalidate_product_description($product_description)
     {
