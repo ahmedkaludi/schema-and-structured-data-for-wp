@@ -4,9 +4,11 @@
     const el             = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
-    const {RadioControl, Popover, Button, IconButton,  TextareaControl, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const {RadioControl, Popover, Button, TextareaControl, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const IconButton = components.Button;
                 
     blocks.registerBlockType( 'saswp/job-block', {
+        apiVersion: 3,
         title: __('Job (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'id',
         category: 'saswp-blocks',
@@ -89,6 +91,8 @@
                                              
         edit: function( props ) {
             
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-job-wrapper' } ) : { className: 'saswp-job-wrapper' };
             var attributes = props.attributes; 
             
             var job_data = el('fieldset',{className:''},
@@ -385,7 +389,7 @@
                         )
                 )
                 ),
-                el('div',{className:'saswp-job-wrapper'},
+                el('div', blockProps,
                 job_data
                 )
             ];

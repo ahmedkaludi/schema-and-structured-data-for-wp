@@ -7,6 +7,7 @@
     const {Button} = components;
                 
     blocks.registerBlockType( 'saswp/book-block', {
+        apiVersion: 3,
         title: __('Book (SASWP)', 'schema-and-structured-data-for-wp'),
         icon:     'welcome-learn-more',
         category: 'saswp-blocks',
@@ -59,8 +60,9 @@
         },                                                      
         edit: function( props ){
            
+          var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+          var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-book-block-container' } ) : { className: 'saswp-book-block-container' };
           const attributes = props.attributes;
-          console.log(attributes);
           function createRating(rating){
             let element = [];
             for(let i = 1; i <= 5; i++){
@@ -98,9 +100,7 @@
 
           return (
 
-            el('div',{
-              className: 'saswp-book-block-container'
-            },
+            el('div', blockProps,
             el('div',{
               className: 'saswp-book-field-banner'
             },

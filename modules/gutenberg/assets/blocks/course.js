@@ -4,9 +4,11 @@
     const el               = element.createElement;    
     const { __ }           = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
-    const {RadioControl, Popover, Button, IconButton,  TextareaControl, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const {RadioControl, Popover, Button, TextareaControl, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const IconButton = components.Button;
                 
     blocks.registerBlockType( 'saswp/course-block', {
+        apiVersion: 3,
         title: __('Course (SASWP)', 'schema-and-structured-data-for-wp'),
         icon:     'welcome-learn-more',
         category: 'saswp-blocks',
@@ -52,6 +54,8 @@
         },                                                      
         edit: function( props ){
             
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-course-wrapper' } ) : { className: 'saswp-course-wrapper' };
             var attributes = props.attributes; 
                         
             function saswpRemoveRepeater(oldItems, fieldname, item){
@@ -260,7 +264,7 @@
                  className: 'saswp-course-inspector',                 
                 },                                
                 ),
-                el('div',{className:'saswp-course-wrapper'},
+                el('div', blockProps,
                 course_data
                 )
             ];

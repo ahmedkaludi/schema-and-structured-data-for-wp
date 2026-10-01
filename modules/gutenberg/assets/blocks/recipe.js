@@ -7,6 +7,7 @@
   const {Button, TextControl} = components;
               
   blocks.registerBlockType( 'saswp/recipe-block', {
+      apiVersion: 3,
       title: __('Recipe (SASWP)', 'schema-and-structured-data-for-wp'),
       icon:     'dashicons dashicons-food',
       category: 'saswp-blocks',
@@ -115,6 +116,8 @@
       },                                                        
       edit: function( props ){
          
+        var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+        var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-recipe-block-container' } ) : { className: 'saswp-recipe-block-container' };
         const attributes = props.attributes;
 
         function _cloneArray(arr) { 
@@ -517,7 +520,7 @@
           )
 
         return (
-          el('div', {className: 'saswp-recipe-block-container'},          
+          el('div', blockProps,          
             banner_section,
             heading_section,
             details_section,

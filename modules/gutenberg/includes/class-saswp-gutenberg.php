@@ -333,7 +333,7 @@ class SASWP_Gutenberg {
                                 wp_register_script(
                                     $block['handler'],
                                     $block['path'],
-                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' ),
+                                    array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-block-editor', 'wp-editor' ),
                                     SASWP_VERSION,
                                     true
                                 );
@@ -390,6 +390,7 @@ class SASWP_Gutenberg {
                     foreach( $this->blocks as $block){
 
                         register_block_type( 'saswp/'.$block['block_name'], array(
+                            'api_version'     => 3,
                             'style'           => $block['style'],
                             'editor_style'    => $block['editor'],
                             'editor_script'   => $block['handler'],

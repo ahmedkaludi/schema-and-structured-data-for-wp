@@ -6,7 +6,7 @@
   var el                = element.createElement;
   var RichText          = editor.RichText;
   var MediaUpload       = editor.MediaUpload;       
-  var IconButton        = components.IconButton;
+  var IconButton        = components.Button;
   var AlignmentToolbar  = editor.AlignmentToolbar;
   var BlockControls     = editor.BlockControls;    
   var InspectorControls = editor.InspectorControls;
@@ -17,6 +17,7 @@
   
           
   blocks.registerBlockType( 'saswp/faq-block', {
+      apiVersion: 3,
       title: __('FAQ (SASWP)', 'schema-and-structured-data-for-wp'),
       icon: 'text',
       category: 'saswp-blocks',
@@ -98,6 +99,8 @@
         },               
       edit: function(props) {
           
+          var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+          var blockProps = useBlockProps ? useBlockProps( { className: props.className } ) : { className: props.className };
           var attributes = props.attributes;
           var alignment  = props.attributes.alignment;
                           
@@ -695,9 +698,9 @@
                       }
                   )
               ),
-              ,el(
+              el(
               'div',
-              { className: props.className },                                                
+              blockProps,                                                
               el('div', { className: 'saswp-faq-setp-list' },        
                 itemlist,
               ),

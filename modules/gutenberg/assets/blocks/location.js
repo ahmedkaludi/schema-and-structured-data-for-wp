@@ -6,6 +6,7 @@
     const {SelectControl } = components;
                 
     blocks.registerBlockType( 'saswp/location-block', {
+        apiVersion: 3,
         title: __('Location (SASWP)', 'schema-and-structured-data-for-wp'),
         icon:     'dashicons dashicons-location',
         category: 'saswp-blocks',
@@ -21,6 +22,8 @@
         },                                                            
         edit: function( props ) {
             
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-location-block-wrapper' } ) : { className: 'saswp-location-block-wrapper' };
             var collection = '';
             
                 if(saswpGutenbergLocation.location){
@@ -48,7 +51,7 @@
             
                 }
                                                                           
-            return collection;                        
+            return el( 'div', blockProps, collection );                        
         },
         save: function( props ) {
             return null;                        

@@ -3,11 +3,13 @@
     
     const { __ }          = i18n;
     const { RichText, MediaUpload, AlignmentToolbar, BlockControls, InspectorControls} = editor;
-    const {TextControl, ToggleControl, PanelBody, IconButton, SelectControl, Popover, DateTimePicker, Button} = components;        
+    const {TextControl, ToggleControl, PanelBody, SelectControl, Popover, DateTimePicker, Button} = components;        
+    const IconButton = components.Button;
 
     const el                = element.createElement;
 
     blocks.registerBlockType( 'saswp/live-blog-posting', {
+        apiVersion: 3,
 
         title: __('Live Blog Posting (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'welcome-write-blog',
@@ -229,6 +231,8 @@
 
         edit: function(props) {
 
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-live-blog-posting-block' } ) : { className: 'saswp-live-blog-posting-block' };
             const attributes = props.attributes;
 
             var banner_section = el('div',{
@@ -1018,7 +1022,7 @@
                 )),
                 el(
                     'div',
-                    { className: 'saswp-live-blog-posting-block' },
+                    blockProps,
                     el( TextControl, {
                           className:'saswp-live-blog-posting-name',
                           placeholder: __( 'Enter blog name', 'schema-and-structured-data-for-wp' ), 
