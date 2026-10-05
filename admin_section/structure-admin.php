@@ -1738,9 +1738,12 @@ function saswp_send_query_message() {
             $sendto    = 'team@magazine3.in';
             $subject   = "Schema Customer Query";
             
+            $sanitized_user_email = sanitize_email( $user_email );
             $headers[] = 'Content-Type: text/html; charset=UTF-8';
-            $headers[] = 'From: '. esc_attr( $user_email);            
-            $headers[] = 'Reply-To: ' . esc_attr( $user_email);
+            if ( $sanitized_user_email && is_email( $sanitized_user_email ) ) {
+                $headers[] = 'From: ' . $sanitized_user_email;            
+                $headers[] = 'Reply-To: ' . $sanitized_user_email;
+            }
             // Load WP components, no themes.                      
             $sent = wp_mail($sendto, $subject, $message, $headers); 
 

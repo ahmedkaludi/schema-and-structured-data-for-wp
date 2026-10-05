@@ -1757,7 +1757,7 @@ class SASWP_Review_Feature_Frontend {
 			return;
 		}
 
-		if ( current_user_can('administrator') ) {
+		if ( current_user_can( 'manage_options' ) ) {
 			
 			$comment_id = isset( $_REQUEST['comment_id'] ) ? absint( $_REQUEST['comment_id'] ) : null;
 			$highlight = ( isset($_REQUEST['highlight'] ) && $_REQUEST['highlight'] == 'yes' ) ? 1 : 0;

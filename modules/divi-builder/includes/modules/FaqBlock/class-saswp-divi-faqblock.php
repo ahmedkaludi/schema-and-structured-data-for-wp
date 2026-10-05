@@ -1,4 +1,9 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 class SASWP_Divi_FaqBlock extends ET_Builder_Module {
 
 	public $slug       = 'saswp_divi_faqblock';

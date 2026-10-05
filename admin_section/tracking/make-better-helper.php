@@ -96,7 +96,7 @@ function saswp_send_feedback() {
 
     $headers = array();
 
-    $from = isset( $form['saswp_disable_from'] ) ? $form['saswp_disable_from'] : '';
+    $from = isset( $form['saswp_disable_from'] ) ? sanitize_email( $form['saswp_disable_from'] ) : '';
     if( $from ) {
         $headers[] = "From: $from";
         $headers[] = "Reply-To: $from";

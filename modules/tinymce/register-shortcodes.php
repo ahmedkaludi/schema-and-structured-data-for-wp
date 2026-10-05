@@ -1,4 +1,8 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 add_shortcode( 'saswp_tiny_howto', 'saswp_tiny_howto_render' );
 

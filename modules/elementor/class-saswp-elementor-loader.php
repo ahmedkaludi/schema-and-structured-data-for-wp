@@ -1,6 +1,11 @@
 <?php
 namespace SASWPElementorModule;
 
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Plugin
  *

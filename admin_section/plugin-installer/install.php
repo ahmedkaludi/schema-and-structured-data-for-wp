@@ -11,9 +11,11 @@
  * @copyright Copyright (c) 2017, Merlin WP of Inventionn LLC
  * @license   Licensed GPLv3 for open source use
  */	
-            
-    
-        
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 	add_action( 'admin_menu', 'saswp_add_admin_menu' );
 	add_action( 'admin_init', 'saswp_installer_init');
 	add_action( 'admin_footer', 'saswp_svg_sprite');
