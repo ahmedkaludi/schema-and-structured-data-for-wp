@@ -1245,7 +1245,7 @@ function saswp_schema_type_meta_box_callback( $post) {
                                                         
                             $schema_type    = get_post_meta($post->ID, 'schema_type', true);
                             
-                            if ( $schema_type == 'Review' || $schema_type == 'CriticReview' ) {
+                            if ( $schema_type == 'Review' || $schema_type == 'CriticReview' || $schema_type == 'UserReview' ) {
                                 
                                 $item_reviewed = get_post_meta($post->ID, 'saswp_review_item_reviewed_'.$post->ID, true);                                                                
                                 $schema_type   = $item_reviewed;

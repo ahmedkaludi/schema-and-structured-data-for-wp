@@ -7543,6 +7543,111 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                                                 
                     break;
 
+                case 'UserReview':
+                        $review_item_type = get_post_meta($schema_id, 'saswp_review_item_reviewed_'.$schema_id, true);                        
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Review Name', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_name_'.$schema_id,
+                            'type'    => 'text',              
+                            'default' => get_the_title()             
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Review Body', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_body_'.$schema_id,
+                            'type'    => 'textarea',                           
+                            'default' => saswp_strip_all_tags(get_the_excerpt())                         
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Review Aspect', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_user_review_aspect_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => ''
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Reviewer Name', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_author_'.$schema_id,
+                            'type'    => 'text',                            
+                            'default' => is_object($current_user) ?  $current_user->display_name : ''
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Reviewer Profile URL', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_author_url_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => $author_url                           
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Positive Notes / Pros (comma-separated)', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_user_review_positive_notes_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => ''
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Negative Notes / Cons (comma-separated)', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_user_review_negative_notes_'.$schema_id,
+                            'type'    => 'textarea',
+                            'default' => ''
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Review Published Date', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_date_published_'.$schema_id,
+                            'type'    => 'text',
+                            'default' => get_the_date("Y-m-d")                           
+                        );
+                        $meta_field[] = array(
+                            'label'   => esc_html__( 'Review URL', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_url_'.$schema_id,
+                            'type'    => 'text',               
+                            'default' => get_permalink()             
+                        ); 
+                        $meta_field[] = array(
+                            'label' => esc_html__( 'Review Rating', 'schema-and-structured-data-for-wp' ),
+                            'id'    => 'saswp_review_enable_rating_'.$schema_id,
+                            'type'  => 'checkbox',                           
+                        );
+                        $meta_field[] = array(
+                            'label' => esc_html__( 'Rating Value', 'schema-and-structured-data-for-wp' ),
+                            'id'    => 'saswp_review_rating_'.$schema_id,
+                            'type'  => 'text',                            
+                        );
+                        $meta_field[] = array(
+                            'label' => esc_html__( 'Best Rating', 'schema-and-structured-data-for-wp' ),
+                            'id'    => 'saswp_review_review_count_'.$schema_id,
+                            'type'  => 'text',                            
+                        );
+                        $meta_field[] = array(
+                            'label' => esc_html__( 'Worst Rating', 'schema-and-structured-data-for-wp' ),
+                            'id'    => 'saswp_review_worst_count_'.$schema_id,
+                            'type'  => 'text',                            
+                        );
+                        
+                        if($manual == null){
+                         
+                            $meta_field[] = array(
+                            'label'   => esc_html__( 'Item Reviewed Type', 'schema-and-structured-data-for-wp' ),
+                            'id'      => 'saswp_review_item_reviewed_'.$schema_id,
+                            'type'    => 'select',
+                            'options' => array(
+                                        'Book'                  => 'Book',                             
+                                        'Course'                => 'Course',                             
+                                        'Event'                 => 'Event',                              
+                                        'HowTo'                 => 'HowTo',   
+                                        'local_business'        => 'LocalBusiness',                                 
+                                        'MusicPlaylist'         => 'Music Playlist',
+                                        'Movie'                 => 'Movie',
+                                        'Organization'          => 'Organization', 
+                                        'Product'               => 'Product',                                
+                                        'Recipe'                => 'Recipe',                             
+                                        'SoftwareApplication'   => 'SoftwareApplication',
+                                        'MobileApplication'     => 'MobileApplication',
+                                        'VideoGame'             => 'VideoGame', 
+                            ),
+                            'default' => $review_item_type,                                                        
+                         );
+                                                        
+                        }                                                                   
+                                                                                
+                    break;
+
                 case 'CriticReview':
                                         
                         $meta_field[] = array(

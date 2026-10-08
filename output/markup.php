@@ -8897,6 +8897,173 @@ function saswp_critic_review_schema_markup( $schema_id, $schema_post_id, $all_po
     return $input1;    
 }
 
+function saswp_user_review_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    global $sd_data;
+    $input1        = array();
+    $review_author = '';
+    
+    if ( isset( $sd_data['saswp-taqyeem'] ) && $sd_data['saswp-taqyeem'] == 1 && ( is_plugin_active( 'taqyeem/taqyeem.php' ) || get_template() != 'jannah' ) ) {
+        remove_action( 'TieLabs/after_post_entry', 'tie_article_schemas' );
+    }
+    
+    $input1['@context']                     = saswp_context_url();
+    $input1['@type']                        = 'UserReview';
+    $input1['@id']                          = get_permalink() . '#userreview';
+    $input1['name']                         = isset( $all_post_meta['saswp_review_name_' . $schema_id][0] ) ? $all_post_meta['saswp_review_name_' . $schema_id][0] : '';
+    $input1['url']                          = isset( $all_post_meta['saswp_review_url_' . $schema_id][0] ) ? $all_post_meta['saswp_review_url_' . $schema_id][0] : '';
+    $input1['datePublished']                = isset( $all_post_meta['saswp_review_date_published_' . $schema_id][0] ) && $all_post_meta['saswp_review_date_published_' . $schema_id][0] != '' ? saswp_format_date_time( $all_post_meta['saswp_review_date_published_' . $schema_id][0], get_post_time( 'h:i:s' ) ) : '';
+
+    // reviewBody
+    if ( isset( $all_post_meta['saswp_review_body_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_review_body_' . $schema_id][0] ) ) {
+        $input1['reviewBody'] = $all_post_meta['saswp_review_body_' . $schema_id][0];
+    }
+
+    // reviewAspect (specific to UserReview on Schema.org)
+    if ( isset( $all_post_meta['saswp_user_review_aspect_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_user_review_aspect_' . $schema_id][0] ) ) {
+        $input1['reviewAspect'] = sanitize_text_field( $all_post_meta['saswp_user_review_aspect_' . $schema_id][0] );
+    }
+
+    // Author (Person)
+    if ( isset( $all_post_meta['saswp_review_author_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_review_author_' . $schema_id][0] ) ) {
+        $review_author = $all_post_meta['saswp_review_author_' . $schema_id][0];
+    }
+    if ( $review_author ) {
+        $input1['author'] = array(
+            '@type' => 'Person',
+            'name'  => esc_attr( $review_author ),
+        );
+        if ( isset( $all_post_meta['saswp_review_author_url_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_review_author_url_' . $schema_id][0] ) ) {
+            $input1['author']['sameAs'] = esc_url( $all_post_meta['saswp_review_author_url_' . $schema_id][0] );
+        }
+    }
+
+    // Publisher defaults to site publisher
+    $site_name = saswp_remove_warnings( $sd_data, 'sd_name', 'saswp_string' );
+    if ( ! empty( $site_name ) ) {
+        $input1['publisher'] = array(
+            '@type' => 'Organization',
+            'name'  => $site_name,
+            'url'   => get_home_url(),
+        );
+    }
+
+    // positiveNotes (Pros) - parsed from comma or newline separated text
+    if ( isset( $all_post_meta['saswp_user_review_positive_notes_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_user_review_positive_notes_' . $schema_id][0] ) ) {
+        $pros_raw = explode( "\n", str_replace( "\r", '', $all_post_meta['saswp_user_review_positive_notes_' . $schema_id][0] ) );
+        $pros_items = array();
+        $pos = 1;
+        foreach ( $pros_raw as $pro_line ) {
+            $parts = explode( ',', $pro_line );
+            foreach ( $parts as $part ) {
+                $trimmed = trim( $part );
+                if ( ! empty( $trimmed ) ) {
+                    $pros_items[] = array(
+                        '@type'    => 'ListItem',
+                        'position' => $pos++,
+                        'name'     => sanitize_text_field( $trimmed ),
+                    );
+                }
+            }
+        }
+        if ( ! empty( $pros_items ) ) {
+            $input1['positiveNotes'] = array(
+                '@type'           => 'ItemList',
+                'itemListElement' => $pros_items,
+            );
+        }
+    }
+
+    // negativeNotes (Cons) - parsed from comma or newline separated text
+    if ( isset( $all_post_meta['saswp_user_review_negative_notes_' . $schema_id][0] ) && ! empty( $all_post_meta['saswp_user_review_negative_notes_' . $schema_id][0] ) ) {
+        $cons_raw = explode( "\n", str_replace( "\r", '', $all_post_meta['saswp_user_review_negative_notes_' . $schema_id][0] ) );
+        $cons_items = array();
+        $pos = 1;
+        foreach ( $cons_raw as $con_line ) {
+            $parts = explode( ',', $con_line );
+            foreach ( $parts as $part ) {
+                $trimmed = trim( $part );
+                if ( ! empty( $trimmed ) ) {
+                    $cons_items[] = array(
+                        '@type'    => 'ListItem',
+                        'position' => $pos++,
+                        'name'     => sanitize_text_field( $trimmed ),
+                    );
+                }
+            }
+        }
+        if ( ! empty( $cons_items ) ) {
+            $input1['negativeNotes'] = array(
+                '@type'           => 'ItemList',
+                'itemListElement' => $cons_items,
+            );
+        }
+    }
+
+    // reviewRating
+    if ( saswp_remove_warnings( $all_post_meta, 'saswp_review_enable_rating_' . $schema_id, 'saswp_array' ) == 1 ) {
+        $input1['reviewRating'] = array(
+            "@type"       => "Rating",
+            "ratingValue" => saswp_remove_warnings( $all_post_meta, 'saswp_review_rating_' . $schema_id, 'saswp_array' ),
+            "bestRating"  => saswp_remove_warnings( $all_post_meta, 'saswp_review_review_count_' . $schema_id, 'saswp_array' ),
+            "worstRating" => saswp_remove_warnings( $all_post_meta, 'saswp_review_worst_count_' . $schema_id, 'saswp_array' ),
+        );
+    }
+
+    $item_reviewed = isset( $all_post_meta['saswp_review_item_reviewed_' . $schema_id][0] ) ? $all_post_meta['saswp_review_item_reviewed_' . $schema_id][0] : '';
+    $item_schema   = array();
+    switch ( $item_reviewed ) {
+        case 'Book':
+            $item_schema = saswp_book_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Course':
+            $item_schema = saswp_course_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Event':
+            $item_schema = saswp_event_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'HowTo':
+            $item_schema = saswp_howto_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'local_business':
+            $item_schema = saswp_local_business_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'MusicPlaylist':
+            $item_schema = saswp_music_playlist_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Product':
+            $item_schema = saswp_product_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Recipe':
+            $item_schema = saswp_recipe_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'SoftwareApplication':
+            $item_schema = saswp_software_app_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'MobileApplication':
+            $item_schema = saswp_mobile_app_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'VideoGame':
+            $item_schema = saswp_video_game_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Organization':
+            $item_schema = saswp_organization_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        case 'Movie':
+            $item_schema = saswp_movie_schema_markup( $schema_id, $schema_post_id, $all_post_meta );
+            break;
+        default:
+            break;
+    }
+
+    if ( $item_schema ) {
+        unset( $item_schema['@context'] );
+        unset( $item_schema['@id'] );
+        $input1['itemReviewed'] = $item_schema;
+    }
+    
+    return $input1;
+}
 
 function saswp_vacation_rental_schema_markup($schema_id, $schema_post_id, $all_post_meta)
 {
