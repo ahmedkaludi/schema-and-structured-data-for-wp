@@ -81,6 +81,17 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Church
 * Mosque
 * Person
+* LiveBlogPosting
+* ImageGallery
+* MediaGallery
+* VacationalRental
+* CriticReview
+* ProfilePage
+* Game
+* Certification
+* Guide
+* DefinedTermSet
+* UserReview
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions

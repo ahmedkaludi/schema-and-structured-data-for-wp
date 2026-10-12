@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.67
+Stable tag: 1.68
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -93,6 +93,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Certification
 * Guide
 * DefinedTermSet
+* UserReview
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -151,6 +152,12 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.68 (12 October 2026) =
+* Feature: Added Support for UserReview schema #2257
+* Fixed: Vulnerability reported by r3foxx and researched by wordfence #2475
+* Fixed: Migrated legacy Gutenberg blocks to Block API v3 #2477
+* Enhancement: Created a .pot file containing all translatable strings to simplify and streamline the translation process #2478
 
 = 1.67 (24 September 2026) =
 * Feature: Added Support for HealthInsurancePlan schema #1974
@@ -287,15 +294,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Microdata clean up improvement #2352
 * Fixed: Vulnerability reported by WPScan Security
 * Fixed: Code improvement with polylang add-on #2353
-
-= 1.49 (13 August 2025) =
-* Fixed: Improvement for AIO SEO compatibility #2314
-* Fixed: Incompatibility with PublishPress Permissions Due to Conflicting Select2 Library Usage #2327
-* Fixed: Unable to modify ItemList schema #2333
-* Fixed: Undefined array key saswp_eop_provider_address_locality in class-saswp-output-service.php #2337
-* Fixed: Picking wrong url when manually adding Author image URL #2339
-* Enhancement: Improvement in elementor faq block #2340
-* Feature: LiveBLogPosting Gutenberg block youTube shorts styling #2341
-* Feature: Added a Filter To Disable Schema For a specific Page and Post #2344
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
