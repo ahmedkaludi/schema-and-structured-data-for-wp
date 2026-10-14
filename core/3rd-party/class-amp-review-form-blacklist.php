@@ -1,4 +1,9 @@
 <?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if(defined('AMP__DIR__') ) {
 	$amp_blacklist_sanitizer =  realpath( AMP__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 }

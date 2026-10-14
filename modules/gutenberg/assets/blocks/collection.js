@@ -6,6 +6,7 @@
     const {SelectControl } = components;
                 
     blocks.registerBlockType( 'saswp/collection-block', {
+        apiVersion: 3,
         title: __('Reviews Collections (SASWP)', 'schema-and-structured-data-for-wp'),
         icon:     'admin-comments',
         category: 'saswp-blocks',
@@ -21,6 +22,8 @@
         },                                                            
         edit: function( props ) {
             
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-collection-block-wrapper' } ) : { className: 'saswp-collection-block-wrapper' };
             var collection = '';
             
                 if(saswpGutenbergCollection.collection){
@@ -48,7 +51,7 @@
             
                 }
                                                                           
-            return collection;                        
+            return el( 'div', blockProps, collection );                        
         },
         save: function( props ) {
             return null;                        

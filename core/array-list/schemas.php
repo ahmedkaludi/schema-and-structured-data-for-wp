@@ -57,6 +57,7 @@ return array(
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  
                 'CriticReview'             => 'CriticReview',
+                'UserReview'               => 'UserReview',
                 'Certification'            => 'Certification',
                 'Guide'                    => 'Guide',
                 'WebSite'                  => 'WebSite',

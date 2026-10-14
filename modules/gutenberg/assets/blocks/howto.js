@@ -3,11 +3,13 @@
     
     const { __ }          = i18n;
     const { RichText, MediaUpload, AlignmentToolbar, BlockControls, InspectorControls} = editor;
-    const {TextControl, ToggleControl, PanelBody, IconButton, SelectControl} = components;        
+    const {TextControl, ToggleControl, PanelBody, SelectControl} = components;        
+    const IconButton = components.Button;
 
     const el                = element.createElement;
             
     blocks.registerBlockType( 'saswp/how-to-block', {
+        apiVersion: 3,
         title: __('How To (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'list-view',
         category: 'saswp-blocks',
@@ -154,6 +156,8 @@
           },               
         edit: function(props) {
             
+            var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+            var blockProps = useBlockProps ? useBlockProps( { className: props.className } ) : { className: props.className };
             const attributes = props.attributes;          
             
             const alignment  = props.attributes.alignment;
@@ -1046,9 +1050,9 @@
                         }
                     )
                 ),
-                ,el(
+                el(
                 'div',
-                { className: props.className },
+                blockProps,
                 saswpGetDuration(), 
                 saswpGetCost(),                
                 el( RichText, {                

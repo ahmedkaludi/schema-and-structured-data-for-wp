@@ -2694,6 +2694,59 @@ function saswp_schema_output() {
                                 $input1 = apply_filters('saswp_modify_critic_review_final_schema_output', $input1 );
                                 
                             break;
+
+                            case 'UserReview':
+                                                                                            
+                                $review_markup = $service_object->saswp_replace_with_custom_fields_value( $input1, $schema_post_id );                                
+                                $item_reviewed = get_post_meta( $schema_post_id, 'saswp_review_item_reviewed_'.$schema_post_id, true );
+                                
+                                if ( $item_reviewed == 'local_business' ) {
+                                    $item_reviewed = 'LocalBusiness';
+                                }
+                                
+                                $input1['@context']               =  saswp_context_url();
+                                $input1['@type']                  =  'UserReview';
+                                $input1['@id']                    =  saswp_get_permalink().'#UserReview';
+                                $input1['itemReviewed']['@type']  =  $item_reviewed;                                                                
+                                                            
+                                if ( isset( $schema_options['enable_custom_field'] ) && $schema_options['enable_custom_field'] == 1 ) {
+                                                                       
+                                    if ( $review_markup ) {
+                                     
+                                        if ( isset( $review_markup['review'] ) ) {
+                                            
+                                            $input1             =  $input1 + $review_markup['review'];
+                                            
+                                        }
+                                        
+                                        if ( isset( $review_markup['item_reviewed']) ) {                                            
+                                            $item_reviewed          = array( '@type' => $item_reviewed) + $review_markup['item_reviewed'];                                        
+                                            $input1['itemReviewed'] = $item_reviewed;
+                                            
+                                        }
+                                        
+                                    }                                                                                                                                                                                  
+                                } 
+                                
+                                $added_reviews = saswp_append_fetched_reviews($input1, $schema_post_id);
+                                
+                                if ( isset( $added_reviews['review']) ) {
+                                    
+                                    $input1['itemReviewed']['review']                    = $added_reviews['review'];
+                                    $input1['itemReviewed']['aggregateRating']           = $added_reviews['aggregateRating'];
+                                
+                                }                                                                                                                     
+                                
+                                $input1 = apply_filters('saswp_modify_user_review_schema_output', $input1 );
+                                
+                                if($modified_schema == 1){
+                                    
+                                    $input1 = saswp_user_review_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+                                }
+
+                                $input1 = apply_filters('saswp_modify_user_review_final_schema_output', $input1 );
+                                
+                            break;
                         
                             case 'VideoObject':
                                 
@@ -3318,7 +3371,7 @@ function saswp_schema_output() {
                         if( ! empty( $without_aggregate ) && is_array( $without_aggregate ) && ! in_array( $schema_type, $without_aggregate ) && !empty( $input1 ) ){ 
                                                      
                                 
-                                    if ( $schema_type == 'Review' || $schema_type == 'ReviewNewsArticle' || $schema_type == 'CriticReview' ) {
+                                    if ( $schema_type == 'Review' || $schema_type == 'ReviewNewsArticle' || $schema_type == 'CriticReview' || $schema_type == 'UserReview' ) {
 
                                     //Ratency Rating 
                             

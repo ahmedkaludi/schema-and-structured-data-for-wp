@@ -34,6 +34,7 @@ $with_aggregate = array(
         'ProductGroup',
         'VacationRental',
         'CriticReview',               
+        'UserReview',               
         'Certification',               
         'Guide',
         'SportsTeam',               

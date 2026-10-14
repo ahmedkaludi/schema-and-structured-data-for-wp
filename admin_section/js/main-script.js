@@ -636,6 +636,7 @@ jQuery(document).ready(function($){
            || schematype == 'Review'
            || schematype == 'VacationRental'
            || schematype == 'CriticReview'
+            || schematype == 'UserReview'
 
            ){
                         
@@ -666,7 +667,7 @@ jQuery(document).ready(function($){
          $(".saswp-event-text-field-tr").show();
          $(".saswp-option-table-class tr").find('select').attr('disabled', false);
          }
-         if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
+         if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview' || schematype == 'UserReview'){            
          $(".saswp-review-text-field-tr").show();  
          $(".saswp-option-table-class tr").find('select').attr('disabled', false); 
          $(".saswp-item-reivewed-list").change();
@@ -788,6 +789,8 @@ jQuery(document).ready(function($){
                || schematype == 'Product'
                || schematype == 'Review'
                || schematype == 'VacationRental'
+                || schematype == 'CriticReview'
+                || schematype == 'UserReview'
                
                ){
                
@@ -809,7 +812,7 @@ jQuery(document).ready(function($){
                 $("#saswp_location_meta_box").removeClass('saswp_hide');         
             } 
                           
-             if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview'){            
+             if(schematype == 'Review' || schematype == 'ReviewNewsArticle' || schematype == 'CriticReview' || schematype == 'UserReview'){            
                 $(".saswp-review-text-field-tr").show(); 
                 $(".saswp-review-text-field-tr").find('select').attr('disabled', false);
              }
@@ -3779,7 +3782,7 @@ jQuery(document).ready(function($){
           var schema_subtype = '';
           var field_name     = null;
           
-          if(schema_type == 'Review' || schema_type == 'CriticReview'){
+          if(schema_type == 'Review' || schema_type == 'CriticReview' || schema_type == 'UserReview'){
               schema_subtype = $('select.saswp-item-reivewed-list option:selected').val();
               field_name  = 'saswp_review_name';
           }          

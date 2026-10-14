@@ -4,9 +4,11 @@
     const el               = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
-    const {SelectControl, Popover, Button, IconButton,  TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const {SelectControl, Popover, Button, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const IconButton = components.Button;
                 
     blocks.registerBlockType( 'saswp/event-block', {
+        apiVersion: 3,
         title: __('Event (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'calendar',
         category: 'saswp-blocks',
@@ -156,6 +158,8 @@
                                              
         edit: function( props ) {
         
+        var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+        var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-event-block-container' } ) : { className: 'saswp-event-block-container' };
         var attributes = props.attributes; 
             
         function saswpRemoveRepeater(oldItems, fieldname, item){
@@ -641,7 +645,7 @@
                 )                
                 )),
                 el('div',
-                    {className:'saswp-event-block-container'},
+                    blockProps,
                     event_details, venue, organizers, performers
                 )
                 ];

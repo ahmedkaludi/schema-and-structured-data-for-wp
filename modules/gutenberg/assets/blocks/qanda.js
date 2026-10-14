@@ -4,9 +4,11 @@
     const el               = element.createElement;    
     const { __ }         = i18n;    
     const { RichText,  AlignmentToolbar, BlockControls, InspectorControls, MediaUpload } = editor;
-    const {SelectControl, Popover, Button, IconButton,  TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const {SelectControl, Popover, Button, TextControl, ToggleControl, PanelBody, DateTimePicker } = components;
+    const IconButton = components.Button;
                 
     blocks.registerBlockType( 'saswp/qanda-block', {
+        apiVersion: 3,
         title: __('Q&A (SASWP)', 'schema-and-structured-data-for-wp'),
         icon: 'calendar',
         category: 'saswp-blocks',
@@ -123,6 +125,8 @@
                                              
         edit: function( props ) {
         
+        var useBlockProps = ( editor && editor.useBlockProps ) || ( window.wp && window.wp.blockEditor && window.wp.blockEditor.useBlockProps );
+        var blockProps = useBlockProps ? useBlockProps( { className: 'saswp-qanda-block-container' } ) : { className: 'saswp-qanda-block-container' };
         var attributes = props.attributes; 
             
         function saswpRemoveRepeater(oldItems, fieldname, item){
@@ -491,7 +495,7 @@
                     },                                 
                 )),
                 el('div',
-                    {className:'saswp-qanda-block-container'},
+                    blockProps,
                     qanda_details, organizers, suggested
                 )
                 ];
