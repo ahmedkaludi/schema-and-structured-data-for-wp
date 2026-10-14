@@ -2966,7 +2966,7 @@ function saswp_schema_output() {
                                         'medicalbusiness'               => 'MedicalBusiness',
                                         'professionalservice'           => 'ProfessionalService',
                                         'radiostation'                  => 'RadioStation',
-                                        'realestateagent'               => 'RealEstate Agent',
+                                        'realestateagent'               => 'RealEstateAgent',
                                         'recyclingcenter'               => 'RecyclingCenter',
                                         'selfstorage'                   => 'SelfStorage',
                                         'shoppingcenter'                => 'ShoppingCenter',
