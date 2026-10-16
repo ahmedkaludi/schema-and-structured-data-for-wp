@@ -10464,6 +10464,7 @@ function saswp_occupation_schema_markup( $schema_id, $schema_post_id, $all_post_
  * @param int   $schema_post_id
  * @param array $all_post_meta
  * @return array $input1
+ * @since  1.69
  */
 function saswp_quiz_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
 
@@ -10591,6 +10592,209 @@ function saswp_quiz_schema_markup( $schema_id, $schema_post_id, $all_post_meta )
 
         if ( ! empty( $has_part ) ) {
             $input1['hasPart'] = $has_part;
+        }
+    }
+
+    return $input1;
+}
+
+/**
+ * Generate Dataset Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ * @since  1.69 
+ */
+function saswp_dataset_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array(
+        '@context'         => saswp_context_url(),
+        '@type'            => 'Dataset',
+        '@id'              => saswp_get_permalink() . '#Dataset',
+        'name'             => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_name_' . $schema_id, 'saswp_array' ),
+        'description'      => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_description_' . $schema_id, 'saswp_array' ),
+        'url'              => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_url_' . $schema_id, 'saswp_array' ),
+        'mainEntityOfPage' => saswp_get_permalink(),
+    );
+
+    if ( empty( $input1['name'] ) ) {
+        $input1['name'] = saswp_get_the_title();
+    }
+    if ( empty( $input1['description'] ) ) {
+        $input1['description'] = saswp_get_the_excerpt();
+    }
+    if ( empty( $input1['url'] ) ) {
+        $input1['url'] = saswp_get_permalink();
+    }
+
+    // sameAs
+    $sameas = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_sameas_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $sameas ) ) {
+        $input1['sameAs'] = saswp_validate_url( $sameas );
+    }
+
+    // identifier (DOI / URI / code)
+    $identifier = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_identifier_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $identifier ) ) {
+        $input1['identifier'] = $identifier;
+    }
+
+    // version
+    $version = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_version_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $version ) ) {
+        $input1['version'] = $version;
+    }
+
+    // license
+    $license = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_license_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $license ) ) {
+        $input1['license'] = saswp_validate_url( $license );
+    }
+
+    // isAccessibleForFree
+    $is_free = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_is_accessible_for_free_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $is_free ) ) {
+        $input1['isAccessibleForFree'] = ( strtolower( $is_free ) === 'false' ) ? false : true;
+    }
+
+    // keywords
+    $keywords_raw = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_keywords_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $keywords_raw ) ) {
+        if ( is_string( $keywords_raw ) && strpos( $keywords_raw, ',' ) !== false ) {
+            $kw_arr = array_map( 'trim', explode( ',', $keywords_raw ) );
+            $kw_arr = array_values( array_filter( $kw_arr ) );
+            if ( ! empty( $kw_arr ) ) {
+                $input1['keywords'] = $kw_arr;
+            }
+        } else {
+            $input1['keywords'] = trim( $keywords_raw );
+        }
+    }
+
+    // variableMeasured
+    $variable_measured = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_variable_measured_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $variable_measured ) ) {
+        $input1['variableMeasured'] = $variable_measured;
+    }
+
+    // measurementTechnique
+    $measurement_technique = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_measurement_technique_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $measurement_technique ) ) {
+        $input1['measurementTechnique'] = $measurement_technique;
+    }
+
+    // temporalCoverage
+    $temporal_coverage = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_temporal_coverage_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $temporal_coverage ) ) {
+        $input1['temporalCoverage'] = $temporal_coverage;
+    }
+
+    // spatialCoverage
+    $spatial_coverage = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_spatial_coverage_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $spatial_coverage ) ) {
+        $input1['spatialCoverage'] = $spatial_coverage;
+    }
+
+    // citation
+    $citation = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_citation_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $citation ) ) {
+        $input1['citation'] = $citation;
+    }
+
+    // issn
+    $issn = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_issn_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $issn ) ) {
+        $input1['issn'] = $issn;
+    }
+
+    // creator
+    $creator_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $creator_name ) ) {
+        $creator_type = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_type_' . $schema_id, 'saswp_array' );
+        $creator_url  = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_url_' . $schema_id, 'saswp_array' );
+
+        $creator = array(
+            '@type' => ! empty( $creator_type ) ? $creator_type : 'Organization',
+            'name'  => $creator_name,
+        );
+        if ( ! empty( $creator_url ) ) {
+            $creator['url'] = saswp_validate_url( $creator_url );
+        }
+        $input1['creator'] = $creator;
+    }
+
+    // funder
+    $funder_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_funder_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $funder_name ) ) {
+        $funder_url = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_funder_url_' . $schema_id, 'saswp_array' );
+        $funder     = array(
+            '@type' => 'Organization',
+            'name'  => $funder_name,
+        );
+        if ( ! empty( $funder_url ) ) {
+            $funder['url'] = saswp_validate_url( $funder_url );
+        }
+        $input1['funder'] = $funder;
+    }
+
+    // includedInDataCatalog
+    $catalog_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_catalog_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $catalog_name ) ) {
+        $catalog_url = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_catalog_url_' . $schema_id, 'saswp_array' );
+        $catalog     = array(
+            '@type' => 'DataCatalog',
+            'name'  => $catalog_name,
+        );
+        if ( ! empty( $catalog_url ) ) {
+            $catalog['url'] = saswp_validate_url( $catalog_url );
+        }
+        $input1['includedInDataCatalog'] = $catalog;
+    }
+
+    // distribution (DataDownload from repeater)
+    $distributions = array();
+    if ( ! empty( $all_post_meta['dataset_distribution_' . $schema_id] ) && is_array( $all_post_meta['dataset_distribution_' . $schema_id] ) && ! empty( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+            $distributions = maybe_unserialize( $all_post_meta['dataset_distribution_' . $schema_id][0] );
+        } elseif ( is_array( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+            $distributions = $all_post_meta['dataset_distribution_' . $schema_id][0];
+        }
+    } else {
+        $saved_dist = get_post_meta( $schema_post_id, 'dataset_distribution_' . $schema_id, true );
+        if ( ! empty( $saved_dist ) && is_array( $saved_dist ) ) {
+            $distributions = $saved_dist;
+        }
+    }
+
+    if ( ! empty( $distributions ) && is_array( $distributions ) ) {
+        $dist_output = array();
+        foreach ( $distributions as $dist ) {
+            if ( empty( $dist['saswp_dataset_distribution_content_url'] ) && empty( $dist['saswp_dataset_distribution_name'] ) ) {
+                continue;
+            }
+
+            $item = array(
+                '@type' => 'DataDownload',
+            );
+            if ( ! empty( $dist['saswp_dataset_distribution_name'] ) ) {
+                $item['name'] = $dist['saswp_dataset_distribution_name'];
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_encoding_format'] ) ) {
+                $item['encodingFormat'] = $dist['saswp_dataset_distribution_encoding_format'];
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_content_url'] ) ) {
+                $item['contentUrl'] = saswp_validate_url( $dist['saswp_dataset_distribution_content_url'] );
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_description'] ) ) {
+                $item['description'] = $dist['saswp_dataset_distribution_description'];
+            }
+
+            $dist_output[] = $item;
+        }
+
+        if ( ! empty( $dist_output ) ) {
+            $input1['distribution'] = $dist_output;
         }
     }
 

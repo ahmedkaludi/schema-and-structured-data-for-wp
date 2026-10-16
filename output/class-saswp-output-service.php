@@ -9484,6 +9484,91 @@ Class SASWP_Output_Service{
                         $input1['timeRequired'] = $custom_fields['saswp_quiz_schema_time_required'];
                     }
                 break;
+
+                case 'Dataset':
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_dataset_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_dataset_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_sameas'] ) ) {
+                        $input1['sameAs'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_sameas'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_identifier'] ) ) {
+                        $input1['identifier'] = $custom_fields['saswp_dataset_schema_identifier'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_version'] ) ) {
+                        $input1['version'] = $custom_fields['saswp_dataset_schema_version'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_license'] ) ) {
+                        $input1['license'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_license'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_is_accessible_for_free'] ) ) {
+                        $input1['isAccessibleForFree'] = ( strtolower( $custom_fields['saswp_dataset_schema_is_accessible_for_free'] ) === 'false' ) ? false : true;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_keywords'] ) ) {
+                        $kw = $custom_fields['saswp_dataset_schema_keywords'];
+                        if ( is_string( $kw ) && strpos( $kw, ',' ) !== false ) {
+                            $kw_arr = array_map( 'trim', explode( ',', $kw ) );
+                            $kw_arr = array_values( array_filter( $kw_arr ) );
+                            $input1['keywords'] = ! empty( $kw_arr ) ? $kw_arr : $kw;
+                        } else {
+                            $input1['keywords'] = trim( $kw );
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_variable_measured'] ) ) {
+                        $input1['variableMeasured'] = $custom_fields['saswp_dataset_schema_variable_measured'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_measurement_technique'] ) ) {
+                        $input1['measurementTechnique'] = $custom_fields['saswp_dataset_schema_measurement_technique'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_temporal_coverage'] ) ) {
+                        $input1['temporalCoverage'] = $custom_fields['saswp_dataset_schema_temporal_coverage'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_spatial_coverage'] ) ) {
+                        $input1['spatialCoverage'] = $custom_fields['saswp_dataset_schema_spatial_coverage'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_citation'] ) ) {
+                        $input1['citation'] = $custom_fields['saswp_dataset_schema_citation'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_issn'] ) ) {
+                        $input1['issn'] = $custom_fields['saswp_dataset_schema_issn'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_creator_name'] ) ) {
+                        $creator = array(
+                            '@type' => ! empty( $custom_fields['saswp_dataset_schema_creator_type'] ) ? $custom_fields['saswp_dataset_schema_creator_type'] : 'Organization',
+                            'name'  => $custom_fields['saswp_dataset_schema_creator_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_creator_url'] ) ) {
+                            $creator['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_creator_url'] );
+                        }
+                        $input1['creator'] = $creator;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_funder_name'] ) ) {
+                        $funder = array(
+                            '@type' => 'Organization',
+                            'name'  => $custom_fields['saswp_dataset_schema_funder_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_funder_url'] ) ) {
+                            $funder['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_funder_url'] );
+                        }
+                        $input1['funder'] = $funder;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_catalog_name'] ) ) {
+                        $catalog = array(
+                            '@type' => 'DataCatalog',
+                            'name'  => $custom_fields['saswp_dataset_schema_catalog_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_catalog_url'] ) ) {
+                            $catalog['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_catalog_url'] );
+                        }
+                        $input1['includedInDataCatalog'] = $catalog;
+                    }
+                break;
                
                      default:
                          break;
@@ -10768,6 +10853,20 @@ Class SASWP_Output_Service{
                         '@context'          => saswp_context_url(),
                         '@type'             => 'Quiz',
                         '@id'               => saswp_get_permalink().'#Quiz',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Dataset':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Dataset',
+                        '@id'               => saswp_get_permalink().'#Dataset',
                         'name'              => saswp_get_the_title(),
                         'url'               => saswp_get_permalink(),
                         'mainEntityOfPage'  => saswp_get_permalink(),

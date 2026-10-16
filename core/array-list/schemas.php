@@ -54,6 +54,7 @@ return array(
                 'BreadCrumbs'              => 'BreadCrumbs',  
                 'LearningResource'         => 'LearningResource',  
                 'Quiz'                     => 'Quiz',  
+                'Dataset'                  => 'Dataset',  
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  

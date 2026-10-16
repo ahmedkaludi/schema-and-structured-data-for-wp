@@ -13594,6 +13594,191 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         break;
 
+                    case 'Dataset':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Global Surface Temperature Anomalies', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Summary of dataset (Google recommends 50 to 5000 characters).', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'SameAs URL (Reference / Authority)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_sameas_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.wikidata.org/wiki/Q1197825', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Identifier / DOI', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_identifier_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://doi.org/10.1000/182 or DOI string', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Version', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_version_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 1.0.0 or 2024-v2', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'License URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_license_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://creativecommons.org/licenses/by/4.0/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Is Accessible For Free', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_is_accessible_for_free_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'True'  => esc_html__( 'True', 'schema-and-structured-data-for-wp' ),
+                                    'False' => esc_html__( 'False', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'True',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Keywords (comma-separated)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_keywords_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. climate, temperature, weather, meteorology', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Variable Measured', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_variable_measured_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Atmospheric Pressure, Wind Speed, Temperature', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Measurement Technique / Method', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_measurement_technique_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Satellite Radiometry or Doppler Radar', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Temporal Coverage', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_temporal_coverage_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 1950-01-01/2024-12-31 or 2020/2024', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Spatial Coverage', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_spatial_coverage_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Global or United States', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Citation', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_citation_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. NOAA Climate Data Records, 2024.', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'ISSN', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_issn_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 2049-3630', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator Type', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'Organization' => esc_html__( 'Organization', 'schema-and-structured-data-for-wp' ),
+                                    'Person'       => esc_html__( 'Person', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'Organization',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. National Climatic Data Center', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.ncdc.noaa.gov/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Funder Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_funder_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. National Science Foundation', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Funder URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_funder_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.nsf.gov/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Data Catalog Name (includedInDataCatalog)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_catalog_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. data.gov or Zenodo', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Data Catalog URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_catalog_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://data.gov', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
                 default:
                     break;
             } 

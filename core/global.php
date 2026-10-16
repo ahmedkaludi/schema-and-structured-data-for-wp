@@ -94,6 +94,7 @@ $without_aggregate = array(
         'TouristTrip',
         'LearningResource',
         'Quiz',
+        'Dataset',
         'LiveBlogPosting',
         'ImageGallery',
         'MediaGallery',
