@@ -93,6 +93,7 @@ $without_aggregate = array(
         'Service',
         'TouristTrip',
         'LearningResource',
+        'Quiz',
         'LiveBlogPosting',
         'ImageGallery',
         'MediaGallery',

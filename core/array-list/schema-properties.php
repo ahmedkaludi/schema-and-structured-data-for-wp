@@ -13525,6 +13525,75 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         break;
 
+                    case 'Quiz':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Geometry Quiz', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Description of the quiz', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'About (Topic / Concept)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_about_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Quadrilateral Angles', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Educational Level', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_educational_level_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. High School or Beginner', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Educational Alignment (Subject)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_educational_alignment_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Geometry or Mathematics', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Typical Age Range', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_typical_age_range_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 12-15', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Time Required (Duration)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_time_required_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. PT15M (15 minutes) or PT1H (1 hour)', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
                 default:
                     break;
             } 

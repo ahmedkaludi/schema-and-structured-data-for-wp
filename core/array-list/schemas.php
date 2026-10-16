@@ -53,6 +53,7 @@ return array(
                 'MedicalWebPage'           => 'MedicalWebPage',
                 'BreadCrumbs'              => 'BreadCrumbs',  
                 'LearningResource'         => 'LearningResource',  
+                'Quiz'                     => 'Quiz',  
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  

@@ -9448,6 +9448,42 @@ Class SASWP_Output_Service{
                         $input1['occupationLocation'] = $location;
                     }
                 break;
+
+                case 'Quiz':
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_quiz_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_quiz_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_quiz_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_about'] ) ) {
+                        $input1['about'] = array(
+                            '@type' => 'Thing',
+                            'name'  => $custom_fields['saswp_quiz_schema_about'],
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_educational_level'] ) ) {
+                        $input1['educationalLevel'] = $custom_fields['saswp_quiz_schema_educational_level'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_educational_alignment'] ) ) {
+                        $input1['educationalAlignment'] = array(
+                            array(
+                                '@type'         => 'AlignmentObject',
+                                'alignmentType' => 'educationalSubject',
+                                'targetName'    => $custom_fields['saswp_quiz_schema_educational_alignment'],
+                            ),
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_typical_age_range'] ) ) {
+                        $input1['typicalAgeRange'] = $custom_fields['saswp_quiz_schema_typical_age_range'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_time_required'] ) ) {
+                        $input1['timeRequired'] = $custom_fields['saswp_quiz_schema_time_required'];
+                    }
+                break;
                
                      default:
                          break;
@@ -10718,6 +10754,20 @@ Class SASWP_Output_Service{
                         '@context'          => saswp_context_url(),
                         '@type'             => 'Occupation',
                         '@id'               => saswp_get_permalink().'#Occupation',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Quiz':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Quiz',
+                        '@id'               => saswp_get_permalink().'#Quiz',
                         'name'              => saswp_get_the_title(),
                         'url'               => saswp_get_permalink(),
                         'mainEntityOfPage'  => saswp_get_permalink(),

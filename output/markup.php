@@ -10457,3 +10457,142 @@ function saswp_occupation_schema_markup( $schema_id, $schema_post_id, $all_post_
 
     return $input1;
 }
+
+/**
+ * Generate Quiz Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ */
+function saswp_quiz_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+
+    $input1['@context']         = saswp_context_url();
+    $input1['@type']            = 'Quiz';
+    $input1['@id']              = get_permalink() . '#Quiz';
+
+    $name = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_name_' . $schema_id, 'saswp_array' );
+    $input1['name']             = ! empty( $name ) ? $name : get_the_title();
+
+    $description = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_description_' . $schema_id, 'saswp_array' );
+    $input1['description']      = ! empty( $description ) ? $description : saswp_strip_all_tags( get_the_excerpt() );
+
+    $url = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_url_' . $schema_id, 'saswp_array' );
+    $input1['url']              = ! empty( $url ) ? saswp_validate_url( $url ) : get_permalink();
+    $input1['mainEntityOfPage'] = get_permalink();
+
+    // about
+    $about = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_about_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $about ) ) {
+        $input1['about'] = array(
+            '@type' => 'Thing',
+            'name'  => $about,
+        );
+    }
+
+    // educationalLevel
+    $edu_level = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_educational_level_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $edu_level ) ) {
+        $input1['educationalLevel'] = $edu_level;
+    }
+
+    // educationalAlignment
+    $edu_alignment = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_educational_alignment_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $edu_alignment ) ) {
+        $input1['educationalAlignment'] = array(
+            array(
+                '@type'         => 'AlignmentObject',
+                'alignmentType' => 'educationalSubject',
+                'targetName'    => $edu_alignment,
+            ),
+        );
+    }
+
+    // typicalAgeRange
+    $age_range = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_typical_age_range_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $age_range ) ) {
+        $input1['typicalAgeRange'] = $age_range;
+    }
+
+    // timeRequired
+    $time_req = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_time_required_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $time_req ) ) {
+        $input1['timeRequired'] = $time_req;
+    }
+
+    // hasPart (Questions & Answers from repeater)
+    $quiz_questions = array();
+    if ( ! empty( $all_post_meta['quiz_question_' . $schema_id] ) && is_array( $all_post_meta['quiz_question_' . $schema_id] ) && ! empty( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+            $quiz_questions = maybe_unserialize( $all_post_meta['quiz_question_' . $schema_id][0] );
+        } elseif ( is_array( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+            $quiz_questions = $all_post_meta['quiz_question_' . $schema_id][0];
+        }
+    } else {
+        $saved_questions = get_post_meta( $schema_post_id, 'quiz_question_' . $schema_id, true );
+        if ( ! empty( $saved_questions ) && is_array( $saved_questions ) ) {
+            $quiz_questions = $saved_questions;
+        }
+    }
+
+    if ( ! empty( $quiz_questions ) && is_array( $quiz_questions ) ) {
+        $has_part = array();
+        foreach ( $quiz_questions as $q ) {
+            if ( empty( $q['saswp_quiz_question_text'] ) && empty( $q['saswp_quiz_question_accepted_answer'] ) ) {
+                continue;
+            }
+
+            $question = array(
+                '@type'           => 'Question',
+                'eduQuestionType' => ! empty( $q['saswp_quiz_question_type'] ) ? $q['saswp_quiz_question_type'] : 'Flashcard',
+                'text'            => ! empty( $q['saswp_quiz_question_text'] ) ? $q['saswp_quiz_question_text'] : '',
+            );
+
+            // acceptedAnswer
+            if ( ! empty( $q['saswp_quiz_question_accepted_answer'] ) ) {
+                $ans = array(
+                    '@type' => 'Answer',
+                    'text'  => $q['saswp_quiz_question_accepted_answer'],
+                );
+                if ( ! empty( $q['saswp_quiz_question_comment'] ) ) {
+                    $ans['comment'] = array(
+                        '@type' => 'Comment',
+                        'text'  => $q['saswp_quiz_question_comment'],
+                    );
+                }
+                $question['acceptedAnswer'] = $ans;
+            }
+
+            // suggestedAnswer (incorrect answers)
+            if ( ! empty( $q['saswp_quiz_question_suggested_answers'] ) ) {
+                $suggested_raw  = $q['saswp_quiz_question_suggested_answers'];
+                $suggested_list = array();
+                if ( is_string( $suggested_raw ) ) {
+                    $lines = preg_split( '/\r\n|\r|\n|,/', $suggested_raw );
+                    foreach ( $lines as $line ) {
+                        $line = trim( $line );
+                        if ( ! empty( $line ) ) {
+                            $suggested_list[] = array(
+                                '@type' => 'Answer',
+                                'text'  => $line,
+                            );
+                        }
+                    }
+                }
+                if ( ! empty( $suggested_list ) ) {
+                    $question['suggestedAnswer'] = $suggested_list;
+                }
+            }
+
+            $has_part[] = $question;
+        }
+
+        if ( ! empty( $has_part ) ) {
+            $input1['hasPart'] = $has_part;
+        }
+    }
+
+    return $input1;
+}
