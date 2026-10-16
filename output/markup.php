@@ -10303,3 +10303,157 @@ function saswp_defined_term_set_schema_markup( $schema_id, $schema_post_id, $all
 
     return $input1;
 }
+
+/**
+ * Generate Occupation Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ */
+function saswp_occupation_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    $input1['@context']         = saswp_context_url();
+    $input1['@type']            = 'Occupation';
+    $input1['@id']              = get_permalink() . '#Occupation';
+    
+    $name = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_name_' . $schema_id, 'saswp_array' );
+    $input1['name']             = ! empty( $name ) ? $name : get_the_title();
+
+    $description = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_description_' . $schema_id, 'saswp_array' );
+    $input1['description']      = ! empty( $description ) ? $description : saswp_strip_all_tags( get_the_excerpt() );
+
+    $url = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_url_' . $schema_id, 'saswp_array' );
+    $input1['url']              = ! empty( $url ) ? saswp_validate_url( $url ) : get_permalink();
+    $input1['mainEntityOfPage'] = get_permalink();
+
+    // occupationalCategory
+    $category = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_occupational_category_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $category ) ) {
+        $input1['occupationalCategory'] = $category;
+    }
+
+    // educationRequirements
+    $education = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_education_requirements_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $education ) ) {
+        $input1['educationRequirements'] = $education;
+    }
+
+    // experienceRequirements
+    $experience = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_experience_requirements_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $experience ) ) {
+        $input1['experienceRequirements'] = $experience;
+    }
+
+    // qualifications
+    $qualifications = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_qualifications_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $qualifications ) ) {
+        $input1['qualifications'] = $qualifications;
+    }
+
+    // responsibilities
+    $responsibilities = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_responsibilities_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $responsibilities ) ) {
+        $input1['responsibilities'] = $responsibilities;
+    }
+
+    // skills
+    $skills = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_skills_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $skills ) ) {
+        if ( is_string( $skills ) && strpos( $skills, ',' ) !== false ) {
+            $skills_arr = array_map( 'trim', explode( ',', $skills ) );
+            $skills_arr = array_values( array_filter( $skills_arr ) );
+            $input1['skills'] = ! empty( $skills_arr ) ? $skills_arr : $skills;
+        } elseif ( is_string( $skills ) ) {
+            $input1['skills'] = array( trim( $skills ) );
+        } else {
+            $input1['skills'] = $skills;
+        }
+    }
+
+    // estimatedSalary
+    $salary_val  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_value_' . $schema_id, 'saswp_array' );
+    $salary_curr = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_currency_' . $schema_id, 'saswp_array' );
+    $salary_unit = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_unit_' . $schema_id, 'saswp_array' );
+    $salary_p10  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile10_' . $schema_id, 'saswp_array' );
+    if ( empty( $salary_p10 ) ) {
+        $salary_p10 = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_min_' . $schema_id, 'saswp_array' );
+    }
+    $salary_p25  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile25_' . $schema_id, 'saswp_array' );
+    $salary_p75  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile75_' . $schema_id, 'saswp_array' );
+    $salary_p90  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile90_' . $schema_id, 'saswp_array' );
+    if ( empty( $salary_p90 ) ) {
+        $salary_p90 = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_max_' . $schema_id, 'saswp_array' );
+    }
+
+    if ( ! empty( $salary_val ) || ! empty( $salary_p10 ) || ! empty( $salary_p25 ) || ! empty( $salary_p75 ) || ! empty( $salary_p90 ) ) {
+        $currency = ! empty( $salary_curr ) ? $salary_curr : 'USD';
+        $duration_map = array(
+            'HOUR'  => 'PT1H',
+            'WEEK'  => 'P1W',
+            'MONTH' => 'P1M',
+            'YEAR'  => 'P1Y',
+        );
+        $dist = array(
+            '@type'    => 'MonetaryAmountDistribution',
+            'duration' => isset( $duration_map[ $salary_unit ] ) ? $duration_map[ $salary_unit ] : 'P1Y',
+            'currency' => $currency,
+        );
+        if ( ! empty( $salary_p10 ) ) {
+            $dist['percentile10'] = is_numeric( $salary_p10 ) ? ( $salary_p10 == (int) $salary_p10 ? (int) $salary_p10 : (float) $salary_p10 ) : $salary_p10;
+        }
+        if ( ! empty( $salary_p25 ) ) {
+            $dist['percentile25'] = is_numeric( $salary_p25 ) ? ( $salary_p25 == (int) $salary_p25 ? (int) $salary_p25 : (float) $salary_p25 ) : $salary_p25;
+        }
+        if ( ! empty( $salary_val ) ) {
+            $dist['median'] = is_numeric( $salary_val ) ? ( $salary_val == (int) $salary_val ? (int) $salary_val : (float) $salary_val ) : $salary_val;
+        }
+        if ( ! empty( $salary_p75 ) ) {
+            $dist['percentile75'] = is_numeric( $salary_p75 ) ? ( $salary_p75 == (int) $salary_p75 ? (int) $salary_p75 : (float) $salary_p75 ) : $salary_p75;
+        }
+        if ( ! empty( $salary_p90 ) ) {
+            $dist['percentile90'] = is_numeric( $salary_p90 ) ? ( $salary_p90 == (int) $salary_p90 ? (int) $salary_p90 : (float) $salary_p90 ) : $salary_p90;
+        }
+        $input1['estimatedSalary'] = $dist;
+    }
+
+    // occupationLocation
+    $loc_type     = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_type_' . $schema_id, 'saswp_array' );
+    $loc_name     = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_name_' . $schema_id, 'saswp_array' );
+    $loc_sameas   = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_sameas_' . $schema_id, 'saswp_array' );
+    $loc_country  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_country_' . $schema_id, 'saswp_array' );
+    $loc_region   = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_region_' . $schema_id, 'saswp_array' );
+    $loc_locality = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_locality_' . $schema_id, 'saswp_array' );
+
+    if ( ! empty( $loc_name ) || ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) || ! empty( $loc_sameas ) ) {
+        $location = array(
+            '@type' => ! empty( $loc_type ) ? $loc_type : 'Country',
+        );
+        if ( ! empty( $loc_name ) ) {
+            $location['name'] = $loc_name;
+        }
+        if ( ! empty( $loc_sameas ) ) {
+            $location['sameAs'] = saswp_validate_url( $loc_sameas );
+        }
+        if ( ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) ) {
+            $address = array(
+                '@type' => 'PostalAddress',
+            );
+            if ( ! empty( $loc_locality ) ) {
+                $address['addressLocality'] = $loc_locality;
+            }
+            if ( ! empty( $loc_region ) ) {
+                $address['addressRegion'] = $loc_region;
+            }
+            if ( ! empty( $loc_country ) ) {
+                $address['addressCountry'] = $loc_country;
+            }
+            $location['address'] = $address;
+        }
+        $input1['occupationLocation'] = $location;
+    }
+
+    return $input1;
+}

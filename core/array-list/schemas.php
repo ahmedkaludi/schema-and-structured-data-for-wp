@@ -73,6 +73,7 @@ return array(
         'Intangible' => array(
             'ItemList'                       => 'ItemList', 
             'JobPosting'                     => 'JobPosting', 
+            'Occupation'                     => 'Occupation',
             'Service'                        => 'Service',
             'TaxiService'                    => 'TaxiService',
             'Trip'                           => 'Trip',   
