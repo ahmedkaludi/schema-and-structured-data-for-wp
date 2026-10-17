@@ -55,6 +55,7 @@ return array(
                 'LearningResource'         => 'LearningResource',  
                 'Quiz'                     => 'Quiz',  
                 'Dataset'                  => 'Dataset',  
+                'Table'                    => 'Table',  
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  

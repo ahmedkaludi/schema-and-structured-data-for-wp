@@ -10800,3 +10800,57 @@ function saswp_dataset_schema_markup( $schema_id, $schema_post_id, $all_post_met
 
     return $input1;
 }
+
+/**
+ * Generate Table Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ * @since  1.69
+ */
+function saswp_table_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array(
+        '@context'         => saswp_context_url(),
+        '@type'            => 'Table',
+        '@id'              => saswp_get_permalink() . '#Table',
+        'name'             => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_name_' . $schema_id, 'saswp_array' ),
+        'description'      => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_description_' . $schema_id, 'saswp_array' ),
+        'url'              => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_url_' . $schema_id, 'saswp_array' ),
+        'mainEntityOfPage' => saswp_get_permalink(),
+    );
+
+    if ( empty( $input1['name'] ) ) {
+        $input1['name'] = saswp_get_the_title();
+    }
+    if ( empty( $input1['description'] ) ) {
+        $input1['description'] = saswp_get_the_excerpt();
+    }
+    if ( empty( $input1['url'] ) ) {
+        $input1['url'] = saswp_get_permalink();
+    }
+
+    // about
+    $about = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_about_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $about ) ) {
+        $input1['about'] = array(
+            '@type' => 'Thing',
+            'name'  => $about,
+        );
+    }
+
+    // inLanguage
+    $in_language = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_in_language_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $in_language ) ) {
+        $input1['inLanguage'] = $in_language;
+    }
+
+    // keywords
+    $keywords = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_keywords_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $keywords ) ) {
+        $input1['keywords'] = $keywords;
+    }
+
+    return $input1;
+}

@@ -13779,6 +13779,60 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         break;
 
+                    case 'Table':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Table Name / Caption', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Pricing Comparison Table', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Brief summary of the data and columns presented in the table.', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'About (Topic / Concept)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_about_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Product Pricing or Technical Specifications', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'In Language', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_in_language_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_locale(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. en-US', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Keywords', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_keywords_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. pricing, comparison, features', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
                 default:
                     break;
             } 

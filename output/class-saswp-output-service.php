@@ -9569,6 +9569,30 @@ Class SASWP_Output_Service{
                         $input1['includedInDataCatalog'] = $catalog;
                     }
                 break;
+
+                case 'Table':
+                    if ( ! empty( $custom_fields['saswp_table_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_table_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_table_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_table_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_about'] ) ) {
+                        $input1['about'] = array(
+                            '@type' => 'Thing',
+                            'name'  => $custom_fields['saswp_table_schema_about'],
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_in_language'] ) ) {
+                        $input1['inLanguage'] = $custom_fields['saswp_table_schema_in_language'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_keywords'] ) ) {
+                        $input1['keywords'] = $custom_fields['saswp_table_schema_keywords'];
+                    }
+                break;
                
                      default:
                          break;
@@ -10867,6 +10891,20 @@ Class SASWP_Output_Service{
                         '@context'          => saswp_context_url(),
                         '@type'             => 'Dataset',
                         '@id'               => saswp_get_permalink().'#Dataset',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Table':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Table',
+                        '@id'               => saswp_get_permalink().'#Table',
                         'name'              => saswp_get_the_title(),
                         'url'               => saswp_get_permalink(),
                         'mainEntityOfPage'  => saswp_get_permalink(),

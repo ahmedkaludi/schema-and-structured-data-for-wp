@@ -95,6 +95,7 @@ $without_aggregate = array(
         'LearningResource',
         'Quiz',
         'Dataset',
+        'Table',
         'LiveBlogPosting',
         'ImageGallery',
         'MediaGallery',
