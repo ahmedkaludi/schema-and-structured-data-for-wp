@@ -250,7 +250,7 @@ if ( ! defined('ABSPATH') ) exit;
                         array(
                                 'post_type' 	     => $type,                                                                                   
                                 'posts_per_page'     => -1,   
-                                'post_status'        => 'any',
+                                'post_status'        => ( $type === 'saswp_reviews' ) ? 'publish' : 'any',
                         )
 
                      );                        
@@ -266,9 +266,10 @@ if ( ! defined('ABSPATH') ) exit;
 
                             foreach ( $post_meta as $key => $meta){
 
-                                if(@unserialize($meta[0]) !== false){
-                                    $post_meta[$key] = unserialize($meta[0]);
-                                }else{
+                                if ( is_serialized( $meta[0] ) ) {
+                                    // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_unserialize
+                                    $post_meta[$key] = unserialize( $meta[0], array( 'allowed_classes' => false ) );
+                                } else {
                                     $post_meta[$key] = $meta[0];
                                 }
 
