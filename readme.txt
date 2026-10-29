@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 4.5
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.68
+Stable tag: 1.69
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -94,6 +94,9 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Guide
 * DefinedTermSet
 * UserReview
+* Occupation
+* Quiz
+* Dataset
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -152,6 +155,14 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.69 (29 October 2026) =
+* Feature: Added Support for Dataset schema #410
+* Feature: Added Support for Quiz schema #1674
+* Feature: Added Support for Occupation schema #1872
+* Fixed: Incorrect RealEstateAgent Schema Type #2480
+* Fixed: ItemList schema option causing WooCommerce notices to disappear on Checkout #2482
+* Fixed: Vulnerability discovered by daroo and reported by Wordfence #2483
 
 = 1.68 (12 October 2026) =
 * Feature: Added Support for UserReview schema #2257
@@ -284,15 +295,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Fixed: Improvement in Person schema #2363
 * Fixed: Global schema modification issue in Person schema #2365
 * Enhancement: Improvement in SiteNavigationElement Schema #2369
-
-= 1.50 (02 September 2025) =
-* Enhancement: Fetch YouTube API Data from post's ACF Oembed field #2311
-* Feature: Added Certification schema type #2338
-* Feature: WPML compatibility with language wise menu translation #2348
-* Enhancement: width and height of image appears as a strings #2350
-* Fixed: Issue with FAQ schema on Woocommerce brands #2351
-* Enhancement: Microdata clean up improvement #2352
-* Fixed: Vulnerability reported by WPScan Security
-* Fixed: Code improvement with polylang add-on #2353
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

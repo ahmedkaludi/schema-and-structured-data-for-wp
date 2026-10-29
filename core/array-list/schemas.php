@@ -53,6 +53,9 @@ return array(
                 'MedicalWebPage'           => 'MedicalWebPage',
                 'BreadCrumbs'              => 'BreadCrumbs',  
                 'LearningResource'         => 'LearningResource',  
+                'Quiz'                     => 'Quiz',  
+                'Dataset'                  => 'Dataset',  
+                'Table'                    => 'Table',  
                 'LiveBlogPosting'          => 'LiveBlogPosting',  
                 'ImageGallery'             => 'ImageGallery',  
                 'MediaGallery'             => 'MediaGallery',  
@@ -73,6 +76,7 @@ return array(
         'Intangible' => array(
             'ItemList'                       => 'ItemList', 
             'JobPosting'                     => 'JobPosting', 
+            'Occupation'                     => 'Occupation',
             'Service'                        => 'Service',
             'TaxiService'                    => 'TaxiService',
             'Trip'                           => 'Trip',   

@@ -3022,6 +3022,18 @@ function saswp_get_mainEntity($schema_id){
         if( (function_exists('ampforwp_is_front_page') && ampforwp_is_front_page()) || is_front_page() ){
             return array();
         }
+        if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+            return array();
+        }
+
+        if ( function_exists( 'is_cart' ) && is_cart() ) {
+            return array();
+        }
+
+        if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+            return array();
+        }
+
     
         global $post;
         

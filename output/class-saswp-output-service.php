@@ -9334,6 +9334,265 @@ Class SASWP_Output_Service{
                             $input1['headline'] = $custom_fields['saswp_collection_page_headline'];
                         }   
                 break;
+
+                case 'Occupation':
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_occupation_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_occupation_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_occupation_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_occupational_category'] ) ) {
+                        $input1['occupationalCategory'] = $custom_fields['saswp_occupation_schema_occupational_category'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_education_requirements'] ) ) {
+                        $input1['educationRequirements'] = $custom_fields['saswp_occupation_schema_education_requirements'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_experience_requirements'] ) ) {
+                        $input1['experienceRequirements'] = $custom_fields['saswp_occupation_schema_experience_requirements'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_qualifications'] ) ) {
+                        $input1['qualifications'] = $custom_fields['saswp_occupation_schema_qualifications'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_responsibilities'] ) ) {
+                        $input1['responsibilities'] = $custom_fields['saswp_occupation_schema_responsibilities'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_occupation_schema_skills'] ) ) {
+                        $skills = $custom_fields['saswp_occupation_schema_skills'];
+                        if ( is_string( $skills ) && strpos( $skills, ',' ) !== false ) {
+                            $skills_arr = array_map( 'trim', explode( ',', $skills ) );
+                            $skills_arr = array_values( array_filter( $skills_arr ) );
+                            $input1['skills'] = ! empty( $skills_arr ) ? $skills_arr : $skills;
+                        } elseif ( is_string( $skills ) ) {
+                            $input1['skills'] = array( trim( $skills ) );
+                        } else {
+                            $input1['skills'] = $skills;
+                        }
+                    }
+
+                    // Estimated Salary
+                    $salary_val  = ! empty( $custom_fields['saswp_occupation_schema_salary_value'] ) ? $custom_fields['saswp_occupation_schema_salary_value'] : '';
+                    $salary_curr = ! empty( $custom_fields['saswp_occupation_schema_salary_currency'] ) ? $custom_fields['saswp_occupation_schema_salary_currency'] : 'USD';
+                    $salary_unit = ! empty( $custom_fields['saswp_occupation_schema_salary_unit'] ) ? $custom_fields['saswp_occupation_schema_salary_unit'] : 'YEAR';
+                    $salary_p10  = ! empty( $custom_fields['saswp_occupation_schema_salary_percentile10'] ) ? $custom_fields['saswp_occupation_schema_salary_percentile10'] : ( ! empty( $custom_fields['saswp_occupation_schema_salary_min'] ) ? $custom_fields['saswp_occupation_schema_salary_min'] : '' );
+                    $salary_p25  = ! empty( $custom_fields['saswp_occupation_schema_salary_percentile25'] ) ? $custom_fields['saswp_occupation_schema_salary_percentile25'] : '';
+                    $salary_p75  = ! empty( $custom_fields['saswp_occupation_schema_salary_percentile75'] ) ? $custom_fields['saswp_occupation_schema_salary_percentile75'] : '';
+                    $salary_p90  = ! empty( $custom_fields['saswp_occupation_schema_salary_percentile90'] ) ? $custom_fields['saswp_occupation_schema_salary_percentile90'] : ( ! empty( $custom_fields['saswp_occupation_schema_salary_max'] ) ? $custom_fields['saswp_occupation_schema_salary_max'] : '' );
+
+                    if ( ! empty( $salary_val ) || ! empty( $salary_p10 ) || ! empty( $salary_p25 ) || ! empty( $salary_p75 ) || ! empty( $salary_p90 ) ) {
+                        $duration_map = array(
+                            'HOUR'  => 'PT1H',
+                            'WEEK'  => 'P1W',
+                            'MONTH' => 'P1M',
+                            'YEAR'  => 'P1Y',
+                        );
+                        $dist = array(
+                            '@type'    => 'MonetaryAmountDistribution',
+                            'duration' => isset( $duration_map[ $salary_unit ] ) ? $duration_map[ $salary_unit ] : 'P1Y',
+                            'currency' => $salary_curr,
+                        );
+                        if ( ! empty( $salary_p10 ) ) {
+                            $dist['percentile10'] = is_numeric( $salary_p10 ) ? ( $salary_p10 == (int) $salary_p10 ? (int) $salary_p10 : (float) $salary_p10 ) : $salary_p10;
+                        }
+                        if ( ! empty( $salary_p25 ) ) {
+                            $dist['percentile25'] = is_numeric( $salary_p25 ) ? ( $salary_p25 == (int) $salary_p25 ? (int) $salary_p25 : (float) $salary_p25 ) : $salary_p25;
+                        }
+                        if ( ! empty( $salary_val ) ) {
+                            $dist['median'] = is_numeric( $salary_val ) ? ( $salary_val == (int) $salary_val ? (int) $salary_val : (float) $salary_val ) : $salary_val;
+                        }
+                        if ( ! empty( $salary_p75 ) ) {
+                            $dist['percentile75'] = is_numeric( $salary_p75 ) ? ( $salary_p75 == (int) $salary_p75 ? (int) $salary_p75 : (float) $salary_p75 ) : $salary_p75;
+                        }
+                        if ( ! empty( $salary_p90 ) ) {
+                            $dist['percentile90'] = is_numeric( $salary_p90 ) ? ( $salary_p90 == (int) $salary_p90 ? (int) $salary_p90 : (float) $salary_p90 ) : $salary_p90;
+                        }
+                        $input1['estimatedSalary'] = $dist;
+                    }
+
+                    // Occupation Location
+                    $loc_type     = ! empty( $custom_fields['saswp_occupation_schema_location_type'] ) ? $custom_fields['saswp_occupation_schema_location_type'] : 'Country';
+                    $loc_name     = ! empty( $custom_fields['saswp_occupation_schema_location_name'] ) ? $custom_fields['saswp_occupation_schema_location_name'] : '';
+                    $loc_sameas   = ! empty( $custom_fields['saswp_occupation_schema_location_sameas'] ) ? $custom_fields['saswp_occupation_schema_location_sameas'] : '';
+                    $loc_country  = ! empty( $custom_fields['saswp_occupation_schema_location_country'] ) ? $custom_fields['saswp_occupation_schema_location_country'] : '';
+                    $loc_region   = ! empty( $custom_fields['saswp_occupation_schema_location_region'] ) ? $custom_fields['saswp_occupation_schema_location_region'] : '';
+                    $loc_locality = ! empty( $custom_fields['saswp_occupation_schema_location_locality'] ) ? $custom_fields['saswp_occupation_schema_location_locality'] : '';
+
+                    if ( ! empty( $loc_name ) || ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) || ! empty( $loc_sameas ) ) {
+                        $location = array(
+                            '@type' => $loc_type,
+                        );
+                        if ( ! empty( $loc_name ) ) {
+                            $location['name'] = $loc_name;
+                        }
+                        if ( ! empty( $loc_sameas ) ) {
+                            $location['sameAs'] = saswp_validate_url( $loc_sameas );
+                        }
+                        if ( ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) ) {
+                            $address = array(
+                                '@type' => 'PostalAddress',
+                            );
+                            if ( ! empty( $loc_locality ) ) {
+                                $address['addressLocality'] = $loc_locality;
+                            }
+                            if ( ! empty( $loc_region ) ) {
+                                $address['addressRegion'] = $loc_region;
+                            }
+                            if ( ! empty( $loc_country ) ) {
+                                $address['addressCountry'] = $loc_country;
+                            }
+                            $location['address'] = $address;
+                        }
+                        $input1['occupationLocation'] = $location;
+                    }
+                break;
+
+                case 'Quiz':
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_quiz_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_quiz_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_quiz_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_about'] ) ) {
+                        $input1['about'] = array(
+                            '@type' => 'Thing',
+                            'name'  => $custom_fields['saswp_quiz_schema_about'],
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_educational_level'] ) ) {
+                        $input1['educationalLevel'] = $custom_fields['saswp_quiz_schema_educational_level'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_educational_alignment'] ) ) {
+                        $input1['educationalAlignment'] = array(
+                            array(
+                                '@type'         => 'AlignmentObject',
+                                'alignmentType' => 'educationalSubject',
+                                'targetName'    => $custom_fields['saswp_quiz_schema_educational_alignment'],
+                            ),
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_typical_age_range'] ) ) {
+                        $input1['typicalAgeRange'] = $custom_fields['saswp_quiz_schema_typical_age_range'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_quiz_schema_time_required'] ) ) {
+                        $input1['timeRequired'] = $custom_fields['saswp_quiz_schema_time_required'];
+                    }
+                break;
+
+                case 'Dataset':
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_dataset_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_dataset_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_sameas'] ) ) {
+                        $input1['sameAs'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_sameas'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_identifier'] ) ) {
+                        $input1['identifier'] = $custom_fields['saswp_dataset_schema_identifier'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_version'] ) ) {
+                        $input1['version'] = $custom_fields['saswp_dataset_schema_version'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_license'] ) ) {
+                        $input1['license'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_license'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_is_accessible_for_free'] ) ) {
+                        $input1['isAccessibleForFree'] = ( strtolower( $custom_fields['saswp_dataset_schema_is_accessible_for_free'] ) === 'false' ) ? false : true;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_keywords'] ) ) {
+                        $kw = $custom_fields['saswp_dataset_schema_keywords'];
+                        if ( is_string( $kw ) && strpos( $kw, ',' ) !== false ) {
+                            $kw_arr = array_map( 'trim', explode( ',', $kw ) );
+                            $kw_arr = array_values( array_filter( $kw_arr ) );
+                            $input1['keywords'] = ! empty( $kw_arr ) ? $kw_arr : $kw;
+                        } else {
+                            $input1['keywords'] = trim( $kw );
+                        }
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_variable_measured'] ) ) {
+                        $input1['variableMeasured'] = $custom_fields['saswp_dataset_schema_variable_measured'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_measurement_technique'] ) ) {
+                        $input1['measurementTechnique'] = $custom_fields['saswp_dataset_schema_measurement_technique'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_temporal_coverage'] ) ) {
+                        $input1['temporalCoverage'] = $custom_fields['saswp_dataset_schema_temporal_coverage'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_spatial_coverage'] ) ) {
+                        $input1['spatialCoverage'] = $custom_fields['saswp_dataset_schema_spatial_coverage'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_citation'] ) ) {
+                        $input1['citation'] = $custom_fields['saswp_dataset_schema_citation'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_issn'] ) ) {
+                        $input1['issn'] = $custom_fields['saswp_dataset_schema_issn'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_creator_name'] ) ) {
+                        $creator = array(
+                            '@type' => ! empty( $custom_fields['saswp_dataset_schema_creator_type'] ) ? $custom_fields['saswp_dataset_schema_creator_type'] : 'Organization',
+                            'name'  => $custom_fields['saswp_dataset_schema_creator_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_creator_url'] ) ) {
+                            $creator['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_creator_url'] );
+                        }
+                        $input1['creator'] = $creator;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_funder_name'] ) ) {
+                        $funder = array(
+                            '@type' => 'Organization',
+                            'name'  => $custom_fields['saswp_dataset_schema_funder_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_funder_url'] ) ) {
+                            $funder['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_funder_url'] );
+                        }
+                        $input1['funder'] = $funder;
+                    }
+                    if ( ! empty( $custom_fields['saswp_dataset_schema_catalog_name'] ) ) {
+                        $catalog = array(
+                            '@type' => 'DataCatalog',
+                            'name'  => $custom_fields['saswp_dataset_schema_catalog_name'],
+                        );
+                        if ( ! empty( $custom_fields['saswp_dataset_schema_catalog_url'] ) ) {
+                            $catalog['url'] = saswp_validate_url( $custom_fields['saswp_dataset_schema_catalog_url'] );
+                        }
+                        $input1['includedInDataCatalog'] = $catalog;
+                    }
+                break;
+
+                case 'Table':
+                    if ( ! empty( $custom_fields['saswp_table_schema_name'] ) ) {
+                        $input1['name'] = $custom_fields['saswp_table_schema_name'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_description'] ) ) {
+                        $input1['description'] = wp_strip_all_tags( strip_shortcodes( $custom_fields['saswp_table_schema_description'] ) );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_url'] ) ) {
+                        $input1['url'] = saswp_validate_url( $custom_fields['saswp_table_schema_url'] );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_about'] ) ) {
+                        $input1['about'] = array(
+                            '@type' => 'Thing',
+                            'name'  => $custom_fields['saswp_table_schema_about'],
+                        );
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_in_language'] ) ) {
+                        $input1['inLanguage'] = $custom_fields['saswp_table_schema_in_language'];
+                    }
+                    if ( ! empty( $custom_fields['saswp_table_schema_keywords'] ) ) {
+                        $input1['keywords'] = $custom_fields['saswp_table_schema_keywords'];
+                    }
+                break;
                
                      default:
                          break;
@@ -10593,6 +10852,62 @@ Class SASWP_Output_Service{
                         'name'              => saswp_get_the_title(),
                         'url'               => saswp_get_permalink(),
                         'dateCreated'       => esc_html( $date),                
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Occupation':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Occupation',
+                        '@id'               => saswp_get_permalink().'#Occupation',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Quiz':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Quiz',
+                        '@id'               => saswp_get_permalink().'#Quiz',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Dataset':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Dataset',
+                        '@id'               => saswp_get_permalink().'#Dataset',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
+                        'description'       => saswp_get_the_excerpt(),                                                       
+                    );
+
+                    break;
+
+                    case 'Table':
+
+                    $input1 = array(
+                        '@context'          => saswp_context_url(),
+                        '@type'             => 'Table',
+                        '@id'               => saswp_get_permalink().'#Table',
+                        'name'              => saswp_get_the_title(),
+                        'url'               => saswp_get_permalink(),
+                        'mainEntityOfPage'  => saswp_get_permalink(),
                         'description'       => saswp_get_the_excerpt(),                                                       
                     );
 

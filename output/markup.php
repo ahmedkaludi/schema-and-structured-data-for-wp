@@ -10303,3 +10303,554 @@ function saswp_defined_term_set_schema_markup( $schema_id, $schema_post_id, $all
 
     return $input1;
 }
+
+/**
+ * Generate Occupation Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ */
+function saswp_occupation_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+    
+    $input1 = array();
+
+    $input1['@context']         = saswp_context_url();
+    $input1['@type']            = 'Occupation';
+    $input1['@id']              = get_permalink() . '#Occupation';
+    
+    $name = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_name_' . $schema_id, 'saswp_array' );
+    $input1['name']             = ! empty( $name ) ? $name : get_the_title();
+
+    $description = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_description_' . $schema_id, 'saswp_array' );
+    $input1['description']      = ! empty( $description ) ? $description : saswp_strip_all_tags( get_the_excerpt() );
+
+    $url = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_url_' . $schema_id, 'saswp_array' );
+    $input1['url']              = ! empty( $url ) ? saswp_validate_url( $url ) : get_permalink();
+    $input1['mainEntityOfPage'] = get_permalink();
+
+    // occupationalCategory
+    $category = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_occupational_category_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $category ) ) {
+        $input1['occupationalCategory'] = $category;
+    }
+
+    // educationRequirements
+    $education = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_education_requirements_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $education ) ) {
+        $input1['educationRequirements'] = $education;
+    }
+
+    // experienceRequirements
+    $experience = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_experience_requirements_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $experience ) ) {
+        $input1['experienceRequirements'] = $experience;
+    }
+
+    // qualifications
+    $qualifications = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_qualifications_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $qualifications ) ) {
+        $input1['qualifications'] = $qualifications;
+    }
+
+    // responsibilities
+    $responsibilities = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_responsibilities_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $responsibilities ) ) {
+        $input1['responsibilities'] = $responsibilities;
+    }
+
+    // skills
+    $skills = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_skills_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $skills ) ) {
+        if ( is_string( $skills ) && strpos( $skills, ',' ) !== false ) {
+            $skills_arr = array_map( 'trim', explode( ',', $skills ) );
+            $skills_arr = array_values( array_filter( $skills_arr ) );
+            $input1['skills'] = ! empty( $skills_arr ) ? $skills_arr : $skills;
+        } elseif ( is_string( $skills ) ) {
+            $input1['skills'] = array( trim( $skills ) );
+        } else {
+            $input1['skills'] = $skills;
+        }
+    }
+
+    // estimatedSalary
+    $salary_val  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_value_' . $schema_id, 'saswp_array' );
+    $salary_curr = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_currency_' . $schema_id, 'saswp_array' );
+    $salary_unit = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_unit_' . $schema_id, 'saswp_array' );
+    $salary_p10  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile10_' . $schema_id, 'saswp_array' );
+    if ( empty( $salary_p10 ) ) {
+        $salary_p10 = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_min_' . $schema_id, 'saswp_array' );
+    }
+    $salary_p25  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile25_' . $schema_id, 'saswp_array' );
+    $salary_p75  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile75_' . $schema_id, 'saswp_array' );
+    $salary_p90  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_percentile90_' . $schema_id, 'saswp_array' );
+    if ( empty( $salary_p90 ) ) {
+        $salary_p90 = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_salary_max_' . $schema_id, 'saswp_array' );
+    }
+
+    if ( ! empty( $salary_val ) || ! empty( $salary_p10 ) || ! empty( $salary_p25 ) || ! empty( $salary_p75 ) || ! empty( $salary_p90 ) ) {
+        $currency = ! empty( $salary_curr ) ? $salary_curr : 'USD';
+        $duration_map = array(
+            'HOUR'  => 'PT1H',
+            'WEEK'  => 'P1W',
+            'MONTH' => 'P1M',
+            'YEAR'  => 'P1Y',
+        );
+        $dist = array(
+            '@type'    => 'MonetaryAmountDistribution',
+            'duration' => isset( $duration_map[ $salary_unit ] ) ? $duration_map[ $salary_unit ] : 'P1Y',
+            'currency' => $currency,
+        );
+        if ( ! empty( $salary_p10 ) ) {
+            $dist['percentile10'] = is_numeric( $salary_p10 ) ? ( $salary_p10 == (int) $salary_p10 ? (int) $salary_p10 : (float) $salary_p10 ) : $salary_p10;
+        }
+        if ( ! empty( $salary_p25 ) ) {
+            $dist['percentile25'] = is_numeric( $salary_p25 ) ? ( $salary_p25 == (int) $salary_p25 ? (int) $salary_p25 : (float) $salary_p25 ) : $salary_p25;
+        }
+        if ( ! empty( $salary_val ) ) {
+            $dist['median'] = is_numeric( $salary_val ) ? ( $salary_val == (int) $salary_val ? (int) $salary_val : (float) $salary_val ) : $salary_val;
+        }
+        if ( ! empty( $salary_p75 ) ) {
+            $dist['percentile75'] = is_numeric( $salary_p75 ) ? ( $salary_p75 == (int) $salary_p75 ? (int) $salary_p75 : (float) $salary_p75 ) : $salary_p75;
+        }
+        if ( ! empty( $salary_p90 ) ) {
+            $dist['percentile90'] = is_numeric( $salary_p90 ) ? ( $salary_p90 == (int) $salary_p90 ? (int) $salary_p90 : (float) $salary_p90 ) : $salary_p90;
+        }
+        $input1['estimatedSalary'] = $dist;
+    }
+
+    // occupationLocation
+    $loc_type     = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_type_' . $schema_id, 'saswp_array' );
+    $loc_name     = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_name_' . $schema_id, 'saswp_array' );
+    $loc_sameas   = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_sameas_' . $schema_id, 'saswp_array' );
+    $loc_country  = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_country_' . $schema_id, 'saswp_array' );
+    $loc_region   = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_region_' . $schema_id, 'saswp_array' );
+    $loc_locality = saswp_remove_warnings( $all_post_meta, 'saswp_occupation_schema_location_locality_' . $schema_id, 'saswp_array' );
+
+    if ( ! empty( $loc_name ) || ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) || ! empty( $loc_sameas ) ) {
+        $location = array(
+            '@type' => ! empty( $loc_type ) ? $loc_type : 'Country',
+        );
+        if ( ! empty( $loc_name ) ) {
+            $location['name'] = $loc_name;
+        }
+        if ( ! empty( $loc_sameas ) ) {
+            $location['sameAs'] = saswp_validate_url( $loc_sameas );
+        }
+        if ( ! empty( $loc_country ) || ! empty( $loc_region ) || ! empty( $loc_locality ) ) {
+            $address = array(
+                '@type' => 'PostalAddress',
+            );
+            if ( ! empty( $loc_locality ) ) {
+                $address['addressLocality'] = $loc_locality;
+            }
+            if ( ! empty( $loc_region ) ) {
+                $address['addressRegion'] = $loc_region;
+            }
+            if ( ! empty( $loc_country ) ) {
+                $address['addressCountry'] = $loc_country;
+            }
+            $location['address'] = $address;
+        }
+        $input1['occupationLocation'] = $location;
+    }
+
+    return $input1;
+}
+
+/**
+ * Generate Quiz Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ * @since  1.69
+ */
+function saswp_quiz_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array();
+
+    $input1['@context']         = saswp_context_url();
+    $input1['@type']            = 'Quiz';
+    $input1['@id']              = get_permalink() . '#Quiz';
+
+    $name = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_name_' . $schema_id, 'saswp_array' );
+    $input1['name']             = ! empty( $name ) ? $name : get_the_title();
+
+    $description = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_description_' . $schema_id, 'saswp_array' );
+    $input1['description']      = ! empty( $description ) ? $description : saswp_strip_all_tags( get_the_excerpt() );
+
+    $url = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_url_' . $schema_id, 'saswp_array' );
+    $input1['url']              = ! empty( $url ) ? saswp_validate_url( $url ) : get_permalink();
+    $input1['mainEntityOfPage'] = get_permalink();
+
+    // about
+    $about = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_about_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $about ) ) {
+        $input1['about'] = array(
+            '@type' => 'Thing',
+            'name'  => $about,
+        );
+    }
+
+    // educationalLevel
+    $edu_level = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_educational_level_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $edu_level ) ) {
+        $input1['educationalLevel'] = $edu_level;
+    }
+
+    // educationalAlignment
+    $edu_alignment = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_educational_alignment_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $edu_alignment ) ) {
+        $input1['educationalAlignment'] = array(
+            array(
+                '@type'         => 'AlignmentObject',
+                'alignmentType' => 'educationalSubject',
+                'targetName'    => $edu_alignment,
+            ),
+        );
+    }
+
+    // typicalAgeRange
+    $age_range = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_typical_age_range_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $age_range ) ) {
+        $input1['typicalAgeRange'] = $age_range;
+    }
+
+    // timeRequired
+    $time_req = saswp_remove_warnings( $all_post_meta, 'saswp_quiz_schema_time_required_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $time_req ) ) {
+        $input1['timeRequired'] = $time_req;
+    }
+
+    // hasPart (Questions & Answers from repeater)
+    $quiz_questions = array();
+    if ( ! empty( $all_post_meta['quiz_question_' . $schema_id] ) && is_array( $all_post_meta['quiz_question_' . $schema_id] ) && ! empty( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+            $quiz_questions = maybe_unserialize( $all_post_meta['quiz_question_' . $schema_id][0] );
+        } elseif ( is_array( $all_post_meta['quiz_question_' . $schema_id][0] ) ) {
+            $quiz_questions = $all_post_meta['quiz_question_' . $schema_id][0];
+        }
+    } else {
+        $saved_questions = get_post_meta( $schema_post_id, 'quiz_question_' . $schema_id, true );
+        if ( ! empty( $saved_questions ) && is_array( $saved_questions ) ) {
+            $quiz_questions = $saved_questions;
+        }
+    }
+
+    if ( ! empty( $quiz_questions ) && is_array( $quiz_questions ) ) {
+        $has_part = array();
+        foreach ( $quiz_questions as $q ) {
+            if ( empty( $q['saswp_quiz_question_text'] ) && empty( $q['saswp_quiz_question_accepted_answer'] ) ) {
+                continue;
+            }
+
+            $question = array(
+                '@type'           => 'Question',
+                'eduQuestionType' => ! empty( $q['saswp_quiz_question_type'] ) ? $q['saswp_quiz_question_type'] : 'Flashcard',
+                'text'            => ! empty( $q['saswp_quiz_question_text'] ) ? $q['saswp_quiz_question_text'] : '',
+            );
+
+            // acceptedAnswer
+            if ( ! empty( $q['saswp_quiz_question_accepted_answer'] ) ) {
+                $ans = array(
+                    '@type' => 'Answer',
+                    'text'  => $q['saswp_quiz_question_accepted_answer'],
+                );
+                if ( ! empty( $q['saswp_quiz_question_comment'] ) ) {
+                    $ans['comment'] = array(
+                        '@type' => 'Comment',
+                        'text'  => $q['saswp_quiz_question_comment'],
+                    );
+                }
+                $question['acceptedAnswer'] = $ans;
+            }
+
+            // suggestedAnswer (incorrect answers)
+            if ( ! empty( $q['saswp_quiz_question_suggested_answers'] ) ) {
+                $suggested_raw  = $q['saswp_quiz_question_suggested_answers'];
+                $suggested_list = array();
+                if ( is_string( $suggested_raw ) ) {
+                    $lines = preg_split( '/\r\n|\r|\n|,/', $suggested_raw );
+                    foreach ( $lines as $line ) {
+                        $line = trim( $line );
+                        if ( ! empty( $line ) ) {
+                            $suggested_list[] = array(
+                                '@type' => 'Answer',
+                                'text'  => $line,
+                            );
+                        }
+                    }
+                }
+                if ( ! empty( $suggested_list ) ) {
+                    $question['suggestedAnswer'] = $suggested_list;
+                }
+            }
+
+            $has_part[] = $question;
+        }
+
+        if ( ! empty( $has_part ) ) {
+            $input1['hasPart'] = $has_part;
+        }
+    }
+
+    return $input1;
+}
+
+/**
+ * Generate Dataset Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ * @since  1.69 
+ */
+function saswp_dataset_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array(
+        '@context'         => saswp_context_url(),
+        '@type'            => 'Dataset',
+        '@id'              => saswp_get_permalink() . '#Dataset',
+        'name'             => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_name_' . $schema_id, 'saswp_array' ),
+        'description'      => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_description_' . $schema_id, 'saswp_array' ),
+        'url'              => saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_url_' . $schema_id, 'saswp_array' ),
+        'mainEntityOfPage' => saswp_get_permalink(),
+    );
+
+    if ( empty( $input1['name'] ) ) {
+        $input1['name'] = saswp_get_the_title();
+    }
+    if ( empty( $input1['description'] ) ) {
+        $input1['description'] = saswp_get_the_excerpt();
+    }
+    if ( empty( $input1['url'] ) ) {
+        $input1['url'] = saswp_get_permalink();
+    }
+
+    // sameAs
+    $sameas = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_sameas_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $sameas ) ) {
+        $input1['sameAs'] = saswp_validate_url( $sameas );
+    }
+
+    // identifier (DOI / URI / code)
+    $identifier = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_identifier_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $identifier ) ) {
+        $input1['identifier'] = $identifier;
+    }
+
+    // version
+    $version = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_version_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $version ) ) {
+        $input1['version'] = $version;
+    }
+
+    // license
+    $license = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_license_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $license ) ) {
+        $input1['license'] = saswp_validate_url( $license );
+    }
+
+    // isAccessibleForFree
+    $is_free = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_is_accessible_for_free_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $is_free ) ) {
+        $input1['isAccessibleForFree'] = ( strtolower( $is_free ) === 'false' ) ? false : true;
+    }
+
+    // keywords
+    $keywords_raw = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_keywords_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $keywords_raw ) ) {
+        if ( is_string( $keywords_raw ) && strpos( $keywords_raw, ',' ) !== false ) {
+            $kw_arr = array_map( 'trim', explode( ',', $keywords_raw ) );
+            $kw_arr = array_values( array_filter( $kw_arr ) );
+            if ( ! empty( $kw_arr ) ) {
+                $input1['keywords'] = $kw_arr;
+            }
+        } else {
+            $input1['keywords'] = trim( $keywords_raw );
+        }
+    }
+
+    // variableMeasured
+    $variable_measured = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_variable_measured_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $variable_measured ) ) {
+        $input1['variableMeasured'] = $variable_measured;
+    }
+
+    // measurementTechnique
+    $measurement_technique = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_measurement_technique_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $measurement_technique ) ) {
+        $input1['measurementTechnique'] = $measurement_technique;
+    }
+
+    // temporalCoverage
+    $temporal_coverage = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_temporal_coverage_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $temporal_coverage ) ) {
+        $input1['temporalCoverage'] = $temporal_coverage;
+    }
+
+    // spatialCoverage
+    $spatial_coverage = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_spatial_coverage_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $spatial_coverage ) ) {
+        $input1['spatialCoverage'] = $spatial_coverage;
+    }
+
+    // citation
+    $citation = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_citation_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $citation ) ) {
+        $input1['citation'] = $citation;
+    }
+
+    // issn
+    $issn = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_issn_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $issn ) ) {
+        $input1['issn'] = $issn;
+    }
+
+    // creator
+    $creator_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $creator_name ) ) {
+        $creator_type = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_type_' . $schema_id, 'saswp_array' );
+        $creator_url  = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_creator_url_' . $schema_id, 'saswp_array' );
+
+        $creator = array(
+            '@type' => ! empty( $creator_type ) ? $creator_type : 'Organization',
+            'name'  => $creator_name,
+        );
+        if ( ! empty( $creator_url ) ) {
+            $creator['url'] = saswp_validate_url( $creator_url );
+        }
+        $input1['creator'] = $creator;
+    }
+
+    // funder
+    $funder_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_funder_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $funder_name ) ) {
+        $funder_url = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_funder_url_' . $schema_id, 'saswp_array' );
+        $funder     = array(
+            '@type' => 'Organization',
+            'name'  => $funder_name,
+        );
+        if ( ! empty( $funder_url ) ) {
+            $funder['url'] = saswp_validate_url( $funder_url );
+        }
+        $input1['funder'] = $funder;
+    }
+
+    // includedInDataCatalog
+    $catalog_name = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_catalog_name_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $catalog_name ) ) {
+        $catalog_url = saswp_remove_warnings( $all_post_meta, 'saswp_dataset_schema_catalog_url_' . $schema_id, 'saswp_array' );
+        $catalog     = array(
+            '@type' => 'DataCatalog',
+            'name'  => $catalog_name,
+        );
+        if ( ! empty( $catalog_url ) ) {
+            $catalog['url'] = saswp_validate_url( $catalog_url );
+        }
+        $input1['includedInDataCatalog'] = $catalog;
+    }
+
+    // distribution (DataDownload from repeater)
+    $distributions = array();
+    if ( ! empty( $all_post_meta['dataset_distribution_' . $schema_id] ) && is_array( $all_post_meta['dataset_distribution_' . $schema_id] ) && ! empty( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+        if ( is_string( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+            $distributions = maybe_unserialize( $all_post_meta['dataset_distribution_' . $schema_id][0] );
+        } elseif ( is_array( $all_post_meta['dataset_distribution_' . $schema_id][0] ) ) {
+            $distributions = $all_post_meta['dataset_distribution_' . $schema_id][0];
+        }
+    } else {
+        $saved_dist = get_post_meta( $schema_post_id, 'dataset_distribution_' . $schema_id, true );
+        if ( ! empty( $saved_dist ) && is_array( $saved_dist ) ) {
+            $distributions = $saved_dist;
+        }
+    }
+
+    if ( ! empty( $distributions ) && is_array( $distributions ) ) {
+        $dist_output = array();
+        foreach ( $distributions as $dist ) {
+            if ( empty( $dist['saswp_dataset_distribution_content_url'] ) && empty( $dist['saswp_dataset_distribution_name'] ) ) {
+                continue;
+            }
+
+            $item = array(
+                '@type' => 'DataDownload',
+            );
+            if ( ! empty( $dist['saswp_dataset_distribution_name'] ) ) {
+                $item['name'] = $dist['saswp_dataset_distribution_name'];
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_encoding_format'] ) ) {
+                $item['encodingFormat'] = $dist['saswp_dataset_distribution_encoding_format'];
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_content_url'] ) ) {
+                $item['contentUrl'] = saswp_validate_url( $dist['saswp_dataset_distribution_content_url'] );
+            }
+            if ( ! empty( $dist['saswp_dataset_distribution_description'] ) ) {
+                $item['description'] = $dist['saswp_dataset_distribution_description'];
+            }
+
+            $dist_output[] = $item;
+        }
+
+        if ( ! empty( $dist_output ) ) {
+            $input1['distribution'] = $dist_output;
+        }
+    }
+
+    return $input1;
+}
+
+/**
+ * Generate Table Schema Markup
+ * @param int   $schema_id
+ * @param int   $schema_post_id
+ * @param array $all_post_meta
+ * @return array $input1
+ * @since  1.69
+ */
+function saswp_table_schema_markup( $schema_id, $schema_post_id, $all_post_meta ) {
+
+    $input1 = array(
+        '@context'         => saswp_context_url(),
+        '@type'            => 'Table',
+        '@id'              => saswp_get_permalink() . '#Table',
+        'name'             => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_name_' . $schema_id, 'saswp_array' ),
+        'description'      => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_description_' . $schema_id, 'saswp_array' ),
+        'url'              => saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_url_' . $schema_id, 'saswp_array' ),
+        'mainEntityOfPage' => saswp_get_permalink(),
+    );
+
+    if ( empty( $input1['name'] ) ) {
+        $input1['name'] = saswp_get_the_title();
+    }
+    if ( empty( $input1['description'] ) ) {
+        $input1['description'] = saswp_get_the_excerpt();
+    }
+    if ( empty( $input1['url'] ) ) {
+        $input1['url'] = saswp_get_permalink();
+    }
+
+    // about
+    $about = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_about_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $about ) ) {
+        $input1['about'] = array(
+            '@type' => 'Thing',
+            'name'  => $about,
+        );
+    }
+
+    // inLanguage
+    $in_language = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_in_language_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $in_language ) ) {
+        $input1['inLanguage'] = $in_language;
+    }
+
+    // keywords
+    $keywords = saswp_remove_warnings( $all_post_meta, 'saswp_table_schema_keywords_' . $schema_id, 'saswp_array' );
+    if ( ! empty( $keywords ) ) {
+        $input1['keywords'] = $keywords;
+    }
+
+    return $input1;
+}

@@ -13335,6 +13335,504 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         );
                         break;
 
+                    case 'Occupation':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Software Engineer', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Description of the occupation', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Occupational Category', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_occupational_category_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 15-1252.00 or Computer Occupations', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Education Requirements', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_education_requirements_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Bachelor\'s degree in Computer Science', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Experience Requirements', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_experience_requirements_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 2+ years of relevant experience', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Qualifications', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_qualifications_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. State license, AWS certification', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Responsibilities', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_responsibilities_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Key responsibilities of this occupation', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Skills', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_skills_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. PHP, JavaScript, SQL, Problem Solving', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary Currency', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_currency_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => 'USD',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. USD, EUR, INR', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Estimated Salary (Median)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_value_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 109000', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary Unit / Duration', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_unit_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'YEAR'   => esc_html__( 'Per Year (P1Y)', 'schema-and-structured-data-for-wp' ),
+                                    'MONTH'  => esc_html__( 'Per Month (P1M)', 'schema-and-structured-data-for-wp' ),
+                                    'WEEK'   => esc_html__( 'Per Week (P1W)', 'schema-and-structured-data-for-wp' ),
+                                    'HOUR'   => esc_html__( 'Per Hour (PT1H)', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'YEAR',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary 10th Percentile', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_percentile10_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 72000', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary 25th Percentile', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_percentile25_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 86000', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary 75th Percentile', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_percentile75_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 120000', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Salary 90th Percentile', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_salary_percentile90_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 140000', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location Type', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'Country'            => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
+                                    'AdministrativeArea' => esc_html__( 'AdministrativeArea', 'schema-and-structured-data-for-wp' ),
+                                    'State'              => esc_html__( 'State', 'schema-and-structured-data-for-wp' ),
+                                    'City'               => esc_html__( 'City', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'Country',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. USA or California', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location sameAs URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_sameas_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.wikidata.org/wiki/Q30', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location Country', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_country_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. US', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location Region / State', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_region_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. CA', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Location Locality / City', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_location_locality_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. San Francisco', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_occupation_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                        );
+                        break;
+
+                    case 'Quiz':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Geometry Quiz', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Description of the quiz', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'About (Topic / Concept)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_about_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Quadrilateral Angles', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Educational Level', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_educational_level_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. High School or Beginner', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Educational Alignment (Subject)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_educational_alignment_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Geometry or Mathematics', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Typical Age Range', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_typical_age_range_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 12-15', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Time Required (Duration)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_quiz_schema_time_required_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. PT15M (15 minutes) or PT1H (1 hour)', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
+                    case 'Dataset':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Global Surface Temperature Anomalies', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Summary of dataset (Google recommends 50 to 5000 characters).', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'SameAs URL (Reference / Authority)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_sameas_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.wikidata.org/wiki/Q1197825', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Identifier / DOI', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_identifier_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://doi.org/10.1000/182 or DOI string', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Version', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_version_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 1.0.0 or 2024-v2', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'License URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_license_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://creativecommons.org/licenses/by/4.0/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Is Accessible For Free', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_is_accessible_for_free_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'True'  => esc_html__( 'True', 'schema-and-structured-data-for-wp' ),
+                                    'False' => esc_html__( 'False', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'True',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Keywords (comma-separated)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_keywords_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. climate, temperature, weather, meteorology', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Variable Measured', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_variable_measured_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Atmospheric Pressure, Wind Speed, Temperature', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Measurement Technique / Method', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_measurement_technique_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Satellite Radiometry or Doppler Radar', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Temporal Coverage', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_temporal_coverage_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 1950-01-01/2024-12-31 or 2020/2024', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Spatial Coverage', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_spatial_coverage_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Global or United States', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Citation', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_citation_'.$schema_id,
+                                'type'       => 'textarea',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. NOAA Climate Data Records, 2024.', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'ISSN', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_issn_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. 2049-3630', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator Type', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_type_'.$schema_id,
+                                'type'       => 'select',
+                                'options'    => array(
+                                    'Organization' => esc_html__( 'Organization', 'schema-and-structured-data-for-wp' ),
+                                    'Person'       => esc_html__( 'Person', 'schema-and-structured-data-for-wp' ),
+                                ),
+                                'default'    => 'Organization',
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. National Climatic Data Center', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Creator URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_creator_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.ncdc.noaa.gov/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Funder Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_funder_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. National Science Foundation', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Funder URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_funder_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://www.nsf.gov/', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Data Catalog Name (includedInDataCatalog)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_catalog_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. data.gov or Zenodo', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Data Catalog URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_dataset_schema_catalog_url_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. https://data.gov', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
+                    case 'Table':
+                        $meta_field = array(
+                            array(
+                                'label'      => esc_html__( 'Table Name / Caption', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_the_title(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Pricing Comparison Table', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => saswp_strip_all_tags(get_the_excerpt()),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'Brief summary of the data and columns presented in the table.', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_permalink(),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'About (Topic / Concept)', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_about_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Product Pricing or Technical Specifications', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'In Language', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_in_language_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => get_locale(),
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. en-US', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                            array(
+                                'label'      => esc_html__( 'Keywords', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_table_schema_keywords_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. pricing, comparison, features', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        );
+                        break;
+
                 default:
                     break;
             } 

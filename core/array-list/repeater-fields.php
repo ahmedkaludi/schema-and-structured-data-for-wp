@@ -73,6 +73,9 @@ return array( 'schema_type_element' => array(
                         'FAQ' => array(
                                'faq-question' => 'faq_question',                                                
                         ),
+                        'Quiz' => array(
+                               'quiz-question' => 'quiz_question',                                                
+                        ),
                         'Event' => array(
 							   'event_schedule'=> 'event_schedule',
 							   'performer'     => 'performer', 
@@ -165,6 +168,9 @@ return array( 'schema_type_element' => array(
 	                  ),
 			      'HealthInsurancePlan' => array(
 	                    'health-insurance-plan-formulary' => 'health_insurance_plan_formulary',
+	                  ),
+			      'Dataset' => array(
+	                    'dataset-distribution' => 'dataset_distribution',
 	                  ),
 						                                                                          
                     ),
@@ -1589,6 +1595,85 @@ return array( 'schema_type_element' => array(
                             'type'       => 'text',
                             'attributes' => array(
                                 'placeholder' => 'http://healthplan.schema.org/HealthPlanCoinsuranceNone',
+                            ),
+                        ),
+                    ),
+                    'quiz_question' => array(
+                        array(
+                            'label'      => esc_html__( 'Question Text', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_quiz_question_text',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. What is the value of x when 2x + 6 = 14?', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Question Type', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_quiz_question_type',
+                            'type'       => 'select',
+                            'options'    => array(
+                                'Flashcard'       => esc_html__( 'Flashcard', 'schema-and-structured-data-for-wp' ),
+                                'Multiple choice' => esc_html__( 'Multiple choice', 'schema-and-structured-data-for-wp' ),
+                                'Open-ended'      => esc_html__( 'Open-ended', 'schema-and-structured-data-for-wp' ),
+                            ),
+                            'default'    => 'Flashcard',
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Correct / Accepted Answer', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_quiz_question_accepted_answer',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. 4', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Suggested / Incorrect Answers (comma or line separated)', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_quiz_question_suggested_answers',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. 3, 5, 10', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Answer Explanation / Comment', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_quiz_question_comment',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. Subtract 6 from both sides to get 2x = 8, then divide by 2.', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                    ),
+                    'dataset_distribution' => array(
+                        array(
+                            'label'      => esc_html__( 'Distribution File Name', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_dataset_distribution_name',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. CSV Data Download or Full Database Dump', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Encoding / MIME Format', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_dataset_distribution_encoding_format',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. text/csv, application/json, application/zip', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Download URL (contentUrl)', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_dataset_distribution_content_url',
+                            'type'       => 'text',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'e.g. https://example.com/data/dataset.csv', 'schema-and-structured-data-for-wp' ),
+                            ),
+                        ),
+                        array(
+                            'label'      => esc_html__( 'Distribution Description', 'schema-and-structured-data-for-wp' ),
+                            'name'       => 'saswp_dataset_distribution_description',
+                            'type'       => 'textarea',
+                            'attributes' => array(
+                                'placeholder' => esc_html__( 'Brief description of this specific distribution file.', 'schema-and-structured-data-for-wp' ),
                             ),
                         ),
                     ),
