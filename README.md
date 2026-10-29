@@ -92,6 +92,9 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Guide
 * DefinedTermSet
 * UserReview
+* Occupation
+* Quiz
+* Dataset
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
