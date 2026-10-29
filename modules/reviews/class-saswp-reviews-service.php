@@ -123,7 +123,8 @@ class SASWP_Reviews_Service {
                     
                 }
                 
-                $rv_text     = saswp_sanitize_textarea_field($form_data['saswp_review_text']);
+                $rv_text     = wp_strip_all_tags( strip_shortcodes( $form_data['saswp_review_text'] ) );
+                $rv_text     = saswp_sanitize_textarea_field( $rv_text );
                 $rv_name     = sanitize_text_field($form_data['saswp_reviewer_name']);
 
                 if ( preg_match( '/^[COE]:[0-9]+:/s', $rv_name ) || strpos( $rv_name, "\0" ) !== false ) {
@@ -321,7 +322,7 @@ class SASWP_Reviews_Service {
                                             <a target="_blank" href="'. esc_url( $link).'"><img alt="'. esc_attr( $review['saswp_reviewer_name']).'" width="20" height="20" src="'. esc_url( $review['saswp_review_platform_icon']).'"></a>
                                         </span>
                                     </div>                                                
-                                   <div class="saswp-rv-txt"> <p>'.wp_strip_all_tags(html_entity_decode($review['saswp_review_text'])).'</p></div>
+                                   <div class="saswp-rv-txt"> <p>'.esc_html( wp_strip_all_tags( $review['saswp_review_text'] ) ).'</p></div>
                                 </div>
                               </div>
                           </div>';
@@ -1118,7 +1119,7 @@ class SASWP_Reviews_Service {
 
                        $html .= '</div>';
                        $html .='<div class="saswp-rc-cnt">';
-                       $review_text = wp_strip_all_tags(html_entity_decode($value['saswp_review_text']));
+                       $review_text = esc_html( wp_strip_all_tags( $value['saswp_review_text'] ) );
                        if($saswp_collection_readmore_desc == 1){
                         $review_text = $this->saswp_add_readmore_to_review_text($review_text, 20);
                        } 
@@ -1244,12 +1245,12 @@ class SASWP_Reviews_Service {
                 $html .= '</div>';
                 $html .= '<div class="saswp-rc-cnt">';
                 $html .= '<p>';
-                $review_text = esc_attr( $value['saswp_review_text']);
+                $review_text = esc_html( wp_strip_all_tags( $value['saswp_review_text'] ) );
                 if($saswp_review_desing_for_slider == 1){
                     if($g_type == 'slider'){
-                        $review_text = $this->saswp_add_readmore_to_review_text(esc_attr( $value['saswp_review_text']) , 40);
+                        $review_text = $this->saswp_add_readmore_to_review_text($review_text , 40);
                     }else{
-                        $review_text = $this->saswp_add_readmore_to_review_text(esc_attr( $value['saswp_review_text']), 20);
+                        $review_text = $this->saswp_add_readmore_to_review_text($review_text, 20);
                     }
                 }
                 $html .= $review_text;

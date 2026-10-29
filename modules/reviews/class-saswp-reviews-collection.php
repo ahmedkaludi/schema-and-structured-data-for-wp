@@ -42,7 +42,7 @@ class SASWP_Reviews_Collection {
           add_shortcode( 'saswp-reviews-collection', array($this, 'saswp_reviews_collection_shortcode_render' ),10);        
           add_action( 'saswp_set_collection_card_height', array($this, 'saswp_set_collection_card_height_clbk'), 10);        
 
-          add_filter( 'the_content', array( $this, 'saswp_reviews_display_collection' ));
+          add_filter( 'the_content', array( $this, 'saswp_reviews_display_collection' ), 12 );
           
           add_filter( 'auth_post_meta_saswp_platform_ids',   array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
           add_filter( 'auth_post_meta_saswp_total_reviews',   array( $this, 'saswp_protect_collection_meta' ), 10, 6 );
