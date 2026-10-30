@@ -6791,8 +6791,15 @@ Class SASWP_Output_Service{
                             break;            
                 
                 case 'Service':
-                    if ( isset( $custom_fields['saswp_service_schema_id']) ) {
-                        $input1['@id'] =    get_permalink().$custom_fields['saswp_service_schema_id'];
+                    if ( ! empty( $custom_fields['saswp_service_schema_id'] ) ) {
+                        $schema_id_val = trim( $custom_fields['saswp_service_schema_id'] );
+                        if ( strpos( $schema_id_val, 'http://' ) === 0 || strpos( $schema_id_val, 'https://' ) === 0 ) {
+                            $input1['@id'] = $schema_id_val;
+                        } elseif ( strpos( $schema_id_val, '#' ) === 0 ) {
+                            $input1['@id'] = get_permalink() . $schema_id_val;
+                        } else {
+                            $input1['@id'] = get_permalink() . '#' . $schema_id_val;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_service_schema_name']) ) {
                       $input1['name'] =    $custom_fields['saswp_service_schema_name'];
@@ -6833,8 +6840,7 @@ Class SASWP_Output_Service{
                      $input1['provider']['address']['addressRegion'] =    $custom_fields['saswp_service_schema_region'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_country']) ) {     
-                        $input1['provider']['address']['addressCountry']['@type'] =   'Country';
-                        $input1['provider']['address']['addressCountry']['name '] =   $custom_fields['saswp_service_schema_country'];
+                        $input1['provider']['address']['addressCountry'] =   $custom_fields['saswp_service_schema_country'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) { 
                       $input1['provider']['address']['postalCode'] =    $custom_fields['saswp_service_schema_postal_code'];
