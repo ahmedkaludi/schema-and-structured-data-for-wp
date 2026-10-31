@@ -965,6 +965,39 @@ class SASWP_Review_Feature_Frontend {
 	 * Filter reviews
 	 * @since 	1.45
 	 * */
+
+	/**
+	 * Verify whether a post is public and viewable by the current visitor
+	 * @param int $post_id
+	 * @return bool
+	 */
+	public function is_post_viewable_by_current_user( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+
+		$post = get_post( $post_id );
+		if ( ! $post || ! is_object( $post ) || empty( $post->post_status ) ) {
+			return false;
+		}
+
+		// If the post is password protected and the password cookie is not supplied/valid
+		if ( post_password_required( $post ) ) {
+			return false;
+		}
+
+		// If the post is published and public
+		if ( 'publish' === $post->post_status ) {
+			return true;
+		}
+
+		// For non-published posts (private, draft, pending), allow only if the user has permission to read it
+		if ( current_user_can( 'read_post', $post_id ) ) {
+			return true;
+		}
+
+		return false;
+	}
 	public function saswp_review_filter() {
 
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
@@ -973,6 +1006,11 @@ class SASWP_Review_Feature_Frontend {
 
 		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
 			return;
+		}
+
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid post or permission denied.', 'schema-and-structured-data-for-wp' ) ) );
 		}
 
 		$sort_by   	= isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( $_REQUEST['sort_by'] ) : '';
@@ -998,7 +1036,10 @@ class SASWP_Review_Feature_Frontend {
 	 * */
 	public function get_sorted_reviews( $sort_by, $filter_by ) {
 		
-		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : null;
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			return 0;
+		}
 
 		$args = [
 			'post_id' => $post_id,
@@ -1097,7 +1138,10 @@ class SASWP_Review_Feature_Frontend {
 
 		$per_page = get_option( 'comments_per_page' );
 		$cur_page = isset( $_REQUEST['current_page'] ) 	? absint( $_REQUEST['current_page'] ) : 1;
-		$post_id  = isset( $_REQUEST['post_id'] ) 		? absint( $_REQUEST['post_id'] ) : null;
+		$post_id  = isset( $_REQUEST['post_id'] ) 		? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			return;
+		}
 		$cur_page = isset( $_REQUEST['pagi_num'] ) 		? ( $cur_page - 1) : $cur_page;
 		$offset   = $cur_page * $per_page;
 
@@ -1241,6 +1285,11 @@ class SASWP_Review_Feature_Frontend {
 
 		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
 			return;
+		}
+
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid post or permission denied.', 'schema-and-structured-data-for-wp' ) ) );
 		}
 
 		$sort_by   = isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( $_REQUEST['sort_by'] ) : '';

@@ -1728,9 +1728,9 @@ function saswp_json_print_format($output_array){
     global $sd_data;
     
     if ( isset( $sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
-        return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+        return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP );
     }else{
-        return wp_json_encode( $output_array );
+        return wp_json_encode( $output_array, JSON_HEX_TAG | JSON_HEX_AMP );
     }
         
 }

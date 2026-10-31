@@ -113,8 +113,18 @@ class SASWP_Post_Specific {
                 die( '-1' );    
             }
                             
-                $post_id        = isset( $_POST['post_id']) ? intval( $_POST['post_id'] ):'';
-                $schema_id      = isset( $_POST['schema_id']) ? intval( $_POST['schema_id'] ):'';            
+                $post_id        = isset( $_POST['post_id']) ? intval( $_POST['post_id'] ):0;
+                $schema_id      = isset( $_POST['schema_id']) ? intval( $_POST['schema_id'] ):'';
+
+                if ( ! empty( $_POST['tag_ID'] ) ) {
+                    if ( ! current_user_can( 'edit_term', $post_id ) ) {
+                        die( '-1' );
+                    }
+                } else {
+                    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                        die( '-1' );
+                    }
+                }            
              
                 saswp_delete_post_meta( $post_id, 'saswp_modify_this_schema_'.$schema_id ); 
 
@@ -184,8 +194,18 @@ class SASWP_Post_Specific {
                 die( '-1' );    
             } 
             
-             $post_id        = isset($_GET['post_id'])?intval($_GET['post_id']):'';             
+             $post_id        = isset($_GET['post_id'])?intval($_GET['post_id']):0;             
              $schema_id      = isset($_GET['schema_id'])?intval($_GET['schema_id']):'';
+
+             if ( ! empty( $_GET['tag_ID'] ) ) {
+                 if ( ! current_user_can( 'edit_term', $post_id ) ) {
+                     die( '-1' );
+                 }
+             } else {
+                 if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                     die( '-1' );
+                 }
+             }
              $modify_this    = 1;
              $disabled       = '';
              $modified       = false;
@@ -277,13 +297,23 @@ class SASWP_Post_Specific {
                 }
                 
                 $schema_enable = array();
-                $post_id       = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : '';
+                $post_id       = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $schema_id     = isset( $_POST['schema_id'] ) ? sanitize_text_field( $_POST['schema_id'] ) : '';
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $status        = isset( $_POST['status'] ) ? sanitize_text_field( $_POST['status'] ) : '';
                 // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash --Reason post data is just used here so there is no necessary of unslash
                 $req_from      = isset( $_POST['req_from'] ) ? sanitize_text_field( $_POST['req_from'] ) : '';
+
+                if ( $req_from === 'taxonomy' ) {
+                    if ( ! current_user_can( 'edit_term', $post_id ) ) {
+                        die( '-1' );
+                    }
+                } else {
+                    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                        die( '-1' );
+                    }
+                }
                             
                 if($req_from == 'post'){
                     $schema_enable_status = get_post_meta($post_id, 'saswp_enable_disable_schema', true);  

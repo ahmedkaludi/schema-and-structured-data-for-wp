@@ -94,7 +94,18 @@ if ( ! defined('ABSPATH') ) exit;
                 if(empty($sanitized_post) ) {
                     continue;
                 }
-                if(get_post_status( $schema_post['post']['ID'] ) ) {
+
+                // Security: Restrict imported post types to the plugin's own post types only
+                $allowed_post_types = array( 'saswp', 'saswp_reviews', 'saswp-collections' );
+                if ( ! isset( $sanitized_post['post_type'] ) || ! in_array( $sanitized_post['post_type'], $allowed_post_types, true ) ) {
+                    continue;
+                }
+
+                $existing_post_id = isset( $schema_post['post']['ID'] ) ? intval( $schema_post['post']['ID'] ) : 0;
+                $existing_post    = $existing_post_id ? get_post( $existing_post_id ) : null;
+
+                // Security: Only update if the existing post exists, belongs to an allowed plugin post type, and the importing user has permission to edit it
+                if ( $existing_post && in_array( $existing_post->post_type, $allowed_post_types, true ) && current_user_can( 'edit_post', $existing_post_id ) ) {
                     
                     $post_id    =     wp_update_post($sanitized_post);  
                      
