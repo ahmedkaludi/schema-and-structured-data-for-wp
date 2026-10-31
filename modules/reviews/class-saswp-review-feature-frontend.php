@@ -986,8 +986,12 @@ class SASWP_Review_Feature_Frontend {
 			return false;
 		}
 
-		// If the post is published and public
-		if ( 'publish' === $post->post_status ) {
+		// Check if publicly viewable (WP 5.7+) or fallback to publish status check
+		if ( function_exists( 'is_post_publicly_viewable' ) ) {
+			if ( is_post_publicly_viewable( $post ) ) {
+				return true;
+			}
+		} elseif ( 'publish' === $post->post_status ) {
 			return true;
 		}
 
