@@ -5,18 +5,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if(defined('AMP__DIR__') ) {
-	$amp_blacklist_sanitizer =  realpath( AMP__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
+	$saswp_amp_blacklist_sanitizer =  realpath( AMP__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 }
 elseif(defined('AMP__VENDOR__DIR__') ) {
-	$amp_blacklist_sanitizer =  realpath( AMP__VENDOR__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
+	$saswp_amp_blacklist_sanitizer =  realpath( AMP__VENDOR__DIR__ . 'includes/sanitizers/class-amp-blacklist-sanitizer.php') ;
 } 
 
-if ( $amp_blacklist_sanitizer ) {
-	include_once $amp_blacklist_sanitizer;
+if ( $saswp_amp_blacklist_sanitizer ) {
+	include_once $saswp_amp_blacklist_sanitizer;
 }
  
 if ( class_exists( 'AMP_Blacklist_Sanitizer' ) ) {
-
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Class name retained for backward compatibility with existing AMP integration.
 	class AMP_Review_Form_Blacklist extends AMP_Blacklist_Sanitizer {
 
 		const PATTERN_REL_WP_ATTACHMENT = '#wp-att-([\d]+)#';

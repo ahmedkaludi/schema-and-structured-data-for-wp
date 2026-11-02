@@ -80,7 +80,7 @@ function saswp_add_menu_links() {
 add_action( 'admin_menu', 'saswp_add_menu_links' );
 
 function saswp_premium_interface_render() {
-    
+    // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Hardcoded external link to official plugin pricing page.
     wp_redirect( 'https://structured-data-for-wp.com/pricing/' );
     exit;    
         
@@ -5251,8 +5251,9 @@ add_action('wp_default_scripts', 'saswp_dequeue_publishpress_scripts');
 function saswp_dequeue_publishpress_scripts( $scripts ) {
     
     $post_type = null;
-
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason nonce not needed here
     if ( function_exists( 'presspermit' ) &&  function_exists( 'is_admin' ) && is_admin() && ! empty( $_GET['post'] )) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason nonce not needed here
         $post_id = absint( $_GET['post'] );
         if ( $post_id > 0 ) {
             $post = get_post( $post_id );

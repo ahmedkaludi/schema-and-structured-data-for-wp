@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 $saswp_divi_faq = array();
 $saswp_divi_render_faq = array();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
 $with_aggregate = array(
         'Car',
         'Vehicle',
@@ -39,6 +40,7 @@ $with_aggregate = array(
         'Guide',
         'SportsTeam',               
 );
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
 $without_aggregate = array(
         'Apartment',
         'HotelRoom',
@@ -104,6 +106,7 @@ $without_aggregate = array(
         'EventVenue',
         'DefinedTermSet',
 );
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
 $translation_labels = array(
     'translation-pros'            => 'Pros',
     'translation-cons'            => 'Cons',

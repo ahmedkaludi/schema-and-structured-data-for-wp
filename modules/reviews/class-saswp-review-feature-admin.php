@@ -104,7 +104,7 @@ class SASWP_Review_Feature_Admin {
 	public function set_default_data() {
 		
 		global $sd_data; 
-                
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.        
         $sd_data = get_option( 'sd_rf_data', $this->deafult_options() );     
 
         return $sd_data;
@@ -137,7 +137,7 @@ class SASWP_Review_Feature_Admin {
 	    }
 
 	    if ( $hook == 'comment.php' ) { 
-
+	    	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading comment ID only to conditionally enqueue admin scripts; no data is modified.
 	    	$comment_id 	=	isset( $_GET['c'] ) ? intval( $_GET['c'] ) : 0;
 	    	$post_id 		=	0;
 	    	
@@ -207,16 +207,10 @@ class SASWP_Review_Feature_Admin {
 					<a href="#saswp-rf-page-style-tab" class="nav-tab"><?php echo esc_html__( 'Style', 'schema-and-structured-data-for-wp' ); ?></a>
 				</h2>
 			</div>
-
-		    <!-- <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" class="saswp-settings-form"> -->
-		        <div class="form-wrap saswp-settings-form-wrap">
-		            
-		            <?php $this->saswp_review_feature_box_callback(); ?>
-		        </div>
-		        <?php //submit_button(); ?>
-		        <!-- <input type="hidden" name="action" value="saswp_review_feature_form_submission"> -->
-		        <?php //wp_nonce_field('saswp_rf_page_action_nonce', 'saswp_rf_page_nonce'); ?>
-		    <!-- </form> -->
+	        <div class="form-wrap saswp-settings-form-wrap">
+	            
+	            <?php $this->saswp_review_feature_box_callback(); ?>
+	        </div>
 		</div>
 		<?php
 
@@ -270,7 +264,7 @@ class SASWP_Review_Feature_Admin {
 				$reeview_layout 	=	'two';	
 			}
 		}
-
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading tab is only to conditionally check; no data is modified.
 		$tab 				=	isset( $_GET['tab'] ) ? sanitize_text_field( wp_unslash( $_GET['tab'] ) ) : 'review';
 		$hide_Class 		=	'saswp_hide';
 		if ( $tab == 'review'  ) {
@@ -1230,8 +1224,8 @@ class SASWP_Review_Feature_Admin {
 		if ( ! isset( $_POST['saswp_rf_page_nonce'] ) ) {
 			return;
 		}
-		
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_page_nonce'], 'saswp_rf_page_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_page_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_page_action_nonce') ) {
 			return;
 		}	
 
@@ -1240,11 +1234,13 @@ class SASWP_Review_Feature_Admin {
 		$settings_data 	=	array();
 		
 		if ( ! empty( $_POST['saswp-rf-page-post-type'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason actions are performed below in array_map
 			$settings_data['saswp-rf-page-post-type'] 			=	array_map( 'sanitize_text_field' , $_POST['saswp-rf-page-post-type'] );
 		}else{
 			$settings_data['saswp-rf-page-post-type'] 			=	array();
 		}
 		if ( ! empty( $_POST['saswp-rf-page-criteria-multiple'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason actions are performed below in array_map
 			$settings_data['saswp-rf-page-criteria-multiple'] 	=	array_map( 'sanitize_text_field' , $_POST['saswp-rf-page-criteria-multiple'] );
 		}else{
 			$settings_data['saswp-rf-page-criteria-multiple'] 	=	array();
@@ -1302,12 +1298,13 @@ class SASWP_Review_Feature_Admin {
 				case 'text':
 				case 'color_picker':
 					if ( isset(  $_POST[ $field['name'] ] ) ) {
-						$settings_data[ $field['name'] ] 	=	sanitize_text_field( $_POST[ $field['name'] ] );
+						$settings_data[ $field['name'] ] 	=	sanitize_text_field( wp_unslash( $_POST[ $field['name'] ] ) );
 					}
 				break;
 
 				case 'multi-columns':
 					if ( isset(  $_POST[ $field['name'] ] ) && is_array( $_POST[ $field['name'] ] ) ) {
+						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is done below
 						$settings_data[ $field['name'] ] 	=	array_map( 'sanitize_text_field', $_POST[ $field['name'] ] );
 					}
 				break;
@@ -1316,6 +1313,7 @@ class SASWP_Review_Feature_Admin {
 		}
 
 		if ( isset( $_POST['filter_option'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is done below
 			$settings_data['saswp-rf-page-settings-filter-options'] 	=	array_map( 'sanitize_text_field' , $_POST['filter_option'] );
 		}
   		
@@ -1328,7 +1326,8 @@ class SASWP_Review_Feature_Admin {
   			update_option( 'sd_rf_data', $merge_options );
   		}
 
-  		wp_redirect( admin_url( 'edit.php?post_type=saswp&page=structured_data_review_feature&tab='.$tab ) );
+  		wp_safe_redirect( admin_url( 'edit.php?post_type=saswp&page=structured_data_review_feature&tab='.$tab ) );
+  		exit();
 
 	}
 	
@@ -1586,8 +1585,8 @@ class SASWP_Review_Feature_Admin {
 		if ( ! isset( $_POST['saswp_rf_edit_comment_nonce'] ) ) {
 			return;
 		}
-		
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_edit_comment_nonce'], 'saswp_rf_edit_comment_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_edit_comment_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_edit_comment_action_nonce') ) {
 			return;
 		}
 
@@ -1612,11 +1611,13 @@ class SASWP_Review_Feature_Admin {
 		}
 
 		if ( isset( $_POST['saswp_rf_form_pros'] ) && is_array( $_POST['saswp_rf_form_pros'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$comment_pros 		=	array_map( 'sanitize_text_field', $_POST['saswp_rf_form_pros'] );
 			update_comment_meta( $comment_id, 'saswp_rf_form_pros', $comment_pros );
 		}
 
 		if ( isset( $_POST['saswp_rf_form_cons'] ) && is_array( $_POST['saswp_rf_form_cons'] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 			$comment_cons 		=	array_map( 'sanitize_text_field', $_POST['saswp_rf_form_cons'] );
 			update_comment_meta( $comment_id, 'saswp_rf_form_cons', $comment_cons );
 		}

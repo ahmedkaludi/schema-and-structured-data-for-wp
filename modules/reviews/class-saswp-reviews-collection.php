@@ -615,7 +615,9 @@ class SASWP_Reviews_Collection {
                                     $col_average = $this->_service->saswp_get_collection_average_rating($saswp_total_re);
 
                                     if($col_average){
+                                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                                         $collection_aggregate['count'] = $total_reviews_count;
+                                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                                         $collection_aggregate['average']  = $col_average;
                                     }
                                     

@@ -770,7 +770,7 @@ class SASWP_Post_Specific {
         if ( ! current_user_can( 'unfiltered_html' ) ) {
             return $post_id;
         }
-
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason sanitization is done below in saswp_sanitize_custom_schema function
         $custom_schema  = isset($_POST['saswp_custom_schema_field']) ? saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field'])) : '';
 
         if ( ! empty( $custom_schema) ) {
@@ -795,7 +795,7 @@ class SASWP_Post_Specific {
         if ( !wp_verify_nonce( $_POST['post_specific_nonce'], 'post_specific_data' ) ) return $post_id;			
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return $post_id;       			
                 if ( ! current_user_can( 'edit_post', $post_id ) ) return $post_id;    
-                                       
+                // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason sanitization is done below in saswp_sanitize_custom_schema function                          
                 $custom_schema  = isset($_POST['saswp_custom_schema_field']) ? saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field'])) : '';
 
                 if ( ! empty( $custom_schema) ) {
@@ -834,5 +834,5 @@ class SASWP_Post_Specific {
                 
 }
 if (class_exists('SASWP_Post_Specific')) {
-	$object = new SASWP_Post_Specific();
+	$saswp_object = new SASWP_Post_Specific();
 };

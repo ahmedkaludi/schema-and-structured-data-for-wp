@@ -12809,7 +12809,7 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                             'type'       => 'text',                            
                         ),
                         array(
-                            'label'      => esc_html__( esc_html__( 'Name', 'schema-and-structured-data-for-wp' ), 'schema-and-structured-data-for-wp' ),
+                            'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
                             'id'         => 'saswp_profile_page_schema_performerin_end_date_'.$schema_id,
                             'type'       => 'text',                            
                         ),

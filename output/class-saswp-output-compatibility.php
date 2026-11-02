@@ -791,8 +791,8 @@ class SASWP_Output_Compatibility{
         
 }
 if(class_exists('SASWP_Output_Compatibility') ) {
-   $obj_compatibility =  new SASWP_Output_Compatibility();
-   $obj_compatibility->saswp_service_compatibility_hooks();
+   $saswp_obj_compatibility =  new SASWP_Output_Compatibility();
+   $saswp_obj_compatibility->saswp_service_compatibility_hooks();
 }
 
 //Remove Slim seo schema 

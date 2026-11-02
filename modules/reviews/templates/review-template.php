@@ -8,52 +8,54 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $sd_data;	
-$parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['saswp-rf-page-parent-class'] : ''; 
+$saswp_parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['saswp-rf-page-parent-class'] : ''; 
 ?>
 
-<div class="saswp-rf-template-wrapper <?php echo esc_attr( $parent_class ); ?>" id="comments">
+<div class="saswp-rf-template-wrapper <?php echo esc_attr( $saswp_parent_class ); ?>" id="comments">
 	<?php 
 	if ( have_comments() ) {
 
-		$rf_rating_count 	=	SASWP_Review_Feature_Frontend::get_all_ratings( get_the_ID() );
-		$summary_layout 	=	isset( $sd_data['saswp-rf-page-summary-layout'] ) ? $sd_data['saswp-rf-page-summary-layout'] : 'one';
+		$saswp_rf_rating_count 	=	SASWP_Review_Feature_Frontend::get_all_ratings( get_the_ID() );
+		$saswp_summary_layout 	=	isset( $sd_data['saswp-rf-page-summary-layout'] ) ? $sd_data['saswp-rf-page-summary-layout'] : 'one';
 		
-		require SASWP_DIR_NAME . '/modules/reviews/templates/summary-layout/summary-'.$summary_layout.'-template.php';
+		require SASWP_DIR_NAME . '/modules/reviews/templates/summary-layout/summary-'.$saswp_summary_layout.'-template.php';
 		?>
 
-		<?php if ( $rf_rating_count ) { ?>
+		<?php if ( $saswp_rf_rating_count ) { ?>
 		<div class="saswp-rf-template-sorting-bar">
 			<h3 class="saswp-rf-template-sorting-title"> 
 			<?php
-			$review_title_escaped = esc_html(  sprintf(
-				_n( 'Reviewed by %d user', 'Reviewed by %d users', $rf_rating_count, 'schema-and-structured-data-for-wp' ) ,
-				$rf_rating_count
+			$saswp_escape_review_title = esc_html(  sprintf(
+				/* translators: %d: Number of users who submitted a review. */
+				_n( 'Reviewed by %d user', 'Reviewed by %d users', $saswp_rf_rating_count, 'schema-and-structured-data-for-wp' ) ,
+				$saswp_rf_rating_count
 			) );
-			echo $review_title_escaped;
+			/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason Escaping has been done above */
+			echo $saswp_escape_review_title;
 			?>
 			</h3>
 
 			<div class="saswp-rf-template-sorting-select">
 				<?php
-					$filter = ( isset( $sd_data['saswp-rf-page-settings-filter'] ) && $sd_data['saswp-rf-page-settings-filter'] == '1' );
-				if ( $filter ) {
-					$filter_option = isset( $sd_data['saswp-rf-page-settings-filter-options'] ) ? $sd_data['saswp-rf-page-settings-filter-options'] : '';
+					$saswp_filter = ( isset( $sd_data['saswp-rf-page-settings-filter'] ) && $sd_data['saswp-rf-page-settings-filter'] == '1' );
+				if ( $saswp_filter ) {
+					$saswp_filter_option = isset( $sd_data['saswp-rf-page-settings-filter-options'] ) ? $sd_data['saswp-rf-page-settings-filter-options'] : '';
 					?>
 				<div>
 					<label><i class="dashicons dashicons-sort"></i> <?php esc_html_e( 'Sort:', 'schema-and-structured-data-for-wp' ); ?></label> 
 					<select class="saswp_rf_template_review_filter saswp-rf-template-sort-filter" name="saswp_rf_template_review_sort_filter" data-type="sort">
 						<option value="all"><?php esc_html_e( 'All Review', 'schema-and-structured-data-for-wp' ); ?></option>  
-					<?php if ( in_array( 'top_rated', $filter_option ) ) { ?>
+					<?php if ( in_array( 'top_rated', $saswp_filter_option ) ) { ?>
 						<option value="top_rated"><?php esc_html_e( 'Top Rated', 'schema-and-structured-data-for-wp' ); ?></option>
-						<?php } if ( in_array( 'low_rated', $filter_option ) ) { ?>
+						<?php } if ( in_array( 'low_rated', $saswp_filter_option ) ) { ?>
 						<option value="low_rated"><?php esc_html_e( 'Low Rated', 'schema-and-structured-data-for-wp' ); ?></option>
-						<?php } if ( in_array( 'recommended', $filter_option ) ) { ?>
+						<?php } if ( in_array( 'recommended', $saswp_filter_option ) ) { ?>
 						<option value="recommended"><?php esc_html_e( 'Recommended', 'schema-and-structured-data-for-wp' ); ?></option> 
-						<?php } if ( in_array( 'highlighted', $filter_option ) ) { ?>
+						<?php } if ( in_array( 'highlighted', $saswp_filter_option ) ) { ?>
 						<option value="highlighted"><?php esc_html_e( 'Highlighted', 'schema-and-structured-data-for-wp' ); ?></option>  
-						<?php } if ( in_array( 'latest_first', $filter_option ) ) { ?>
+						<?php } if ( in_array( 'latest_first', $saswp_filter_option ) ) { ?>
 						<option value="latest_first"><?php esc_html_e( 'Latest First', 'schema-and-structured-data-for-wp' ); ?></option> 
-						<?php } if ( in_array( 'oldest_first', $filter_option ) ) { ?>
+						<?php } if ( in_array( 'oldest_first', $saswp_filter_option ) ) { ?>
 						<option value="oldest_first"><?php esc_html_e( 'Oldest First', 'schema-and-structured-data-for-wp' ); ?></option>  
 						<?php } ?>
 					</select>
@@ -61,8 +63,8 @@ $parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['sas
 				<?php } ?>
 
 				<?php
-					$filter = ( isset( $sd_data['saswp-rf-page-settings-filter'] ) && $sd_data['saswp-rf-page-settings-filter'] == '1' );
-				if ( $filter ) {
+					$saswp_filter = ( isset( $sd_data['saswp-rf-page-settings-filter'] ) && $sd_data['saswp-rf-page-settings-filter'] == '1' );
+				if ( $saswp_filter ) {
 					?>
 					<div>
 						<label><i class="dashicons dashicons-filter"></i> <?php esc_html_e( 'Filter:', 'schema-and-structured-data-for-wp' ); ?></label> 
@@ -83,11 +85,11 @@ $parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['sas
 		<div class="saswp-rf-template-comment-box">
 			<ul class="saswp-rf-template-comment-list">
 				<?php
-				$args = [
+				$saswp_args = [
 					'post_id' => get_the_ID(),
 					'status'  => 'approve', // Change this to the type of comments to be displayed
 				];
-				$comments = get_comments( $args );
+				$comments = get_comments( $saswp_args );
 				wp_list_comments(
 					[
 						'style'      => 'li',
@@ -101,9 +103,9 @@ $parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['sas
 		</div>
 		<?php
 		// Pagination starts here
-		$pagination_type = isset( $sd_data['saswp-rf-page-pagination-type'] ) ? $sd_data['saswp-rf-page-pagination-type'] : 'number';
+		$saswp_pagination_type = isset( $sd_data['saswp-rf-page-pagination-type'] ) ? $sd_data['saswp-rf-page-pagination-type'] : 'number';
 		
-		if ( $pagination_type == 'number' ) {
+		if ( $saswp_pagination_type == 'number' ) {
 			?>
 			<?php 
 			if ( get_the_comments_pagination() ) { 
@@ -121,7 +123,7 @@ $parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['sas
 			<?php
 			} 
 
-		} elseif ( $pagination_type == 'number-ajax' ) { 
+		} elseif ( $saswp_pagination_type == 'number-ajax' ) { 
 			if ( get_the_comments_pagination() ) { 
 		?>
 				<div class="saswp-rf-template-paginate saswp-rf-template-paginate-ajax" data-max="<?php echo esc_attr( get_comment_pages_count() ); ?>">
@@ -138,12 +140,12 @@ $parent_class 	=	isset( $sd_data['saswp-rf-page-parent-class'] ) ? $sd_data['sas
 			<?php
 			} 
 
-		} elseif ( $pagination_type == 'load-more' ) { ?>
+		} elseif ( $saswp_pagination_type == 'load-more' ) { ?>
 			<div class="saswp-rf-template-paginate saswp-rf-template-paginate-load-more saswp-rf-template-align-center">
 				<a href="#" id="saswp-rf-template-load-more" data-max="<?php echo esc_attr( get_comment_pages_count() ); ?>"><?php echo esc_html_e( 'Load More', 'schema-and-structured-data-for-wp' ); ?></a>
 			</div>
 		<?php
-		} elseif ( $pagination_type == 'auto-scroll' ) { ?>
+		} elseif ( $saswp_pagination_type == 'auto-scroll' ) { ?>
 			<div class="saswp-rf-template-paginate saswp-rf-template-paginate-onscroll" data-max="<?php echo esc_attr( get_comment_pages_count() ); ?>"></div>
 		<?php 
 		} 		

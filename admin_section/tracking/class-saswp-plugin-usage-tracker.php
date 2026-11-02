@@ -703,7 +703,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 					/* translators: %s: product type */
 					$notice_text = sprintf(__( 'Thank you for installing our %1$s. We\'d like your permission to track its usage on your site and subscribe you to our newsletter. We won\'t record any sensitive data, only information regarding the WordPress environment and %1$s settings, which we will use to help us make improvements to the %1$s. Tracking is completely optional.', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
 				}
-				// And we allow you to filter the text anyway
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core wisdom_notice_text_ hook intentionally.
 				$notice_text = apply_filters( 'wisdom_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">
@@ -751,6 +751,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 				) );
 				/* translators: %s: product type */
 				$marketing_text = sprintf(__( 'Thank you for opting in to tracking. Would you like to receive occasional news about this %s, including details of new features and special offers?', 'schema-and-structured-data-for-wp' ),$this->what_am_i);
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core wisdom_marketing_text_ hook intentionally.
 				$marketing_text = apply_filters( 'wisdom_marketing_text_' . esc_attr( $this->plugin_name ), $marketing_text ); ?>
 				
 				<div class="notice notice-info updated put-dismiss-notice">
@@ -810,6 +811,7 @@ if( ! class_exists( 'SASWP_Plugin_Usage_Tracker') ) {
 		 */
 		public function form_filterable_text() {
 			$form = $this->form_default_text();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core wisdom_form_text_ hook intentionally.
 			return apply_filters( 'wisdom_form_text_' . esc_attr( $this->plugin_name ), $form );
 		}
 		

@@ -462,6 +462,7 @@ class SASWP_Reviews_Service {
                        }
                                               
                    }else{
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                        $sd_data['saswp_reviews_location_name'] = array($location);  
                        
                    }
@@ -473,12 +474,13 @@ class SASWP_Reviews_Service {
                        }
                                               
                    }else{
-                       
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                            $sd_data['saswp_reviews_location_blocks'] = array($blocks);  
                        
                    }
-                        
+                  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.      
                   $sd_data['saswp-google-review']        = 1;
+                  // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                   $sd_data['saswp_google_place_api_key'] = $g_api;
                   update_option('sd_data', $sd_data);    
                                     

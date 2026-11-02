@@ -8,9 +8,9 @@ if ( ! class_exists( 'ET_Builder_Element' ) ) {
 	return;
 }
 
-$module_files = glob( __DIR__ . '/modules/*/*.php' );
+$saswp_module_files = glob( __DIR__ . '/modules/*/*.php' );
 
 // Load custom Divi Builder modules
-foreach ( (array) $module_files as $module_file ) {
-	require_once $module_file;
+foreach ( (array) $saswp_module_files as $saswp_module_file ) {
+	require_once $saswp_module_file;
 }

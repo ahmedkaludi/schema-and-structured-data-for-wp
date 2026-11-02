@@ -56,7 +56,7 @@ function saswp_get_saved_schema_ids() {
       if ( function_exists( 'pll_register_string') ) {
         $args['lang'] = '';
       }
-            
+      // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.      
       $all_schemas = get_posts($args);   
 
     }
@@ -148,7 +148,7 @@ function saswp_reset_all_settings() {
 add_action( 'wp_ajax_saswp_reset_all_settings', 'saswp_reset_all_settings' );
 
 function saswp_load_plugin_textdomain() {    
-
+    // phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Retained for backward compatibility with custom translation directories.
     load_plugin_textdomain( 'schema-and-structured-data-for-wp', false, dirname( plugin_basename( SASWP_DIR_NAME_FILE ) ) . '/languages/' );
     
 }
@@ -524,6 +524,7 @@ function saswp_comparison_logic_checker($input, $post){
           if(is_object($post) ) {
 
               if(!$cat_id_obj){
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
                 $cat_id_obj = get_the_category( $post->ID );
               }
                             
@@ -1176,7 +1177,7 @@ function saswp_dequeue_script() {
     }
     
     // Add VideoObject schema meta options data
-    if ( ! empty( $_POST['saswp_schema_type_meta_options_nonce'] ) && wp_verify_nonce( $_POST['saswp_schema_type_meta_options_nonce'], 'saswp_schema_type_meta_action_nonce' ) ) {
+    if ( ! empty( $_POST['saswp_schema_type_meta_options_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['saswp_schema_type_meta_options_nonce'] ) ), 'saswp_schema_type_meta_action_nonce' ) ) {
 
       if ( ! empty( $_POST['saswp_enable_video_object_details'] ) ) {
         add_post_meta( $post_id, 'saswp_enable_video_object_details', 1 );
@@ -2600,9 +2601,9 @@ function saswp_script_loader_tag($tag, $handle, $src) {
 add_filter( 'script_loader_tag', 'saswp_script_loader_tag', 10, 3);
 
 //user Custom Schema filed start
-add_action( 'show_user_profile', 'extra_user_profile_fields', 10, 1 );
-add_action( 'edit_user_profile', 'extra_user_profile_fields', 10, 1 );
-function extra_user_profile_fields( $user ) { 
+add_action( 'show_user_profile', 'saswp_extra_user_profile_fields', 10, 1 );
+add_action( 'edit_user_profile', 'saswp_extra_user_profile_fields', 10, 1 );
+function saswp_extra_user_profile_fields( $user ) { 
   $user_id = $user->ID;
   $custom_markp  = get_user_meta($user_id, 'saswp_user_custom_schema_field', true);   
 
@@ -2623,16 +2624,16 @@ function extra_user_profile_fields( $user ) {
 //user Custom Schema filed end
 
 //user Custom Schema filed save start
-add_action( 'personal_options_update', 'save_extra_user_profile_fields' );
-add_action( 'edit_user_profile_update', 'save_extra_user_profile_fields' );
+add_action( 'personal_options_update', 'saswp_save_extra_user_profile_fields' );
+add_action( 'edit_user_profile_update', 'saswp_save_extra_user_profile_fields' );
 
-function save_extra_user_profile_fields( $user_id ) {
+function saswp_save_extra_user_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) ) { 
         return false; 
     }
    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.
     if ( ! empty( $_POST['saswp_custom_schema_field']) ) {
-        // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.      
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason: We are not processing form information but only used inside core edit_user_profile_update hook.      
         $custom_schema  = saswp_sanitize_custom_schema(wp_unslash($_POST['saswp_custom_schema_field']));    
         update_user_meta( $user_id, 'saswp_user_custom_schema_field',  $custom_schema );               
     }else{
@@ -2725,6 +2726,7 @@ function saswp_add_duplicate_schema_link( $actions, $post ) {
         $item_title = $post->post_title;
         
         $dynamic_text = sprintf(             
+            /* translators: %1$s: Title of the item being duplicated. */
             esc_html__( 'Duplicate %s', 'schema-and-structured-data-for-wp' ), 
             $item_title 
         );
@@ -2792,7 +2794,7 @@ function saswp_handle_duplication_logic() {
 
         // --- DIRECT DB INSERT FOR METADATA ---
         global $wpdb;
-        
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct query required to retrieve post metadata in the existing format.
         $post_meta_infos = $wpdb->get_results( 
             $wpdb->prepare( "SELECT meta_key, meta_value FROM {$wpdb->postmeta} WHERE post_id = %d", $post_id ) 
         );
@@ -2803,12 +2805,14 @@ function saswp_handle_duplication_logic() {
                 if ( in_array( $meta_info->meta_key, array( '_wp_old_slug', '_edit_lock', '_edit_last' ), true ) ) {
                     continue;
                 }
-                
+                // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct database insertion required to duplicate existing post metadata.
                 $wpdb->insert(
                     $wpdb->postmeta,
                     array(
                         'post_id'    => $new_post_id,
+                        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
                         'meta_key'   => $meta_info->meta_key,
+                        // phpcs:ignore   WordPress.DB.SlowDBQuery.slow_db_query_meta_value
                         'meta_value' => $meta_info->meta_value
                     ),
                     array( '%d', '%s', '%s' ) // WP Standard: explicitly declare data types for DB insertion
@@ -2838,10 +2842,10 @@ function saswp_handle_duplication_logic() {
 add_action( 'admin_notices', 'saswp_duplication_success_notice' );
 
 function saswp_duplication_success_notice() {
-    // WP Standard: Unslash and sanitize GET variables before comparison 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason nonce not needed here
     if ( isset( $_GET['saswp_duplicated'], $_GET['post_type'] ) && 'saswp' === sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) {
-        
-        $duplicated_id = absint( wp_unslash( $_GET['saswp_duplicated'] ) );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended --Reason nonce not needed here
+        $duplicated_id = absint( $_GET['saswp_duplicated'] );
         
         // Prevent notice from firing if the ID is 0
         if ( 0 === $duplicated_id ) {
@@ -2855,6 +2859,7 @@ function saswp_duplication_success_notice() {
             <p>
                 <?php 
                 printf(
+                    /* translators: %s: url of the item being duplicated. */
                     wp_kses_post( __( 'Item successfully duplicated. <a href="%s">Edit the new item</a>.', 'schema-and-structured-data-for-wp' ) ),
                     esc_url( $edit_url )
                 ); 

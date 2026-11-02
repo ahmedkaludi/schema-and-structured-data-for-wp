@@ -104,10 +104,10 @@ function saswp_add_all_meta_boxes() {
 function saswp_add_schema_type_meta_boxes() {
     
     global $saswp_metaboxes;
-
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reading post ID only to register meta boxes; no data is modified.
     if ( ! empty( $_GET['post'] ) ) {
         // Check if acf plugin is active
-
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reading post ID only to register meta boxes; no data is modified.
         $post   =   get_post( wp_unslash( $_GET['post'] ) );
         if ( is_object( $post ) && ! empty( $post->ID ) ) {
             $post_id        =   $post->ID;
@@ -1613,6 +1613,7 @@ function saswp_schema_type_add_meta_box_save( $post_id, $post, $update ) {
         } 
 
         if ( isset( $_POST['saswp_custom_schema_field']) ) {
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason sanitization is done below in saswp_sanitize_custom_schema function
             $custom_schema = saswp_sanitize_custom_schema( wp_unslash( $_POST['saswp_custom_schema_field'] ) );
             update_post_meta( $post_id, 'saswp_custom_schema_field', $custom_schema );
         } else {

@@ -241,8 +241,8 @@ function saswp_ajax_fetch_ai_models() {
         wp_send_json_error(array('error' => esc_html__('Unauthorized capability.', 'schema-and-structured-data-for-wp')));
     }
 
-    $provider = isset($_POST['provider']) ? sanitize_text_field($_POST['provider']) : '';
-    $api_key  = isset($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
+    $provider = isset($_POST['provider']) ? sanitize_text_field( wp_unslash( $_POST['provider'] ) ) : '';
+    $api_key  = isset($_POST['api_key']) ? sanitize_text_field( wp_unslash( $_POST['api_key'] ) ) : '';
 
     if (empty($provider) || empty($api_key)) {
         wp_send_json_error(array('error' => esc_html__('Provider and API key are required to fetch models.', 'schema-and-structured-data-for-wp')));
@@ -268,7 +268,7 @@ function saswp_ajax_generate_ai_schema() {
     }
 
     $post_id     = isset( $_POST['post_id'] ) ? intval( $_POST['post_id'] ) : 0;
-    $target_type = isset($_POST['target_type']) ? sanitize_text_field($_POST['target_type']) : 'auto';
+    $target_type = isset($_POST['target_type']) ? sanitize_text_field( wp_unslash( $_POST['target_type'] ) ) : 'auto';
 
     if (!$post_id) {
         wp_send_json_error(array('error' => esc_html__('Invalid post ID.', 'schema-and-structured-data-for-wp')));
