@@ -56,7 +56,7 @@ public function form( $instance ) {
             
     $loc = ! empty( $instance['loc'] ) ? $instance['loc'] : esc_html__( 'Widget to display location', 'schema-and-structured-data-for-wp' ); ?>
 
-    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php esc_html__( 'Locations', 'schema-and-structured-data-for-wp' ); ?></label><?php 
+    <p><label for="<?php echo esc_attr( $this->get_field_id( 'loc' ) ); ?>"><?php esc_html_e( 'Locations', 'schema-and-structured-data-for-wp' ); ?></label><?php 
     
     $loc_select_html = '';
             
