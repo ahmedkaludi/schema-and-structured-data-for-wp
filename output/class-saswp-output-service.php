@@ -53,7 +53,7 @@ Class SASWP_Output_Service{
 						$the_query->the_post();
 
 						$post_id = get_the_ID();
-						
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing global variable retained for backward compatibility.
 						$acf_fields = apply_filters( 'acf/field_group/get_fields', array(), $post_id ); // WPCS: XSS OK.						
 
 						if ( 'acf-field-group' == $post_type ) {
@@ -6791,8 +6791,15 @@ Class SASWP_Output_Service{
                             break;            
                 
                 case 'Service':
-                    if ( isset( $custom_fields['saswp_service_schema_id']) ) {
-                        $input1['@id'] =    get_permalink().$custom_fields['saswp_service_schema_id'];
+                    if ( ! empty( $custom_fields['saswp_service_schema_id'] ) ) {
+                        $schema_id_val = trim( $custom_fields['saswp_service_schema_id'] );
+                        if ( strpos( $schema_id_val, 'http://' ) === 0 || strpos( $schema_id_val, 'https://' ) === 0 ) {
+                            $input1['@id'] = $schema_id_val;
+                        } elseif ( strpos( $schema_id_val, '#' ) === 0 ) {
+                            $input1['@id'] = get_permalink() . $schema_id_val;
+                        } else {
+                            $input1['@id'] = get_permalink() . '#' . $schema_id_val;
+                        }
                     }
                     if ( isset( $custom_fields['saswp_service_schema_name']) ) {
                       $input1['name'] =    $custom_fields['saswp_service_schema_name'];
@@ -6833,8 +6840,7 @@ Class SASWP_Output_Service{
                      $input1['provider']['address']['addressRegion'] =    $custom_fields['saswp_service_schema_region'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_country']) ) {     
-                        $input1['provider']['address']['addressCountry']['@type'] =   'Country';
-                        $input1['provider']['address']['addressCountry']['name '] =   $custom_fields['saswp_service_schema_country'];
+                        $input1['provider']['address']['addressCountry'] =   $custom_fields['saswp_service_schema_country'];
                     }
                     if ( isset( $custom_fields['saswp_service_schema_postal_code']) ) { 
                       $input1['provider']['address']['postalCode'] =    $custom_fields['saswp_service_schema_postal_code'];
@@ -9693,7 +9699,7 @@ Class SASWP_Output_Service{
                 //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery	-- just to check if table exists
 		        $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $table_name));
                 if($table_exists){
-                    //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared -- Reasone Custom table create by aioseo
+                    //phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Reasone Custom table create by aioseo
                     $columns_des  = $wpdb->get_col( "DESC " . $table_name, 0 );
                     wp_cache_set( $cache_key, $columns_des );
                 }
@@ -11612,6 +11618,6 @@ foreach ($attachments[2] as $att_key => $attachment) {
                 
 }
 if (class_exists('SASWP_Output_Service')) {
-	    $object = new SASWP_Output_Service();
-        $object->saswp_service_hooks();
+	    $saswp_object = new SASWP_Output_Service();
+        $saswp_object->saswp_service_hooks();
 };

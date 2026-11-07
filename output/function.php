@@ -1728,9 +1728,9 @@ function saswp_json_print_format($output_array){
     global $sd_data;
     
     if ( isset( $sd_data['saswp-pretty-print']) && $sd_data['saswp-pretty-print'] == 1){
-        return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+        return wp_json_encode( $output_array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP );
     }else{
-        return wp_json_encode( $output_array );
+        return wp_json_encode( $output_array, JSON_HEX_TAG | JSON_HEX_AMP );
     }
         
 }
@@ -3055,6 +3055,7 @@ function saswp_get_mainEntity($schema_id){
                     if ( function_exists( 'get_product_description') ) {
                         $post_content = get_product_description( $post->ID );
                     }else{
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core the_content hook intentionally.
                         $post_content = apply_filters('the_content', $post->post_content);
                     }
                 }else{
@@ -3064,6 +3065,7 @@ function saswp_get_mainEntity($schema_id){
                     if ( $is_elementor === 'builder' ) {
                         $post_content   = $post->post_content;       
                     }else{
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core the_content hook intentionally.
                         $post_content = apply_filters('the_content', $post->post_content);
                     }
                 
@@ -3291,6 +3293,7 @@ function saswp_get_wp_customer_reviews() {
                 );
     
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
         $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
 
     }    
@@ -3392,7 +3395,7 @@ function saswp_get_reviews_wp_theme() {
             ); 
             
         }
-        
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Existing global variable retained for backward compatibility.
         $response_rv =  array('reviews' => $reviews, 'AggregateRating' => $ratings);
 
     }    

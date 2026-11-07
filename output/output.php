@@ -4659,7 +4659,7 @@ function saswp_site_navigation_output() {
         }else{
             $menu_name = "";
         }
-
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core wpml_post_language_details hook intentionally.
         $current_post_language = apply_filters( 'wpml_post_language_details', NULL);
                                              
         if ( ! empty( $menuItems) ) {

@@ -395,7 +395,9 @@ class SASWP_Review_Feature_Frontend {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
@@ -432,13 +434,15 @@ class SASWP_Review_Feature_Frontend {
 
 			}
 		}
-
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is done below here in if
 		if ( ! empty( $_POST['saswp_rf_form_pros'] ) && is_array( $_POST['saswp_rf_form_pros'] ) && ! empty( $_POST['saswp_rf_form_pros'][0] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is performed below
 			$comment_pros 		=	array_map( 'sanitize_text_field', $_POST['saswp_rf_form_pros'] );
 			update_comment_meta( $comment_id, 'saswp_rf_form_pros', $comment_pros );
 		}
-
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is done below here in if
 		if ( ! empty( $_POST['saswp_rf_form_cons'] ) && is_array( $_POST['saswp_rf_form_cons'] ) && ! empty( $_POST['saswp_rf_form_cons'][0] ) ) {
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Reason sanitization is performed below
 			$comment_cons 		=	array_map( 'sanitize_text_field', $_POST['saswp_rf_form_cons'] );
 			update_comment_meta( $comment_id, 'saswp_rf_form_cons', $comment_cons );
 		}
@@ -454,9 +458,11 @@ class SASWP_Review_Feature_Frontend {
 				$attachments['videos']       = array_map( 'absint', $_POST['saswp_rf_form_attachment']['videos'] );
 				$attachments['video_source'] = 'self';
 			}
-		} elseif ( isset( $_POST['saswp-rf-form-video-source'] ) && $_POST['saswp-rf-form-video-source'] == 'external' ) {
-			if ( isset( $_POST['saswp-rf-form-external-video'] ) && ( '' !== $_POST['saswp-rf-form-video-source'] ) ) {
-				$attachments['videos']       = [ esc_url( $_POST['saswp-rf-form-external-video'] ) ];
+		} elseif ( isset( $_POST['saswp-rf-form-video-source'] ) && sanitize_text_field( wp_unslash( $_POST['saswp-rf-form-video-source'] ) ) == 'external' ) {
+			$video_source = sanitize_text_field( wp_unslash( $_POST['saswp-rf-form-video-source'] ) );
+			if ( isset( $_POST['saswp-rf-form-external-video'] ) && ( '' !== $video_source ) ) {
+				$external_video = esc_url_raw( wp_unslash( $_POST['saswp-rf-form-external-video'] ) );
+				$attachments['videos']       = [ $external_video ];
 				$attachments['video_source'] = 'external';
 			}
 		}
@@ -502,6 +508,7 @@ class SASWP_Review_Feature_Frontend {
 	public static function get_all_ratings( $post_id ) {
 		
 		$args = [
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve approved review comments containing rating metadata.
             'meta_query' => array( 
                 array( 
                   'key' => 'rating', 
@@ -658,6 +665,7 @@ class SASWP_Review_Feature_Frontend {
 		if( $human_readable_time ){
 			$time =  human_time_diff( strtotime( $comment->comment_date ), current_time( 'timestamp') ) . ' ' . esc_html__('ago', 'schema-and-structured-data-for-wp' ); 
 		}else{
+			// phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date --Reason need date function here
 			$time =  date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) , strtotime( $comment->comment_date )  );  ;
 		}
 		return $time ;
@@ -674,8 +682,8 @@ class SASWP_Review_Feature_Frontend {
 			wp_send_json_error( [ 'msg' => esc_html__( 'Invalid request.', 'schema-and-structured-data-for-wp' ) ] );
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			wp_send_json_error( [ 'msg' => esc_html__( 'Security check failed.', 'schema-and-structured-data-for-wp' ) ] );
 			return;
 		}
@@ -687,8 +695,8 @@ class SASWP_Review_Feature_Frontend {
 	    }
 
 		$img_max_size = 1024;
-
-		$file               = $_FILES['saswp-rf-form-image'];
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Reason sanitization is performed below
+		$file               = isset( $_FILES['saswp-rf-form-image'] ) ? $_FILES['saswp-rf-form-image'] : [];
 
 		if ( empty( $file['name'] ) || empty( $file['tmp_name'] ) ) {
 			wp_send_json_error( [ 'msg' => esc_html__( 'Please upload file.', 'schema-and-structured-data-for-wp' ) ] );
@@ -714,18 +722,23 @@ class SASWP_Review_Feature_Frontend {
 	        $valid_types    = implode( ', ', array_map( fn( $m ) => str_replace( 'image/', '', $m ), array_values( $allowed_mimes ) ) );
 	        $detected_type  = ! empty( $checked['type'] ) ? str_replace( 'image/', '', $checked['type'] ) : esc_html__( 'unknown', 'schema-and-structured-data-for-wp' );
 
-	        wp_send_json_error( [
-	            'msg' => sprintf(
-	                esc_html__( 'Invalid file type: %s. Supported file types: %s', 'schema-and-structured-data-for-wp' ),
-	                $detected_type,
-	                $valid_types
-	            ),
-	        ] );
+			wp_send_json_error( [
+			    'msg' => sprintf(
+			        /* translators: 1: Detected file type, 2: Supported file types. */
+			        esc_html__(
+			            'Invalid file type: %1$s. Supported file types: %2$s',
+			            'schema-and-structured-data-for-wp'
+			        ),
+			        $detected_type,
+			        $valid_types
+			    ),
+			] );
 	        return;
 	    }
 
 		// Check file size
 		if ($file['size'] > $allowed_file_size) {
+			/* translators: %s: Allowed file size of the file. */
 			wp_send_json_error(['msg' => sprintf(esc_html__('File is too large. Max. upload file size is %s', 'schema-and-structured-data-for-wp'), self::format_bytes($allowed_file_size))]);
 		}
 
@@ -806,8 +819,8 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -835,16 +848,17 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
-		$video_url = isset($_REQUEST['video_url']) ? esc_url($_REQUEST['video_url']) : null;
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized --Reason actions performed below
+		$video_url = isset($_REQUEST['video_url']) ? $_REQUEST['video_url'] : null;
 		ob_start();
 
 		echo '<div class="saswp-rf-modal">';
 		echo '<div class="saswp-rf-form saswp-rf-review-popup">';
-		echo '<div class="saswp-rf-form-self-video"><video src="' . $video_url . '"  autoplay controls /></div>';
+		echo '<div class="saswp-rf-form-self-video"><video src="' . esc_url( $video_url ) . '"  autoplay controls /></div>';
 
 		echo '</div>';
 		echo '</div>'; //modal
@@ -862,8 +876,8 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
@@ -871,7 +885,7 @@ class SASWP_Review_Feature_Frontend {
 	        wp_send_json_error( [ 'msg' => esc_html__( 'You do not have permission to upload files.', 'schema-and-structured-data-for-wp' ) ] );
 	        return;
 	    }
-
+	    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$file               = isset( $_FILES['saswp-rf-form-video'] ) ? $_FILES['saswp-rf-form-video'] : null;
 		if ( empty( $file['name'] ) || empty( $file['tmp_name'] ) ) {
 	        return;
@@ -897,17 +911,22 @@ class SASWP_Review_Feature_Frontend {
 	            : esc_html__( 'unknown', 'schema-and-structured-data-for-wp' );
 
 	        wp_send_json_error( [
-	            'msg' => sprintf(
-	                esc_html__( 'Invalid file type: %s. Supported file types: %s', 'schema-and-structured-data-for-wp' ),
-	                $detected_type,
-	                $valid_types
-	            ),
-	        ] );
+			    'msg' => sprintf(
+			        /* translators: 1: Detected file type, 2: Supported file types. */
+			        esc_html__(
+			            'Invalid file type: %1$s. Supported file types: %2$s',
+			            'schema-and-structured-data-for-wp'
+			        ),
+			        $detected_type,
+			        $valid_types
+			    ),
+			] );
 	        return;
 	    }
 
 		// Check file size
 		if ($file['size'] > $allowed_file_size) {
+			/* translators: %s: Allowed file size of the file. */
 			wp_send_json_error(['msg' => sprintf(esc_html__('File is too large. Max. upload file size is %s', 'schema-and-structured-data-for-wp'), self::format_bytes($allowed_file_size))]);
 		}
 
@@ -965,18 +984,60 @@ class SASWP_Review_Feature_Frontend {
 	 * Filter reviews
 	 * @since 	1.45
 	 * */
+
+	/**
+	 * Verify whether a post is public and viewable by the current visitor
+	 * @param int $post_id
+	 * @return bool
+	 */
+	public function is_post_viewable_by_current_user( $post_id ) {
+		if ( empty( $post_id ) ) {
+			return false;
+		}
+
+		$post = get_post( $post_id );
+		if ( ! $post || ! is_object( $post ) || empty( $post->post_status ) ) {
+			return false;
+		}
+
+		// If the post is password protected and the password cookie is not supplied/valid
+		if ( post_password_required( $post ) ) {
+			return false;
+		}
+
+		// Check if publicly viewable (WP 5.7+) or fallback to publish status check
+		if ( function_exists( 'is_post_publicly_viewable' ) ) {
+			if ( is_post_publicly_viewable( $post ) ) {
+				return true;
+			}
+		} elseif ( 'publish' === $post->post_status ) {
+			return true;
+		}
+
+		// For non-published posts (private, draft, pending), allow only if the user has permission to read it
+		if ( current_user_can( 'read_post', $post_id ) ) {
+			return true;
+		}
+
+		return false;
+	}
 	public function saswp_review_filter() {
 
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
-		$sort_by   	= isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( $_REQUEST['sort_by'] ) : '';
-		$filter_by 	= isset( $_REQUEST['filter_by'] ) 	? sanitize_text_field( $_REQUEST['filter_by'] ) : '';
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid post or permission denied.', 'schema-and-structured-data-for-wp' ) ) );
+		}
+
+		$sort_by   	= isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( wp_unslash( $_REQUEST['sort_by'] ) ) : '';
+		$filter_by 	= isset( $_REQUEST['filter_by'] ) 	? sanitize_text_field( wp_unslash( $_REQUEST['filter_by'] ) ) : '';
 		$cur_page  	= isset( $_REQUEST['current_page'] ) ? absint( $_REQUEST['current_page'] ) : 1;
 
 		$max_page 	= $this->get_sorted_reviews( $sort_by, $filter_by );
@@ -997,8 +1058,11 @@ class SASWP_Review_Feature_Frontend {
 	 * @since 	1.45
 	 * */
 	public function get_sorted_reviews( $sort_by, $filter_by ) {
-		
-		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : null;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason nonce has been checked in function call
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			return 0;
+		}
 
 		$args = [
 			'post_id' => $post_id,
@@ -1007,7 +1071,7 @@ class SASWP_Review_Feature_Frontend {
 
 		switch ($sort_by) {
 			case 'top_rated':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Required to retrieve approved review comments containing rating metadata.
 				$args['meta_key'] = 'rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
@@ -1015,7 +1079,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'low_rated':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Required to retrieve approved review comments containing rating metadata.
 				$args['meta_key'] = 'rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'ASC';
@@ -1023,7 +1087,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'recommended':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve recommended review comments containing rating metadata.
 				$args['meta_query'] = [
 					'relation' => 'OR',
 					[
@@ -1036,7 +1100,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'highlighted':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve highlight review comments containing rating metadata.
 				$args['meta_query'] = [
 					'relation' => 'OR',
 					[
@@ -1064,7 +1128,7 @@ class SASWP_Review_Feature_Frontend {
 				case '2': $filter_by_value = [1.01, 2]; break;
 				case '1': $filter_by_value = [0.01, 0.99]; break;
 			}
-
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve highlight review comments containing rating metadata.
 			$args['meta_query'] = [
 				[
 					'key'     => 'rating',
@@ -1089,15 +1153,18 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
 
 		$per_page = get_option( 'comments_per_page' );
 		$cur_page = isset( $_REQUEST['current_page'] ) 	? absint( $_REQUEST['current_page'] ) : 1;
-		$post_id  = isset( $_REQUEST['post_id'] ) 		? absint( $_REQUEST['post_id'] ) : null;
+		$post_id  = isset( $_REQUEST['post_id'] ) 		? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			return;
+		}
 		$cur_page = isset( $_REQUEST['pagi_num'] ) 		? ( $cur_page - 1) : $cur_page;
 		$offset   = $cur_page * $per_page;
 
@@ -1115,7 +1182,7 @@ class SASWP_Review_Feature_Frontend {
 
 		switch ($sort_by) {
 			case 'top_rated':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Required to retrieve rating review comments containing rating metadata.
 				$args['meta_key'] = 'rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'DESC';
@@ -1123,7 +1190,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'low_rated':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Required to retrieve rating review comments containing rating metadata.
 				$args['meta_key'] = 'rating';
 				$args['orderby']  = 'meta_value_num';
 				$args['order']    = 'ASC';
@@ -1131,7 +1198,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'recommended':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve recommended review comments containing rating metadata.
 				$args['meta_query'] = [
 					'relation' => 'OR',
 					[
@@ -1144,7 +1211,7 @@ class SASWP_Review_Feature_Frontend {
 				break;
 
 			case 'highlighted':
-
+				// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve highlight review comments containing rating metadata.
 				$args['meta_query'] = [
 					'relation' => 'OR',
 					[
@@ -1172,7 +1239,7 @@ class SASWP_Review_Feature_Frontend {
 				case '2': $filter_by_value = [1.01, 2]; break;
 				case '1': $filter_by_value = [1, 1.99]; break;
 			}
-
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- Required to retrieve recommended review comments containing rating metadata.
 			$args['meta_query'] = [
 				[
 					'key'     => 'rating',
@@ -1206,7 +1273,7 @@ class SASWP_Review_Feature_Frontend {
 
 		global $wp_rewrite;
 		$args    = ['prev_text' => '<i class="dashicons dashicons-arrow-left-alt2"></i>', 'next_text' => '<i class="dashicons dashicons-arrow-right-alt2"></i>'];
-		
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reason nonce has been checked in function call
 		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : null;
 
 		$defaults = [
@@ -1238,13 +1305,18 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
-		$sort_by   = isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( $_REQUEST['sort_by'] ) : '';
-		$filter_by = isset( $_REQUEST['filter_by'] ) 	? sanitize_text_field( $_REQUEST['filter_by'] ) : '';
+		$post_id = isset( $_REQUEST['post_id'] ) ? absint( $_REQUEST['post_id'] ) : 0;
+		if ( empty( $post_id ) || ! $this->is_post_viewable_by_current_user( $post_id ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid post or permission denied.', 'schema-and-structured-data-for-wp' ) ) );
+		}
+
+		$sort_by   = isset( $_REQUEST['sort_by'] ) 		? sanitize_text_field( wp_unslash( $_REQUEST['sort_by'] ) ) : '';
+		$filter_by = isset( $_REQUEST['filter_by'] ) 	? sanitize_text_field( wp_unslash( $_REQUEST['filter_by'] ) ) : '';
 		$cur_page  = isset( $_REQUEST['current_page'] ) ? absint( $_REQUEST['current_page'] ) : 1;
 		if ( $sort_by ) {
 			$max_page = $this->get_sorted_reviews( $sort_by, $filter_by );
@@ -1270,8 +1342,8 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
@@ -1527,12 +1599,12 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
-		$comment_id = absint($_POST['comment_ID']);
+		$comment_id = isset( $_POST['comment_ID'] ) ? absint($_POST['comment_ID'] ) : 0;
 		if ( ! current_user_can( 'edit_comment', $comment_id ) ){
 			$comment = get_comment( $comment_id );
             if( get_current_user_id() != $comment->user_id ){
@@ -1546,7 +1618,7 @@ class SASWP_Review_Feature_Frontend {
 			// comment data
 			$commentarr = [
 				'comment_ID'      => intval( $comment_id ),
-				'comment_content' => sanitize_text_field( $_POST['comment'] ),
+				'comment_content' => sanitize_text_field( wp_unslash( $_POST['comment'] ) ),
 			];
 			// update data in the database
 			$updated = wp_update_comment( $commentarr );
@@ -1677,8 +1749,8 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 
@@ -1752,8 +1824,8 @@ class SASWP_Review_Feature_Frontend {
 		if ( ! isset( $_POST['saswp_rf_form_nonce'] ) ) {
 			return;
 		}
-
-		if ( ! wp_verify_nonce( $_POST['saswp_rf_form_nonce'], 'saswp_rf_form_action_nonce') ) {
+		$nonce = sanitize_text_field( wp_unslash( $_POST['saswp_rf_form_nonce'] ) );
+		if ( ! wp_verify_nonce( $nonce, 'saswp_rf_form_action_nonce') ) {
 			return;
 		}
 

@@ -549,7 +549,7 @@ class SASWP_Fields_Generator {
                                                 if ( isset( $settings[$meta_field['id']]) ) {                                                 
 
                                                  if($meta_field['id'] == 'saswp_site_navigation_menu' && function_exists('icl_object_id') ) {
-																											
+													// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core wpml_object_id hook intentionally.					  									
                                                     $settings_meta_field   = apply_filters( 'wpml_object_id', $settings[$meta_field['id']], 'nav_menu', FALSE,ICL_LANGUAGE_CODE );
                                                     if(!$settings_meta_field){
                                                             $settings_meta_field   = $settings[$meta_field['id']];

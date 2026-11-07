@@ -204,9 +204,18 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 			<meta name="viewport" content="width=device-width"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 			<title><?php echo esc_html( $current_step); ?></title>
-			<?php do_action( 'admin_print_styles' ); ?>
-			<?php do_action( 'admin_print_scripts' ); ?>
-			<?php do_action( 'admin_head' ); ?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_styles hook intentionally.
+				do_action( 'admin_print_styles' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_scripts hook intentionally.
+				do_action( 'admin_print_scripts' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_head hook intentionally.
+				do_action( 'admin_head' ); 
+			?>
 		</head>
 		<body class="merlin__body merlin__body--<?php echo esc_attr( $current_step ); ?>">
 		<?php
@@ -412,6 +421,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 					update_post_meta(
 						$post_id, 
 						'saswp_review_item_reviewed_'.$post_id, 
+						// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 						sanitize_text_field($_POST['saswp_review_item_reviewed_']) 
 					  );                         					
 				}
@@ -514,6 +524,7 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 
 		// If it exists, include it.
 		if ( file_exists( $svg ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_styles hook intentionally.
 			require_once apply_filters( 'merlin_svg_sprite', $svg );
 		}
 	}
@@ -551,9 +562,18 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 					?>
 					<title><?php echo esc_html__( 'Welcome', 'schema-and-structured-data-for-wp' ); ?></title>
 				<?php } ?>			
-			<?php do_action( 'admin_print_styles' ); ?>
-			<?php do_action( 'admin_print_scripts' ); ?>
-			<?php do_action( 'admin_head' ); ?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_styles hook intentionally.
+				do_action( 'admin_print_styles' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_scripts hook intentionally.
+				do_action( 'admin_print_scripts' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_head hook intentionally.
+				do_action( 'admin_head' ); 
+			?>
 		</head>
 		<body class="merlin__body merlin__body--<?php echo esc_attr( $current_step ); ?>">
 		<?php
@@ -563,8 +583,14 @@ add_action( 'wp_ajax_saswp_add_new_save_steps_data', 'saswp_add_new_save_steps_d
 	function saswp_add_new_install_footer() {
 		?>	 
 		</body>
-		<?php do_action( 'admin_footer' ); ?>
-		<?php do_action( 'admin_print_footer_scripts' ); ?>
+		<?php 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_footer hook intentionally.
+			do_action( 'admin_footer' ); 
+		?>
+		<?php 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_footer_scripts hook intentionally.
+			do_action( 'admin_print_footer_scripts' ); 
+		?>
 		</html>
 		<?php
 	}

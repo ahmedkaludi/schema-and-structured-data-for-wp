@@ -174,7 +174,8 @@ class SASWP_Reviews_Form {
                     if($is_amp){
                         header("AMP-Redirect-To: ".$rv_link);
                         header("Access-Control-Expose-Headers: AMP-Redirect-To, AMP-Access-Control-Allow-Source-Origin");                                 
-                    }else{                        
+                    }else{ 
+                        // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- Reason redirecting it external review URL           
                         wp_redirect( $rv_link );
                         exit;
                     }                                        

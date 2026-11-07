@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$reasons = array(
+$saswp_reasons = array(
     	1 => '<li><label><input type="radio" name="saswp_disable_reason" value="temporary"/>' . esc_html__('It is only temporary', 'schema-and-structured-data-for-wp' ) . '</label></li>',
 		2 => '<li><label><input type="radio" name="saswp_disable_reason" value="stopped"/>' . esc_html__('I stopped using Schema plugin on my site', 'schema-and-structured-data-for-wp' ) . '</label></li>',
 		3 => '<li><label><input type="radio" name="saswp_disable_reason" value="missing"/>' . esc_html__('I miss a feature', 'schema-and-structured-data-for-wp' ) . '</label></li>
@@ -17,7 +17,7 @@ $reasons = array(
 		<li><textarea class="mb-box other" name="saswp_disable_text[]" placeholder="' . esc_attr__('Please specify, if possible', 'schema-and-structured-data-for-wp' ) . '"></textarea></li>',
     );
 
-shuffle( $reasons );
+shuffle( $saswp_reasons );
 
 ?>
 
@@ -27,9 +27,9 @@ shuffle( $reasons );
 	    <h3><strong><?php echo esc_html__( 'If you have a moment, please let us know why you are deactivating:', 'schema-and-structured-data-for-wp' ); ?></strong></h3>
 	    <ul>
                 <?php 
-                foreach ( $reasons as $reason_escaped ){
+                foreach ( $saswp_reasons as $saswp_reason ){
 					//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped	-- all html inside this variable already escaped above in $reasons variable
-                    echo $reason_escaped;
+                    echo $saswp_reason;
                 }
                 ?>
 	    </ul>

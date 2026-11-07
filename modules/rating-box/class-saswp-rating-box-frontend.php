@@ -375,6 +375,6 @@ Class SASWP_Rating_Box_Frontend{
         
 }
 if (class_exists('SASWP_Rating_Box_Frontend')) {
-	$object = new SASWP_Rating_Box_Frontend();
-        $object->saswp_review_hooks();
+	$saswp_object = new SASWP_Rating_Box_Frontend();
+        $saswp_object->saswp_review_hooks();
 };

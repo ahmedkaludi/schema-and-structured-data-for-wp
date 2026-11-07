@@ -13,16 +13,16 @@ global $comment, $sd_data;
     if ( get_comment_meta( get_comment_ID(), 'saswp-rf-form-anonymous', true ) ) {
             echo esc_html__( 'Anonymous', 'schema-and-structured-data-for-wp' );
     } else {
-            echo ! empty( $comment->comment_author ) ? $comment->comment_author : '';
+            echo ! empty( $comment->comment_author ) ? esc_html( $comment->comment_author ) : '';
     }
 
     if ( ! empty( $sd_data['saswp-rf-page-settings-purchase-badge'] ) && ! empty( $comment->comment_author_email ) ) {
 
-        $comment_email          =   $comment->comment_author_email;
-        $woocommerce_status     =   SASWP_Review_Feature_Frontend::woocommerce_verified_customer( $comment_email );
-        $edd_status             =   SASWP_Review_Feature_Frontend::edd_verified_customer( $comment_email );
+        $saswp_comment_email          =   $comment->comment_author_email;
+        $saswp_woocommerce_status     =   SASWP_Review_Feature_Frontend::woocommerce_verified_customer( $saswp_comment_email );
+        $saswp_edd_status             =   SASWP_Review_Feature_Frontend::edd_verified_customer( $saswp_comment_email );
 
-        if ( ! empty( $woocommerce_status ) || ! empty( $edd_status ) ) {
+        if ( ! empty( $saswp_woocommerce_status ) || ! empty( $saswp_edd_status ) ) {
         ?>
             <i class="dashicons dashicons-yes-alt" title="<?php echo esc_attr__( 'Verified Customer', 'schema-and-structured-data-for-wp' ); ?>"></i>
         <?php

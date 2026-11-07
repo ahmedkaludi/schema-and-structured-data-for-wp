@@ -499,6 +499,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		// If it exists, include it.
 		if ( file_exists( $svg ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core merlin_svg_sprite hook intentionally.
 			require_once apply_filters( 'merlin_svg_sprite', $svg );
 		}
 	}
@@ -545,9 +546,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					?>
 					<title><?php echo esc_html__( 'Welcome', 'schema-and-structured-data-for-wp' ); ?></title>
 				<?php } ?>										
-			<?php do_action( 'admin_print_styles' ); ?>
-			<?php do_action( 'admin_print_scripts' ); ?>
-			<?php do_action( 'admin_head' ); ?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_styles hook intentionally.
+				do_action( 'admin_print_styles' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_scripts hook intentionally.
+				do_action( 'admin_print_scripts' ); 
+			?>
+			<?php 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_head hook intentionally.
+				do_action( 'admin_head' ); 
+			?>
 		</head>
 		<body class="merlin__body merlin__body--<?php echo esc_attr( $current_step ); ?>">
 		<?php
@@ -557,8 +567,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	function saswp_install_footer() {
 		?>	 
 		</body>
-		<?php do_action( 'admin_footer' ); ?>
-		<?php do_action( 'admin_print_footer_scripts' ); ?>
+		<?php
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_footer hook intentionally. 
+			do_action( 'admin_footer' ); 
+		?>
+		<?php 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core admin_print_footer_scripts hook intentionally.
+			do_action( 'admin_print_footer_scripts' ); 
+		?>
 		</html>
 		<?php
 	}

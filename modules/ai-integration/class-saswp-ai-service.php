@@ -27,6 +27,7 @@ interface SASWP_AI_Provider_Interface {
 class SASWP_Gemini_Provider implements SASWP_AI_Provider_Interface {
     public function get_api_url($api_key, $model) {
         $model = !empty($model) ? $model : 'gemini-1.5-flash';
+        // phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Direct Gemini API integration retained for backward compatibility and support for custom API key configuration
         return "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key=" . rawurlencode($api_key);
     }
 
@@ -60,6 +61,7 @@ class SASWP_Gemini_Provider implements SASWP_AI_Provider_Interface {
         if (empty($api_key)) {
             return array('success' => false, 'error' => esc_html__('Gemini API Key is required.', 'schema-and-structured-data-for-wp'));
         }
+        // phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Direct Gemini API integration retained for backward compatibility and support for custom API key configuration
         $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . rawurlencode($api_key);
         $response = wp_remote_get($url, array('timeout' => 15, 'sslverify' => false));
 
@@ -106,6 +108,7 @@ class SASWP_Gemini_Provider implements SASWP_AI_Provider_Interface {
  */
 class SASWP_OpenAI_Provider implements SASWP_AI_Provider_Interface {
     public function get_api_url($api_key, $model) {
+        // phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Direct OpenAI integration retained for backward compatibility and support for custom API key configuration
         return 'https://api.openai.com/v1/chat/completions';
     }
 
@@ -141,6 +144,7 @@ class SASWP_OpenAI_Provider implements SASWP_AI_Provider_Interface {
         if (empty($api_key)) {
             return array('success' => false, 'error' => esc_html__('OpenAI API Key is required.', 'schema-and-structured-data-for-wp'));
         }
+        // phpcs:ignore PluginCheck.CodeAnalysis.AIProvider.DirectIntegration -- Direct OpenAI integration retained for backward compatibility and support for custom API key configuration
         $url = 'https://api.openai.com/v1/models';
         $response = wp_remote_get($url, array(
             'headers' => array(
@@ -348,7 +352,7 @@ class SASWP_AI_Service {
         if (!empty($site_url)) {
             $clean_json = str_replace(
                 array('https://example.com', 'http://example.com', 'example.com'),
-                array($site_url, $site_url, parse_url($site_url, PHP_URL_HOST)),
+                array($site_url, $site_url, wp_parse_url($site_url, PHP_URL_HOST)),
                 $clean_json
             );
         }

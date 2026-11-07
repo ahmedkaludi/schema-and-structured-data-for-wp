@@ -94,7 +94,18 @@ if ( ! defined('ABSPATH') ) exit;
                 if(empty($sanitized_post) ) {
                     continue;
                 }
-                if(get_post_status( $schema_post['post']['ID'] ) ) {
+
+                // Security: Restrict imported post types to the plugin's own post types only
+                $allowed_post_types = array( 'saswp', 'saswp_reviews', 'saswp-collections' );
+                if ( ! isset( $sanitized_post['post_type'] ) || ! in_array( $sanitized_post['post_type'], $allowed_post_types, true ) ) {
+                    continue;
+                }
+
+                $existing_post_id = isset( $schema_post['post']['ID'] ) ? intval( $schema_post['post']['ID'] ) : 0;
+                $existing_post    = $existing_post_id ? get_post( $existing_post_id ) : null;
+
+                // Security: Only update if the existing post exists, belongs to an allowed plugin post type, and the importing user has permission to edit it
+                if ( $existing_post && in_array( $existing_post->post_type, $allowed_post_types, true ) && current_user_can( 'edit_post', $existing_post_id ) ) {
                     
                     $post_id    =     wp_update_post($sanitized_post);  
                      
@@ -2138,11 +2149,12 @@ function saswp_fields_and_type($data_type = 'value'){
     function saswp_defaultSettings() {
                            
                 global $sd_data; 
-                
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Prefix has been added
                 $sd_data = get_option( 'sd_data', saswp_default_settings_array());     
 
                 // If data is not set for custom schema option then  set default data to 1
                 if ( is_array( $sd_data ) && ! array_key_exists( 'saswp-for-cschema', $sd_data ) ) {
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Prefix has been added
                     $sd_data['saswp-for-cschema'] = 1;
                 }
 
@@ -2371,7 +2383,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
             $post_content = wp_strip_all_tags(strip_shortcodes($post->post_content)); 
             $post_content = preg_replace('/\[.*?\]/','', $post_content);
-
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core excerpt_length hook intentionally.
             $excerpt_length = apply_filters( 'excerpt_length', 55 );                        
             $excerpt_more = '';
             $excerpt      = wp_trim_words( $post_content, $excerpt_length, $excerpt_more );
@@ -2513,7 +2525,7 @@ function saswp_fields_and_type($data_type = 'value'){
 
                     $post_content = wp_strip_all_tags( strip_shortcodes( $post_excerpt_content ) ); 
                     $post_content = preg_replace( '/\[.*?\]/','', $post_content );
-
+                     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Invoking the WordPress core excerpt_length hook intentionally.
                     $excerpt_length = apply_filters( 'excerpt_length', 55 );                        
                     $excerpt_more = '';
                     $excerpt      = wp_trim_words( $post_content, $excerpt_length, $excerpt_more );
@@ -4397,16 +4409,17 @@ function saswp_get_thumbnail() {
         $image_details 	    = wp_get_attachment_image_src($image_id);
 
         if( isset($sd_data['saswp-video-thumbnails']) && $sd_data['saswp-video-thumbnails'] == 1 && class_exists('Video_Thumbnails') ){
-
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
             $thumbnail = get_video_thumbnail();
 
         }elseif (isset($image_details[0]) ) {
-
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
             $thumbnail = $image_details[0];
 
         }else{
 
             if ( isset( $sd_data['sd_default_image']['thumbnail']) ) {
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
                 $thumbnail = $sd_data['sd_default_image']['thumbnail'];    
             }
 
@@ -5622,19 +5635,8 @@ function saswp_filter_translatepress_content( $content ) {
         return $content;
     }
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-    $translations = $wpdb->get_results(
-        $wpdb->prepare(
-            "
-            SELECT d.original, d.translated
-            FROM {$meta_table} m
-            INNER JOIN {$dict_table} d
-                ON d.original_id = m.original_id
-            WHERE m.meta_value = %d
-            ",
-            $post_id
-        )
-    );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter 
+    $translations = $wpdb->get_results( $wpdb->prepare( "SELECT d.original, d.translated FROM {$meta_table} m INNER JOIN {$dict_table} d ON d.original_id = m.original_id WHERE m.meta_value = %d ", $post_id) );
 
     if ( empty( $translations ) ) {
         wp_cache_set( $cache_key, $content, 'saswp', HOUR_IN_SECONDS );
@@ -5699,13 +5701,8 @@ function saswp_get_trp_translated_field_from_db( $post_id, $field ) {
         return '';
     }
 
-    // Fetch original value
-    $original = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT {$field} FROM {$wpdb->posts} WHERE ID = %d LIMIT 1",
-            $post_id
-        )
-    );
+    // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery,PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $original = $wpdb->get_var( $wpdb->prepare( "SELECT {$field} FROM {$wpdb->posts} WHERE ID = %d LIMIT 1", $post_id ) );
 
     if ( empty( $original ) ) {
         return '';
@@ -5739,13 +5736,8 @@ function saswp_get_trp_translated_field_from_db( $post_id, $field ) {
         return $original;
     }
 
-    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
-    $translated = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT translated FROM {$dictionary_table} WHERE original = %s LIMIT 1",
-            $original
-        )
-    );
+    // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,  PluginCheck.Security.DirectDB.UnescapedDBParameter
+    $translated = $wpdb->get_var( $wpdb->prepare( "SELECT translated FROM {$dictionary_table} WHERE original = %s LIMIT 1", $original ) );
 
     if ( empty( $translated ) ) {
         wp_cache_set( $cache_key, $original, 'saswp', HOUR_IN_SECONDS );

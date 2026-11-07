@@ -1,10 +1,10 @@
 === Schema & Structured Data for WP & AMP ===
 Contributors: magazine3
 Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
-Requires at least: 4.5
+Requires at least: 5.3.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.69
+Stable tag: 1.70
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -156,6 +156,10 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
 
+= 1.70 (02 November 2026) =
+* Fixed: Data sanitization and access validation updates across core modules #2486
+* Fixed: Vulnerabilities discovered by Raphael P. Cigana, Muni Nitish Kumar Yaddala, Karthik Ramakrishnan, vuxvinh, and Nguyen Vu Thanh Danh. 
+
 = 1.69 (29 October 2026) =
 * Feature: Added Support for Dataset schema #410
 * Feature: Added Support for Quiz schema #1674
@@ -286,14 +290,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Enhancement: Duplicate schema issue in the review collection #2372
 * Fixed: Code improvement #2376
 * Fixed: Vulnerability reported by Wordfence Security
-
-= 1.51 (07 October 2025) =
-* Feature: Add Guide schema type #2313
-* Enhancement: Improvement in JobPosting schema #2347
-* Enhancement: Added organization type "General" in knowledge graph #2356
-* Enhancement: Added award schema for book #2361
-* Fixed: Improvement in Person schema #2363
-* Fixed: Global schema modification issue in Person schema #2365
-* Enhancement: Improvement in SiteNavigationElement Schema #2369
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).

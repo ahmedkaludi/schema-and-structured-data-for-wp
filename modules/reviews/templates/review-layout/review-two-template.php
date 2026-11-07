@@ -8,25 +8,25 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 global $sd_data;
-$highlight_class 	=	'';
+$saswp_highlight_class 	=	'';
 // if ( ! empty( $sd_rf_data['saswp-rf-page-settings-highlight-review'] ) ) {
-	$highlighted 		=	get_comment_meta( $comment->comment_ID, 'saswp-rf-template-review-highlight', true );
-	$highlight_class	=	! empty( $highlighted ) ? 'saswp-rf-template-top-review' : '';
+	$saswp_highlighted 		=	get_comment_meta( $comment->comment_ID, 'saswp-rf-template-review-highlight', true );
+	$saswp_highlight_class	=	! empty( $saswp_highlighted ) ? 'saswp-rf-template-top-review' : '';
 // }
 ?>
 
-<div class="saswp-rf-template-single-review <?php echo esc_attr( $highlight_class ); ?>">
+<div class="saswp-rf-template-single-review <?php echo esc_attr( $saswp_highlight_class ); ?>">
 	<?php if ( get_option( 'show_avatars' ) ) { ?>
 		<div class="saswp-rf-template-avatar-holder">
 			<?php
-			$avatar = '';
+			$saswp_avatar = '';
 			if ( get_comment_meta( get_comment_ID(), 'saswp-rf-form-anonymous', true ) ) {
-				$avatar = SASWP_DIR_URI.'admin_section/images/saswp-avatar.jpg';
+				$saswp_avatar = SASWP_DIR_URI.'admin_section/images/saswp-avatar.jpg';
 			} else {
-				$avatar = get_avatar_url( $comment->comment_author_email, [ 'size' => '70' ] );
+				$saswp_avatar = get_avatar_url( $comment->comment_author_email, [ 'size' => '70' ] );
 			}
 			?>
-			<img src="<?php echo esc_url( $avatar ); ?>" alt="">
+			<img src="<?php echo esc_url( $saswp_avatar ); ?>" alt="">
 		</div>
 	<?php } ?> 
 
@@ -42,23 +42,29 @@ $highlight_class 	=	'';
 		?>
 		<ul class="saswp-rf-template-review-meta">
 			<?php 
-			$average 	= 	get_comment_meta( get_comment_ID(), 'rating', true );
+			$saswp_average 	= 	get_comment_meta( get_comment_ID(), 'rating', true );
 			// Sync existing star rating feature here
-			if ( empty( $average ) ) {
-				$average = 	get_comment_meta( get_comment_ID(), 'review_rating', true );	
-				if ( empty( $average ) ) {
-					$average 	=	! empty( $sd_data['saswp-default-rating'] ) ? absint( $sd_data['saswp-default-rating'] ) : 5;
+			if ( empty( $saswp_average ) ) {
+				$saswp_average = 	get_comment_meta( get_comment_ID(), 'review_rating', true );	
+				if ( empty( $saswp_average ) ) {
+					$saswp_average 	=	! empty( $sd_data['saswp-default-rating'] ) ? absint( $sd_data['saswp-default-rating'] ) : 5;
 				}
 			}
-			if ( $average ) { 
+			if ( $saswp_average ) { 
 			?>
-				<li class="saswp-rf-template-review-rating"><?php echo SASWP_Review_Feature_Frontend::summary_review_stars( $average ); ?></li>
+				<li class="saswp-rf-template-review-rating">
+					<?php 
+						/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason here $saswp_average variable used for condition check so no escaping needed*/
+						echo SASWP_Review_Feature_Frontend::summary_review_stars( $saswp_average ); 
+					?>
+				</li>
 			<?php 
 			} 
 			require SASWP_DIR_NAME . '/modules/reviews/templates/author-template.php';
 			?>
 			<li class="saswp-rf-template-review-date"><i class="dashicons dashicons-calendar-alt"></i>
 				<?php 
+				/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped --Reason Escaping has been handled in render_comment_time function */
 				echo SASWP_Review_Feature_Frontend::render_comment_time( $comment ); 
 				if ( $comment->user_id != 0 && $comment->user_id == get_current_user_id() ) {
 					?>

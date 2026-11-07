@@ -2,7 +2,7 @@
 /*
 Plugin Name: Schema & Structured Data for WP & AMP
 Description: Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO. (AMP Compatible) 
-Version: 1.69
+Version: 1.70
 Text Domain: schema-and-structured-data-for-wp
 Domain Path: /languages
 Author: Magazine3
@@ -13,15 +13,15 @@ License: GPL2
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'SASWP_VERSION', '1.69' );
+define( 'SASWP_VERSION', '1.70' );
 define( 'SASWP_DIR_NAME_FILE', __FILE__ );
 define( 'SASWP_DIR_NAME', dirname( __FILE__ ) );
 define( 'SASWP_DIR_URI', plugin_dir_url( __FILE__ ) );
 define( 'SASWP_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 // the name of the settings page for the license input to be displayed
 if ( ! defined( 'SASWP_ITEM_FOLDER_NAME' ) ) {
-    $folderName = basename( __DIR__ );
-    define( 'SASWP_ITEM_FOLDER_NAME', $folderName );
+    $saswp_folderName = basename( __DIR__ );
+    define( 'SASWP_ITEM_FOLDER_NAME', $saswp_folderName );
 }
 define( 'SASWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SASWP_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
@@ -157,8 +157,8 @@ function saswp_render_omnireview_ad() {
         return;
     }
 
-    wp_enqueue_style('omnireview-admin-css', plugin_dir_url(__FILE__) . 'admin_section/css/omnireview-admin.css');
-    wp_enqueue_script('omnireview-admin-js', plugin_dir_url(__FILE__) . 'admin_section/js/omnireview-admin.js', array('jquery'), '1.0', true);
+    wp_enqueue_style('omnireview-admin-css', plugin_dir_url(__FILE__) . 'admin_section/css/omnireview-admin.css', array(), SASWP_VERSION);
+    wp_enqueue_script('omnireview-admin-js', plugin_dir_url(__FILE__) . 'admin_section/js/omnireview-admin.js', array('jquery'), SASWP_VERSION, true);
 
     ?>
     <div class="saswp-omnireview-banner notice">
