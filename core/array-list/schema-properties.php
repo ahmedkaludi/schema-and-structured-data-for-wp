@@ -11778,6 +11778,208 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                                                                             
                        );
                         break;
+
+                    case 'ResearchProject':
+                    
+                        $meta_field = array(   
+                        array(
+                                'label'      => esc_html__( 'ID', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_id_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => 'ResearchProject'   
+                        ),                      
+                        array(
+                                'label'      => esc_html__( 'Name', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_name_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => saswp_get_the_title(),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Alternate Name / Acronym', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_alternate_name_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. GLOBEC-SO', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Identifier / Grant ID / DOI', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_identifier_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. ANT-9909933 or DOI:10.1000/182', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Description', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_description_'.$schema_id,
+                                'type'       => 'textarea',
+                                'default'    => is_object( $post ) ? $post->post_excerpt : '',
+                            ),    
+                        array(
+                                'label'      => esc_html__( 'URL', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_url_'.$schema_id,
+                                'type'       => 'text',
+                                'default'    => saswp_get_permalink(),
+                            ), 
+                        array(
+                               'label'      => esc_html__( 'Image', 'schema-and-structured-data-for-wp' ),
+                               'id'         => 'saswp_research_project_image_'.$schema_id,
+                               'type'       => 'media',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Logo', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_logo_'.$schema_id,
+                                'type'       => 'media',                           
+                            ), 
+                        array(
+                                'label'      => esc_html__( 'Funder / Funding Agency', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_funder_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. National Science Foundation', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Parent Organization', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_parent_organization_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Woods Hole Oceanographic Institution', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Principal Investigator / Founder', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_founder_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Dr. Jane Doe', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Founding Date', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_founding_date_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'YYYY-MM-DD', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Dissolution Date / End Date', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_dissolution_date_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'YYYY-MM-DD', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Member(s) / Researchers', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_member_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Antarctic Research Team', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Knows About / Research Domain', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_knows_about_'.$schema_id,
+                                'type'       => 'text',
+                                'attributes' => array(
+                                    'placeholder' => esc_html__( 'e.g. Marine Ecology, Oceanography', 'schema-and-structured-data-for-wp' ),
+                                ),
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Qualifications / Credentials Awarded', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_qualifications_'.$schema_id,
+                                'type'       => 'text',
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Street Address', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_street_address_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'City', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_city_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'State', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_state_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Country', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_country_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Postal Code', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_postal_code_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Email', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_email_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Telephone', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_telephone_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Website', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_website_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Facebook', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_facebook_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Twitter', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_twitter_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'LinkedIn', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_linkedin_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Thread', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_threads_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Mastodon', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_mastodon_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Vibehut', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_vibehut_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Aggregate Rating', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_enable_rating_'.$schema_id,
+                                'type'       => 'checkbox',                            
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Rating', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_rating_value_'.$schema_id,
+                                'type'       => 'text',                           
+                            ),
+                        array(
+                                'label'      => esc_html__( 'Rating Count', 'schema-and-structured-data-for-wp' ),
+                                'id'         => 'saswp_research_project_rating_count_'.$schema_id,
+                                'type'       => 'text',                            
+                            ),    
+                        );
+                        break;
                 
                 case 'Movie':
                     

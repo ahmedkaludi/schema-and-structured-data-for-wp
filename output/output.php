@@ -1270,6 +1270,33 @@ function saswp_schema_output() {
                                                                 
                                 break;    
 
+                                case 'ResearchProject':                                
+                                    
+                                    $input1 = array(
+                                    '@context'			=> saswp_context_url(),
+                                    '@type'				=> 'ResearchProject',
+                                    '@id'				=> saswp_get_permalink().'#ResearchProject',    
+                                    'url'				=> saswp_get_permalink(),                                                                                    
+                                    'description'       => saswp_get_the_excerpt(),                                                                        
+                                    'name'				=> saswp_get_the_title()			                                                                                                            
+                                    );                                                                                                                                                                                        
+                                                                        
+                                    $input1 = saswp_append_fetched_reviews($input1, $schema_post_id);
+
+                                    $input1 = apply_filters('saswp_modify_research_project_schema_output', $input1 ); 
+
+                                    $input1 = saswp_get_modified_markup($input1, $schema_type, $schema_post_id, $schema_options);
+                                    
+                                    if($modified_schema == 1){
+                                
+                                        $input1 = saswp_research_project_schema_markup($schema_post_id, get_the_ID(), $all_post_meta);
+
+                                    }
+
+                                    $input1 = apply_filters('saswp_modify_research_project_final_schema_output', $input1 ); 
+                                                                
+                                break;    
+
                                 case 'Organization':
                                     $organization_type = get_post_meta(
                                         $schema_post_id,

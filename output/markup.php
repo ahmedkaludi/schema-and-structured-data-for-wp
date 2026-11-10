@@ -2820,6 +2820,157 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
         return $input1;
 }
 
+/**
+ * Schema markup for ResearchProject
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.71
+ */
+function saswp_research_project_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_research_project_id_'.$schema_id][0]) && $all_post_meta['saswp_research_project_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_research_project_id_'.$schema_id][0] : get_permalink().'#ResearchProject');
+
+    $input1['@context'] = saswp_context_url();
+    $input1['@type']    = 'ResearchProject';
+    if($checkIdPro){
+        $input1['@id']  = $checkIdPro;  
+    } 
+
+    $name = saswp_remove_warnings($all_post_meta, 'saswp_research_project_name_'.$schema_id, 'saswp_array');
+    $input1['name'] = !empty($name) ? $name : saswp_get_the_title();
+
+    if( isset($all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0]) ){
+        $input1['alternateName'] = $all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_identifier_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_identifier_'.$schema_id][0]) ){
+        $input1['identifier'] = $all_post_meta['saswp_research_project_identifier_'.$schema_id][0];            
+    }
+
+    $url = saswp_remove_warnings($all_post_meta, 'saswp_research_project_url_'.$schema_id, 'saswp_array');                            
+    $input1['url'] = !empty($url) ? $url : saswp_get_permalink();
+
+    $description = saswp_remove_warnings($all_post_meta, 'saswp_research_project_description_'.$schema_id, 'saswp_array');
+    $input1['description'] = !empty($description) ? $description : saswp_get_the_excerpt();
+
+    $image_details = get_post_meta( get_the_ID(), 'saswp_research_project_image_'.$schema_id.'_detail', true);
+    if( !empty($image_details) && is_array($image_details) ){
+        $input1['image']['@type']  = 'ImageObject';
+        $input1['image']['url']    = isset($image_details['thumbnail']) ? esc_url($image_details['thumbnail']) : '';
+        $input1['image']['width']  = isset($image_details['width']) ? esc_attr($image_details['width']) : '';
+        $input1['image']['height'] = isset($image_details['height']) ? esc_attr($image_details['height']) : '';
+    }
+
+    $logo_details = get_post_meta( get_the_ID(), 'saswp_research_project_logo_'.$schema_id.'_detail', true); 
+    if( !empty($logo_details) && is_array($logo_details) ){
+        $input1['logo']['@type']  = 'ImageObject';
+        $input1['logo']['url']    = isset($logo_details['thumbnail']) ? esc_url($logo_details['thumbnail']) : '';
+        $input1['logo']['width']  = isset($logo_details['width']) ? esc_attr($logo_details['width']) : '';
+        $input1['logo']['height'] = isset($logo_details['height']) ? esc_attr($logo_details['height']) : '';
+    }
+
+    if( isset($all_post_meta['saswp_research_project_funder_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_funder_'.$schema_id][0]) ){
+        $input1['funder'] = array(
+            '@type' => 'Organization',
+            'name'  => $all_post_meta['saswp_research_project_funder_'.$schema_id][0],
+        );
+    }
+
+    if( isset($all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0]) ){
+        $input1['parentOrganization'] = array(
+            '@type' => 'Organization',
+            'name'  => $all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0],
+        );
+    }
+
+    if( isset($all_post_meta['saswp_research_project_founder_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_founder_'.$schema_id][0]) ){
+        $input1['founder'] = $all_post_meta['saswp_research_project_founder_'.$schema_id][0];      
+    }
+
+    if( isset($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]) ){
+        $input1['foundingDate'] = saswp_format_date_time($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]);            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]) ){
+        $input1['dissolutionDate'] = saswp_format_date_time($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]);            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_member_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_member_'.$schema_id][0]) ){
+        $input1['member'] = $all_post_meta['saswp_research_project_member_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_knows_about_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_knows_about_'.$schema_id][0]) ){
+        $input1['knowsAbout'] = $all_post_meta['saswp_research_project_knows_about_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_qualifications_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_qualifications_'.$schema_id][0]) ){
+        $input1['hasCredential'] = $all_post_meta['saswp_research_project_qualifications_'.$schema_id][0];            
+    }
+
+    $street  = saswp_remove_warnings($all_post_meta, 'saswp_research_project_street_address_'.$schema_id, 'saswp_array');
+    $country = saswp_remove_warnings($all_post_meta, 'saswp_research_project_country_'.$schema_id, 'saswp_array');
+    $city    = saswp_remove_warnings($all_post_meta, 'saswp_research_project_city_'.$schema_id, 'saswp_array');
+    $state   = saswp_remove_warnings($all_post_meta, 'saswp_research_project_state_'.$schema_id, 'saswp_array');
+    $postal  = saswp_remove_warnings($all_post_meta, 'saswp_research_project_postal_code_'.$schema_id, 'saswp_array');
+
+    if( !empty($street) || !empty($city) || !empty($state) || !empty($country) || !empty($postal) ){
+        $input1['address']['@type']          = 'PostalAddress';
+        $input1['address']['streetAddress']  = $street;
+        $input1['address']['addressCountry'] = $country;
+        $input1['address']['addressLocality']= $city;
+        $input1['address']['addressRegion']  = $state;
+        $input1['address']['postalCode']     = $postal;
+    }
+
+    $phone = saswp_remove_warnings($all_post_meta, 'saswp_research_project_telephone_'.$schema_id, 'saswp_array');
+    if(!empty($phone)){
+        $input1['telephone'] = $phone;
+    }
+
+    $email = saswp_remove_warnings($all_post_meta, 'saswp_research_project_email_'.$schema_id, 'saswp_array');
+    if(!empty($email)){
+        $input1['email'] = $email;
+    }
+
+    if ( isset( $all_post_meta['saswp_research_project_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_research_project_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_research_project_rating_count_'.$schema_id]) ) {
+        $input1['aggregateRating']['@type']       = 'AggregateRating';
+        $input1['aggregateRating']['ratingValue'] = $all_post_meta['saswp_research_project_rating_value_'.$schema_id][0];
+        $input1['aggregateRating']['ratingCount'] = $all_post_meta['saswp_research_project_rating_count_'.$schema_id][0];                                
+    }
+
+    $sameas = array();
+    if ( isset( $all_post_meta['saswp_research_project_website_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_website_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_website_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_facebook_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_facebook_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_facebook_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_twitter_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_twitter_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_twitter_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_linkedin_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_linkedin_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_linkedin_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_threads_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_threads_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_threads_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_mastodon_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_mastodon_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_mastodon_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_vibehut_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_vibehut_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_vibehut_'.$schema_id][0];
+    }
+    if($sameas){
+        $input1['sameAs'] = $sameas;
+    }
+
+    return $input1;
+}
+
 function saswp_hotel_room_schema_markup($schema_id, $schema_post_id, $all_post_meta){
     
                 $input1 = array();

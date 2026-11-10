@@ -31,6 +31,7 @@ $with_aggregate = array(
         'local_business',
         'Organization', 
         'project',                  
+        'ResearchProject',                  
         'Product',              
         'ProductGroup',
         'VacationRental',

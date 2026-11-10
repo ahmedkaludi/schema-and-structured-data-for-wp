@@ -1683,6 +1683,118 @@ Class SASWP_Output_Service{
                             $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_project_rating_count'];
                         }
                                                                                       
+                        break;
+
+                    case 'ResearchProject':      
+                        
+                        if ( isset( $custom_fields['saswp_research_project_id']) ) {
+                            $input1['@id'] =    get_permalink().$custom_fields['saswp_research_project_id'];
+                        } 
+                        if ( isset( $custom_fields['saswp_research_project_name']) ) {
+                            $input1['name'] =    $custom_fields['saswp_research_project_name'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_alternate_name']) ) {
+                            $input1['alternateName'] =    $custom_fields['saswp_research_project_alternate_name'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_identifier']) ) {
+                            $input1['identifier'] =    $custom_fields['saswp_research_project_identifier'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_description']) ) {
+                            $input1['description'] =    $custom_fields['saswp_research_project_description'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_url']) ) {
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_research_project_url']);
+                        }                                        
+                        if ( isset( $custom_fields['saswp_research_project_street_address']) ) {
+                            $input1['address']['streetAddress'] =    $custom_fields['saswp_research_project_street_address'];
+                        }                    
+                        if ( isset( $custom_fields['saswp_research_project_city']) ) {
+                            $input1['address']['addressLocality'] =    $custom_fields['saswp_research_project_city'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_state']) ) {
+                            $input1['address']['addressRegion'] =    $custom_fields['saswp_research_project_state'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_country']) ) {
+                            $input1['address']['addressCountry'] =    $custom_fields['saswp_research_project_country'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_postal_code']) ) {
+                            $input1['address']['postalCode'] =    $custom_fields['saswp_research_project_postal_code'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_telephone']) ) {
+                            $input1['telephone'] =    $custom_fields['saswp_research_project_telephone'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_email']) ) {
+                            $input1['email'] =    $custom_fields['saswp_research_project_email'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_logo']) ) {
+                            $input1['logo'] =    $custom_fields['saswp_research_project_logo'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_image']) ) {
+                            $input1['image'] =    $custom_fields['saswp_research_project_image'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_funder']) ) {
+                            $input1['funder'] = array(
+                                '@type' => 'Organization',
+                                'name'  => $custom_fields['saswp_research_project_funder']
+                            );
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_parent_organization']) ) {
+                            $input1['parentOrganization'] = array(
+                                '@type' => 'Organization',
+                                'name'  => $custom_fields['saswp_research_project_parent_organization']
+                            );
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_founder']) ) {
+                            $input1['founder'] =    $custom_fields['saswp_research_project_founder'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_founding_date']) ) {
+                            $input1['foundingDate'] =    $custom_fields['saswp_research_project_founding_date'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_dissolution_date']) ) {
+                            $input1['dissolutionDate'] =    $custom_fields['saswp_research_project_dissolution_date'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_member']) ) {
+                            $input1['member'] =    $custom_fields['saswp_research_project_member'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_knows_about']) ) {
+                            $input1['knowsAbout'] =    $custom_fields['saswp_research_project_knows_about'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_qualifications']) ) {
+                            $input1['hasCredential'] =    $custom_fields['saswp_research_project_qualifications'];
+                        }
+    
+                        $sameas = array();
+                        if ( isset( $custom_fields['saswp_research_project_website']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_website'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_facebook']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_facebook'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_twitter']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_twitter'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_linkedin']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_linkedin'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_threads']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_threads'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_mastodon']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_mastodon'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_vibehut']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_vibehut'];
+                        }
+                        if($sameas){
+                            $input1['sameAs'] = $sameas;
+                        }
+    
+                        if ( isset( $custom_fields['saswp_research_project_rating_value']) && isset($custom_fields['saswp_research_project_rating_count']) ) {
+                            $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
+                            $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_research_project_rating_value'];
+                            $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_research_project_rating_count'];
+                        }
+                                                                                      
                         break;         
 
                 case 'Organization':      
