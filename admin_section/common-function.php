@@ -2833,7 +2833,7 @@ function saswp_fields_and_type($data_type = 'value'){
                 if ( ! empty( $itemlist) ) {
                     foreach ( $itemlist as $key => $list){
                         $vnewarr['@type'] = 'Organization';
-                        $vnewarr['Name']   = $list;   
+                        $vnewarr['name']   = trim($list);   
                         $author_details['alumniOf'][] = $vnewarr;
                     }
                 }
@@ -2958,7 +2958,7 @@ function saswp_fields_and_type($data_type = 'value'){
                                     if ( ! empty( $itemlist) ) {
                                         foreach ( $itemlist as $key => $list){
                                             $vnewarr['@type'] = 'Organization';
-                                            $vnewarr['Name']   = $list;   
+                                            $vnewarr['name']   = trim($list);   
                                             $author_details[$auth_cnt]['alumniOf'][] = $vnewarr;
                                         }
                                     }

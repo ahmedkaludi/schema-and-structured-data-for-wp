@@ -2079,7 +2079,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['editor']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2169,7 +2169,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2265,7 +2265,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2294,8 +2294,8 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
-                                    $input1['alumniOf'][] = $vnewarr;
+                                    $vnewarr['name']   = trim($list);   
+                                    $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
                             if ( isset( $custom_fields['saswp_article_knowsabout']) ) {                            
@@ -2416,7 +2416,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['editor']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2500,7 +2500,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['author']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2590,7 +2590,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2619,8 +2619,8 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
-                                        $input1['alumniOf'][] = $vnewarr;
+                                        $vnewarr['name']   = trim($list);   
+                                        $input1['author']['alumniOf'][] = $vnewarr;
                                     }
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_knowsabout']) ) {                            
@@ -2757,7 +2757,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2864,7 +2864,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2891,8 +2891,8 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
-                                    $input1['alumniOf'][] = $vnewarr;
+                                    $vnewarr['name']   = trim($list);   
+                                    $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
                         }
@@ -3054,7 +3054,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3170,7 +3170,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3203,8 +3203,8 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
                     }
@@ -3670,7 +3670,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3772,7 +3772,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3801,8 +3801,8 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }    
                     }
@@ -5005,7 +5005,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -5089,7 +5089,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -5265,7 +5265,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -5610,7 +5610,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -5743,7 +5743,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -5773,8 +5773,8 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
                     }
@@ -7565,7 +7565,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }

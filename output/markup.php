@@ -5287,8 +5287,8 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
         $itemlist = explode(',', $all_post_meta['saswp_blogposting_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if( !empty($all_post_meta['saswp_blogposting_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_blogposting_about_'.$schema_id][0] ) ) {
@@ -6495,8 +6495,8 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
         $itemlist = explode(',', $all_post_meta['saswp_photograph_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
 
@@ -6650,8 +6650,8 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $itemlist = explode(',', $all_post_meta['saswp_article_alumniof_'.$schema_id][0]);
             foreach ( $itemlist as $key => $list){
                 $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $input1['alumniOf'][] = $vnewarr;
+                $vnewarr['name']   = trim($list);   
+                $input1['author']['alumniOf'][] = $vnewarr;
             }
         }
         if ( isset( $all_post_meta['saswp_article_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_article_organization_name_'.$schema_id][0]) ) {
@@ -6810,8 +6810,8 @@ function saswp_scholarlyarticle_schema_markup($schema_id, $schema_post_id, $all_
         $itemlist = explode(',', $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if ( isset( $all_post_meta['saswp_scholarlyarticle_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_scholarlyarticle_organization_name_'.$schema_id][0]) ) {
@@ -6964,8 +6964,8 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
         $itemlist = explode(',', $all_post_meta['saswp_creativework_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if ( isset( $all_post_meta['saswp_creativework_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_creativework_organization_name_'.$schema_id][0]) ) {
@@ -7142,8 +7142,8 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
             $itemlist = explode(',', $all_post_meta['saswp_tech_article_alumniof_'.$schema_id][0]);
             foreach ( $itemlist as $key => $list){
                 $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $input1['alumniOf'][] = $vnewarr;
+                $vnewarr['name']   = trim($list);   
+                $input1['author']['alumniOf'][] = $vnewarr;
             }
         }
         $itemlist  = get_post_meta($schema_post_id, 'tech_article_items_'.$schema_id, true);
