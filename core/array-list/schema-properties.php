@@ -626,6 +626,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
                     ),
+                    array(
+                        'label' => esc_html__( 'Editor Social Profile', 'schema-and-structured-data-for-wp' ),
+                        'id' => 'saswp_blogposting_editor_social_profile_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
+                    ),
 
 
                     array(
@@ -901,6 +908,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_newsarticle_editor_image_'.$schema_id,
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                        'label' => esc_html__( 'Editor Social Profile', 'schema-and-structured-data-for-wp' ),
+                        'id' => 'saswp_newsarticle_editor_social_profile_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
                     array(
                         'label'   => esc_html__( 'About', 'schema-and-structured-data-for-wp' ),
@@ -3292,6 +3306,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                                 'default' => isset($author_details['url']) ? $author_details['url']: ''
                         ),
                         array(
+                                'label' => esc_html__( 'Editor Social Profile', 'schema-and-structured-data-for-wp' ),
+                                'id' => 'saswp_article_editor_social_profile_'.$schema_id,
+                                'type' => 'textarea',
+                                'default' => '',
+                                'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
+                        ),
+                        array(
                                 'label'   => esc_html__( 'Organization Name', 'schema-and-structured-data-for-wp' ),
                                 'id'      => 'saswp_article_organization_name_'.$schema_id,
                                 'type'    => 'text',
@@ -5025,6 +5046,13 @@ function saswp_get_fields_by_schema_type( $schema_id = null, $condition = null, 
                         'id' => 'saswp_tech_article_editor_image_'.$schema_id,
                         'type' => 'media',
                         'default' => isset($author_details['url']) ? $author_details['url']: ''
+                    ),
+                    array(
+                        'label' => esc_html__( 'Editor Social Profile', 'schema-and-structured-data-for-wp' ),
+                        'id' => 'saswp_tech_article_editor_social_profile_'.$schema_id,
+                        'type' => 'textarea',
+                        'default' => '',
+                        'note'    => 'Note: If There are more than one social profiles, Separate them by comma ( , )',
                     ),
                     array(
                             'label' => esc_html__( 'Organization Name', 'schema-and-structured-data-for-wp' ),

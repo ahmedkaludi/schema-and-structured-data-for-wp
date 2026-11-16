@@ -2106,6 +2106,12 @@ Class SASWP_Output_Service{
                             if ( isset( $custom_fields['saswp_article_editor_jobtitle']) ) {
                                 $input1['editor']['jobTitle'] =    $custom_fields['saswp_article_editor_jobtitle'];
                             }
+                            if ( isset( $custom_fields['saswp_article_editor_social_profile']) && !empty($custom_fields['saswp_article_editor_social_profile']) ) {
+                                $explode_sp = explode(',', $custom_fields['saswp_article_editor_social_profile']);
+                                if ( is_array( $explode_sp) ) {
+                                    $input1['editor']['sameAs'] =    $explode_sp;
+                                }
+                            }
                         }
 
                         if ( ! empty( $custom_fields['saswp_article_author_global_mapping']) ) {
@@ -3594,19 +3600,19 @@ Class SASWP_Output_Service{
                         $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_blogposting_editor_honorific_suffix'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_url']) ) {
-                        $input1['editor']['url'] =    $custom_fields['saswp_blogposting_author_url'];
-                    }
-                    if ( isset( $custom_fields['saswp_blogposting_author_social_profile']) && !empty($custom_fields['saswp_blogposting_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_blogposting_author_social_profile']);
-                        if ( is_array( $explode_sp) ) {
-                            $input1['editor']['sameAs'] =    $explode_sp;
-                        }
+                        $input1['editor']['url'] =    $custom_fields['saswp_blogposting_editor_url'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_description']) ) {
                         $input1['editor']['description'] =    $custom_fields['saswp_blogposting_editor_description'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_image']) ) {
                         $input1['editor']['Image']['url'] =    $custom_fields['saswp_blogposting_editor_image'];  
+                    } 
+                    if ( isset( $custom_fields['saswp_blogposting_editor_social_profile']) && !empty($custom_fields['saswp_blogposting_editor_social_profile']) ) {
+                        $explode_sp = explode(',', $custom_fields['saswp_blogposting_editor_social_profile']);
+                        if ( is_array( $explode_sp) ) {
+                            $input1['editor']['sameAs'] =    $explode_sp;
+                        }
                     } 
 
                     if ( ! empty( $custom_fields['saswp_blogposting_author_global_mapping']) ) {
@@ -4043,6 +4049,12 @@ Class SASWP_Output_Service{
                         }
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_image']) ) {
                             $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_newsarticle_editor_social_profile']) ) {
+                            $explode_sp = explode(',', $custom_fields['saswp_newsarticle_editor_social_profile']);
+                            if ( is_array( $explode_sp) ) {
+                                $input1['editor']['sameAs'] =    $explode_sp;
+                            }
                         }
                     }else if ( isset( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
                         unset( $input1['editor'] );
@@ -5655,12 +5667,13 @@ Class SASWP_Output_Service{
                     if ( isset( $custom_fields['saswp_tech_article_editor_image']) ) {
                         $input1['editor']['Image']['url'] =    $custom_fields['saswp_tech_article_editor_image'];  
                     }
-                    if ( isset( $custom_fields['saswp_tech_article_author_social_profile']) && !empty($custom_fields['saswp_tech_article_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_tech_article_author_social_profile']);
+                    if ( isset( $custom_fields['saswp_tech_article_editor_social_profile']) && !empty($custom_fields['saswp_tech_article_editor_social_profile']) ) {
+                        $explode_sp = explode(',', $custom_fields['saswp_tech_article_editor_social_profile']);
                         if ( is_array( $explode_sp) ) {
                             $input1['editor']['sameAs'] =    $explode_sp;
                         }
                     }
+
                     if ( isset( $custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name']) ) {
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
