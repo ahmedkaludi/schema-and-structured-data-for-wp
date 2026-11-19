@@ -3638,7 +3638,7 @@ Class SASWP_Output_Service{
                         }
 
                         if ( ! empty( $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]) ) {
-                            $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]);
+                            $input1['author']['knowsAbout'] =   explode(',', $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]);
                         }
 
                         $sameas = array();
@@ -4965,7 +4965,7 @@ Class SASWP_Output_Service{
                             }
 
                             if ( ! empty( $reviewer_data['knowsabout'][0]) ) {
-                                $input1['reviewedBy']['knowsabout'] =   explode(',',$reviewer_data['knowsabout'][0]);
+                                $input1['reviewedBy']['knowsAbout'] =   explode(',',$reviewer_data['knowsabout'][0]);
                             }
 
                             if ( ! empty( $reviewer_data['honorificsuffix'][0]) ) {
