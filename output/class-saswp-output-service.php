@@ -2299,7 +2299,7 @@ Class SASWP_Output_Service{
                                 }
                             }
                             if ( isset( $custom_fields['saswp_article_knowsabout']) ) {                            
-                                $input1['knowsAbout'] = explode(',', $custom_fields['saswp_article_knowsabout']);    
+                                $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_article_knowsabout']));    
                             }  
                         }
 
@@ -2624,7 +2624,7 @@ Class SASWP_Output_Service{
                                     }
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_knowsabout']) ) {                            
-                                    $input1['knowsAbout'] = explode(',', $custom_fields['saswp_scholarlyarticle_knowsabout']);    
+                                    $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_scholarlyarticle_knowsabout']));    
                                 }  
                             }
     
@@ -2786,7 +2786,7 @@ Class SASWP_Output_Service{
                                 $input1['author']['Image']['url'] =    $custom_fields['saswp_creativework_author_image'];  
                             } 
                             if ( isset( $custom_fields['saswp_creativework_knowsabout']) ) {                            
-                                $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
+                                $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_creativework_knowsabout']));    
                             }
                             if ( isset( $custom_fields['saswp_creativework_size']) ) {                            
                                 $input1['size'] = $custom_fields['saswp_creativework_size'];    
@@ -3192,7 +3192,7 @@ Class SASWP_Output_Service{
                             $input1['reviewedBy']['url'] =    $custom_fields['saswp_photograph_reviewedby_url'];
                         }
                         if ( isset( $custom_fields['saswp_photograph_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_photograph_knowsabout']));    
                         }  
                         if ( ! empty( $custom_fields['saswp_photograph_about']) && isset($custom_fields['saswp_photograph_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -3794,7 +3794,7 @@ Class SASWP_Output_Service{
                             $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_description'];
                         }
                         if ( isset( $custom_fields['saswp_blogposting_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_blogposting_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_blogposting_knowsabout']));    
                         }
                         if ( isset( $custom_fields['saswp_blogposting_alumniof']) ) {
                             $str = $custom_fields['saswp_blogposting_alumniof'];
@@ -5751,7 +5751,7 @@ Class SASWP_Output_Service{
                     }else{
 
                         if ( isset( $custom_fields['saswp_tech_article_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_tech_article_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_tech_article_knowsabout']));    
                         }
                         if ( isset( $custom_fields['saswp_tech_article_reviewedby_type']) ) {
                             $input1['reviewedBy']['@type'] =    $custom_fields['saswp_tech_article_reviewedby_type'];
