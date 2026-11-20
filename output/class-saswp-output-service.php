@@ -6669,22 +6669,22 @@ Class SASWP_Output_Service{
                                 $input1['manufacturer'] =    $custom_fields['saswp_vehicle_schema_manufacturer'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_identification_no']) ) {
-                                $input1['VehicleIdentificationNumber'] =    $custom_fields['saswp_vehicle_schema_identification_no'];
+                                $input1['vehicleIdentificationNumber'] =    $custom_fields['saswp_vehicle_schema_identification_no'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_color']) ) {
-                                $input1['Color'] =    $custom_fields['saswp_vehicle_schema_color'];
+                                $input1['color'] =    $custom_fields['saswp_vehicle_schema_color'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_interior_type']) ) {
-                                $input1['VehicleInteriorType'] =    $custom_fields['saswp_vehicle_schema_interior_type'];
+                                $input1['vehicleInteriorType'] =    $custom_fields['saswp_vehicle_schema_interior_type'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_interior_color']) ) {
-                                $input1['VehicleInteriorColor'] =    $custom_fields['saswp_vehicle_schema_interior_color'];
+                                $input1['vehicleInteriorColor'] =    $custom_fields['saswp_vehicle_schema_interior_color'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_transmission']) ) {
-                                $input1['VehicleTransmission'] =    $custom_fields['saswp_vehicle_schema_transmission'];
+                                $input1['vehicleTransmission'] =    $custom_fields['saswp_vehicle_schema_transmission'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_config']) ) {
-                                $input1['VehicleConfiguration'] =    $custom_fields['saswp_vehicle_schema_config'];
+                                $input1['vehicleConfiguration'] =    $custom_fields['saswp_vehicle_schema_config'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_wheel_config']) ) {
                                 $input1['driveWheelConfiguration'] =    $custom_fields['saswp_vehicle_schema_wheel_config'];

@@ -2319,7 +2319,7 @@ function saswp_psychological_treatment_schema_markup($schema_id, $schema_post_id
             $input1['followup']                    = $all_post_meta['saswp_psychological_treatment_followup_'.$schema_id][0];
         }
         if ( isset( $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0]) ) {
-            $input1['Howperformed']                    = $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0];
+            $input1['howPerformed']                    = $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0];
         }
         if ( isset( $all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0]) ) {
             $input1['procedureType']            = $all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0];
@@ -5411,22 +5411,22 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['manufacturer'] = esc_attr( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id][0]);  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_identification_no_'.$schema_id] ) ) {
-        $input1['VehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
+        $input1['vehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_color_'.$schema_id] ) ) {
-        $input1['Color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
+        $input1['color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_interior_type_'.$schema_id] ) ) {
-        $input1['VehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
+        $input1['vehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_interior_color_'.$schema_id] ) ) {
-        $input1['VehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
+        $input1['vehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_transmission_'.$schema_id] ) ) {
-        $input1['VehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
+        $input1['vehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_config_'.$schema_id] ) ) {
-        $input1['VehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
+        $input1['vehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_wheel_config_'.$schema_id] ) ) {
         $input1['driveWheelConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_wheel_config_'.$schema_id, 'saswp_array');
