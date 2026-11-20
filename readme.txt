@@ -4,7 +4,7 @@ Tags: Schema, Structured Data, Rich Snippets, SEO, AMP
 Requires at least: 5.3.0
 Tested up to: 7.1
 Requires PHP: 5.6.20
-Stable tag: 1.70
+Stable tag: 1.71
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Schema & Structured Data adds Google Rich Snippets markup according to Schema.org guidelines to structure your site for SEO.
@@ -97,6 +97,7 @@ Schema & Structured Data for WP & AMP adds Google Rich Snippets markup according
 * Occupation
 * Quiz
 * Dataset
+* ResearchProject
 * [View All](https://structured-data-for-wp.com/docs/article/how-many-schema-types-do-we-support/)
 
 ### Extensions
@@ -155,6 +156,18 @@ Yes, Absolutely! We would suggest you send your feature request by creating an i
 You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 
 == Changelog ==
+
+= 1.71 (20 November 2026) =
+* Feature: Added Support for ResearchProject schema #1975
+* Fixed: Generated Person job title uses JobTitle instead of schema.org jobTitle #2489
+* Fixed: BlogPosting editor sameAs incorrectly uses author social profiles #2490
+* Fixed: alumniOf is attached to BlogPosting instead of author and Organization uses Name #2491
+* Fixed: knowsAbout property is attached to CreativeWork instead of author Person in schema markup #2492
+* Fixed: Standardize 'knowsAbout' property casing in author and reviewedBy schema output #2493
+* Fixed: Editor ImageObject incorrectly inherits author's image dimensions #2494
+* Fixed: Standardize property casing in Vehicle and PsychologicalTreatment schemas #2495
+* Fixed: Inconsistent property casing for image and honorificSuffix in author and editor schemas #2496
+* Feature: Added 'Organization Description' field to Knowledge Graph settings #2497
 
 = 1.70 (02 November 2026) =
 * Fixed: Data sanitization and access validation updates across core modules #2486
@@ -284,11 +297,5 @@ You can contact us from [here](http://structured-data-for-wp.com/contact-us/)
 * Promotion Banner BFCM #2386
 * Added Fields: legalName, contactPoint to the Organization schema #2385
 * Tested Upto WordPress 6.9.
-
-= 1.52 (30 October 2025) =
-* Fixed: Time issue with LiveBlogPosting schema #2371
-* Enhancement: Duplicate schema issue in the review collection #2372
-* Fixed: Code improvement #2376
-* Fixed: Vulnerability reported by Wordfence Security
 
 All changelog available on [GitHub](https://github.com/ahmedkaludi/schema-and-structured-data-for-wp/releases).
