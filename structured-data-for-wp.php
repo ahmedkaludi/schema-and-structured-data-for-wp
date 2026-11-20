@@ -78,6 +78,7 @@ require_once SASWP_DIR_NAME.'/admin_section/common-function.php';
 require_once SASWP_DIR_NAME.'/output/class-saswp-location-widget.php';
 require_once SASWP_DIR_NAME.'/admin_section/class-saswp-fields-generator.php';  
 require_once SASWP_DIR_NAME.'/admin_section/class-saswp-newsletter-popup.php';  
+require_once SASWP_DIR_NAME.'/admin_section/class-saswp-black-friday-banner.php';  
 require_once SASWP_DIR_NAME.'/admin_section/plugin-installer/install.php';
 require_once SASWP_DIR_NAME.'/admin_section/tracking/make-better-helper.php';  
 //Loading View files
