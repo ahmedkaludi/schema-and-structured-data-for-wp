@@ -1885,13 +1885,14 @@ if ( ! defined('ABSPATH') ) exit;
                 );
                 //textarea
                  $my_allowed['textarea'] = array(
-                        'class' => array(),
-                        'id'    => array(),
-                        'name'  => array(),
-                        'value' => array(),
-                        'type'  => array(),
-                        'style'  => array(),
-                        'rows'  => array(),                                                            
+                        'class'       => array(),
+                        'id'          => array(),
+                        'name'        => array(),
+                        'value'       => array(),
+                        'type'        => array(),
+                        'style'       => array(),
+                        'rows'        => array(),
+                        'placeholder' => array(),                                                            
                 );              
                 // select
                 $my_allowed['select'] = array(
@@ -2043,6 +2044,7 @@ function saswp_fields_and_type($data_type = 'value'){
         'sd_alt_name'                                   => array('type' => 'text', 'value' => $sd_name),
         'sd_legal_name'                                 => array('type' => 'text', 'value' => ''),
         'sd_url'                                        => array('type' => 'text', 'value' => $current_url),
+        'sd_description'                                => array('type' => 'textarea', 'value' => ''),
         'saswp_contact_type'                            => array('type' => 'select', 'value' => ''),
         'saswp_kb_telephone'                            => array('type' => 'text', 'value' => ''),
         'saswp_kb_contact_url'                          => array('type' => 'text', 'value' => ''),

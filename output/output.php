@@ -74,6 +74,10 @@ function saswp_kb_schema_output() {
                     $input['legalName'] = $sd_data['sd_legal_name'];
                 }
                 
+                if ( ! empty( $sd_data['sd_description'] ) ) {
+                    $input['description'] = wp_strip_all_tags( saswp_remove_warnings( $sd_data, 'sd_description', 'saswp_string' ) );
+                }
+                
                 if($logo !='' && $width !='' && $height !='' ) {
                     
                     $input['logo']['@type']  = 'ImageObject';

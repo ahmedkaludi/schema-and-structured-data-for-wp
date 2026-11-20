@@ -1388,6 +1388,16 @@ function saswp_general_page_callback() {
                             )
 		), 
                 array(
+			'label' => 'Organization Description',
+			'id'    => 'sd_description',
+                        'name'  => 'sd_data[sd_description]',
+                        'class' => 'regular-text saswp_org_fields',                        
+			'type'  => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Organization Description'
+                            )
+		), 
+                array(
 			'label' => 'Contact Type',
 			'id'    => 'saswp_contact_type',
                         'name'  => 'sd_data[saswp_contact_type]',
