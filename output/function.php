@@ -945,6 +945,7 @@ function saswp_reading_time_and_word_count() {
     // Count the words in the content.
     $word_count      = 0;
     $seconds         = 0;
+  
     $text            = $post instanceof WP_Post ? trim( wp_strip_all_tags( $post->post_content ) ) : '';
 
     if ( ! empty( $text ) ) {  
