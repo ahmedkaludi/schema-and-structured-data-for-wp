@@ -1683,6 +1683,118 @@ Class SASWP_Output_Service{
                             $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_project_rating_count'];
                         }
                                                                                       
+                        break;
+
+                    case 'ResearchProject':      
+                        
+                        if ( isset( $custom_fields['saswp_research_project_id']) ) {
+                            $input1['@id'] =    get_permalink().$custom_fields['saswp_research_project_id'];
+                        } 
+                        if ( isset( $custom_fields['saswp_research_project_name']) ) {
+                            $input1['name'] =    $custom_fields['saswp_research_project_name'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_alternate_name']) ) {
+                            $input1['alternateName'] =    $custom_fields['saswp_research_project_alternate_name'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_identifier']) ) {
+                            $input1['identifier'] =    $custom_fields['saswp_research_project_identifier'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_description']) ) {
+                            $input1['description'] =    $custom_fields['saswp_research_project_description'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_url']) ) {
+                            $input1['url'] =    saswp_validate_url($custom_fields['saswp_research_project_url']);
+                        }                                        
+                        if ( isset( $custom_fields['saswp_research_project_street_address']) ) {
+                            $input1['address']['streetAddress'] =    $custom_fields['saswp_research_project_street_address'];
+                        }                    
+                        if ( isset( $custom_fields['saswp_research_project_city']) ) {
+                            $input1['address']['addressLocality'] =    $custom_fields['saswp_research_project_city'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_state']) ) {
+                            $input1['address']['addressRegion'] =    $custom_fields['saswp_research_project_state'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_country']) ) {
+                            $input1['address']['addressCountry'] =    $custom_fields['saswp_research_project_country'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_postal_code']) ) {
+                            $input1['address']['postalCode'] =    $custom_fields['saswp_research_project_postal_code'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_telephone']) ) {
+                            $input1['telephone'] =    $custom_fields['saswp_research_project_telephone'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_email']) ) {
+                            $input1['email'] =    $custom_fields['saswp_research_project_email'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_logo']) ) {
+                            $input1['logo'] =    $custom_fields['saswp_research_project_logo'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_image']) ) {
+                            $input1['image'] =    $custom_fields['saswp_research_project_image'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_funder']) ) {
+                            $input1['funder'] = array(
+                                '@type' => 'Organization',
+                                'name'  => $custom_fields['saswp_research_project_funder']
+                            );
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_parent_organization']) ) {
+                            $input1['parentOrganization'] = array(
+                                '@type' => 'Organization',
+                                'name'  => $custom_fields['saswp_research_project_parent_organization']
+                            );
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_founder']) ) {
+                            $input1['founder'] =    $custom_fields['saswp_research_project_founder'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_founding_date']) ) {
+                            $input1['foundingDate'] =    $custom_fields['saswp_research_project_founding_date'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_dissolution_date']) ) {
+                            $input1['dissolutionDate'] =    $custom_fields['saswp_research_project_dissolution_date'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_member']) ) {
+                            $input1['member'] =    $custom_fields['saswp_research_project_member'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_knows_about']) ) {
+                            $input1['knowsAbout'] =    $custom_fields['saswp_research_project_knows_about'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_qualifications']) ) {
+                            $input1['hasCredential'] =    $custom_fields['saswp_research_project_qualifications'];
+                        }
+    
+                        $sameas = array();
+                        if ( isset( $custom_fields['saswp_research_project_website']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_website'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_facebook']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_facebook'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_twitter']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_twitter'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_linkedin']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_linkedin'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_threads']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_threads'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_mastodon']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_mastodon'];
+                        }
+                        if ( isset( $custom_fields['saswp_research_project_vibehut']) ) {
+                            $sameas[] =    $custom_fields['saswp_research_project_vibehut'];
+                        }
+                        if($sameas){
+                            $input1['sameAs'] = $sameas;
+                        }
+    
+                        if ( isset( $custom_fields['saswp_research_project_rating_value']) && isset($custom_fields['saswp_research_project_rating_count']) ) {
+                            $input1['aggregateRating']['@type']       =   'AggregateRating';                                                
+                            $input1['aggregateRating']['ratingValue'] =    $custom_fields['saswp_research_project_rating_value'];
+                            $input1['aggregateRating']['ratingCount'] =    $custom_fields['saswp_research_project_rating_count'];
+                        }
+                                                                                      
                         break;         
 
                 case 'Organization':      
@@ -1967,7 +2079,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['editor']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -1989,10 +2101,16 @@ Class SASWP_Output_Service{
                                 $input1['editor']['url'] =    $custom_fields['saswp_article_editor_url'];
                             }
                             if ( isset( $custom_fields['saswp_article_editor_image']) ) {
-                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_article_editor_image'];
+                                $input1['editor']['image']['url'] =    $custom_fields['saswp_article_editor_image'];
                             }
                             if ( isset( $custom_fields['saswp_article_editor_jobtitle']) ) {
-                                $input1['editor']['JobTitle'] =    $custom_fields['saswp_article_editor_jobtitle'];
+                                $input1['editor']['jobTitle'] =    $custom_fields['saswp_article_editor_jobtitle'];
+                            }
+                            if ( isset( $custom_fields['saswp_article_editor_social_profile']) && !empty($custom_fields['saswp_article_editor_social_profile']) ) {
+                                $explode_sp = explode(',', $custom_fields['saswp_article_editor_social_profile']);
+                                if ( is_array( $explode_sp) ) {
+                                    $input1['editor']['sameAs'] =    $explode_sp;
+                                }
                             }
                         }
 
@@ -2051,7 +2169,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2073,7 +2191,7 @@ Class SASWP_Output_Service{
                                 $input1['author']['url'] =    $custom_fields['saswp_article_author_url'];
                             }
                             if ( isset( $custom_fields['saswp_article_author_image']) ) {
-                                $input1['author']['Image']['url'] =    $custom_fields['saswp_article_author_image'];
+                                $input1['author']['image']['url'] =    $custom_fields['saswp_article_author_image'];
                             }
                             if ( isset( $custom_fields['saswp_article_author_social_profile']) && !empty($custom_fields['saswp_article_author_social_profile']) ) {
                                 $explode_sp = explode(',', $custom_fields['saswp_article_author_social_profile']);
@@ -2082,7 +2200,7 @@ Class SASWP_Output_Service{
                                 }
                             }
                             if ( isset( $custom_fields['saswp_article_author_jobtitle']) ) {
-                                $input1['author']['JobTitle'] =    $custom_fields['saswp_article_author_jobtitle'];
+                                $input1['author']['jobTitle'] =    $custom_fields['saswp_article_author_jobtitle'];
                             }
                         }
 
@@ -2147,7 +2265,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2176,12 +2294,12 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
-                                    $input1['alumniOf'][] = $vnewarr;
+                                    $vnewarr['name']   = trim($list);   
+                                    $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
                             if ( isset( $custom_fields['saswp_article_knowsabout']) ) {                            
-                                $input1['knowsAbout'] = explode(',', $custom_fields['saswp_article_knowsabout']);    
+                                $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_article_knowsabout']));    
                             }  
                         }
 
@@ -2298,7 +2416,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['editor']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2320,10 +2438,10 @@ Class SASWP_Output_Service{
                                     $input1['editor']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_url'];
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_editor_image']) ) {
-                                    $input1['editor']['Image']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_image'];
+                                    $input1['editor']['image']['url'] =    $custom_fields['saswp_scholarlyarticle_editor_image'];
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_editor_jobtitle']) ) {
-                                    $input1['editor']['JobTitle'] =    $custom_fields['saswp_scholarlyarticle_editor_jobtitle'];
+                                    $input1['editor']['jobTitle'] =    $custom_fields['saswp_scholarlyarticle_editor_jobtitle'];
                                 }
                             }
     
@@ -2382,7 +2500,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['author']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2404,10 +2522,10 @@ Class SASWP_Output_Service{
                                     $input1['author']['url'] =    $custom_fields['saswp_scholarlyarticle_author_url'];
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_author_image']) ) {
-                                    $input1['author']['Image']['url'] =    $custom_fields['saswp_scholarlyarticle_author_image'];
+                                    $input1['author']['image']['url'] =    $custom_fields['saswp_scholarlyarticle_author_image'];
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_author_jobtitle']) ) {
-                                    $input1['author']['JobTitle'] =    $custom_fields['saswp_scholarlyarticle_author_jobtitle'];
+                                    $input1['author']['jobTitle'] =    $custom_fields['saswp_scholarlyarticle_author_jobtitle'];
                                 }
                             }
     
@@ -2472,7 +2590,7 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
+                                        $vnewarr['name']   = trim($list);   
                                         $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                     }
                                 }
@@ -2501,12 +2619,12 @@ Class SASWP_Output_Service{
                                     $itemlist = explode(",", $str);
                                     foreach ( $itemlist as $key => $list){
                                         $vnewarr['@type'] = 'Organization';
-                                        $vnewarr['Name']   = $list;   
-                                        $input1['alumniOf'][] = $vnewarr;
+                                        $vnewarr['name']   = trim($list);   
+                                        $input1['author']['alumniOf'][] = $vnewarr;
                                     }
                                 }
                                 if ( isset( $custom_fields['saswp_scholarlyarticle_knowsabout']) ) {                            
-                                    $input1['knowsAbout'] = explode(',', $custom_fields['saswp_scholarlyarticle_knowsabout']);    
+                                    $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_scholarlyarticle_knowsabout']));    
                                 }  
                             }
     
@@ -2582,7 +2700,7 @@ Class SASWP_Output_Service{
                             $input1['editor']['url'] =    $custom_fields['saswp_creativework_editor_url'];
                         }
                         if ( isset( $custom_fields['saswp_creativework_editor_image']) ) {
-                            $input1['editor']['Image']['url'] =    $custom_fields['saswp_creativework_editor_image'];
+                            $input1['editor']['image']['url'] =    $custom_fields['saswp_creativework_editor_image'];
                         }
                         if ( ! empty( $custom_fields['saswp_creativework_author_global_mapping']) ) {
                        
@@ -2639,7 +2757,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2662,13 +2780,13 @@ Class SASWP_Output_Service{
                                 $input1['author']['url'] =    $custom_fields['saswp_creativework_author_url'];
                             }
                             if ( isset( $custom_fields['saswp_creativework_author_jobtitle']) ) {
-                                $input1['author']['JobTitle'] =    $custom_fields['saswp_creativework_author_jobtitle'];
+                                $input1['author']['jobTitle'] =    $custom_fields['saswp_creativework_author_jobtitle'];
                             }
                             if ( isset( $custom_fields['saswp_creativework_author_image']) ) {
-                                $input1['author']['Image']['url'] =    $custom_fields['saswp_creativework_author_image'];  
+                                $input1['author']['image']['url'] =    $custom_fields['saswp_creativework_author_image'];  
                             } 
                             if ( isset( $custom_fields['saswp_creativework_knowsabout']) ) {                            
-                                $input1['knowsAbout'] = explode(',', $custom_fields['saswp_creativework_knowsabout']);    
+                                $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_creativework_knowsabout']));    
                             }
                             if ( isset( $custom_fields['saswp_creativework_size']) ) {                            
                                 $input1['size'] = $custom_fields['saswp_creativework_size'];    
@@ -2746,7 +2864,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -2773,8 +2891,8 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
-                                    $input1['alumniOf'][] = $vnewarr;
+                                    $vnewarr['name']   = trim($list);   
+                                    $input1['author']['alumniOf'][] = $vnewarr;
                                 }
                             }
                         }
@@ -2936,7 +3054,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -2949,7 +3067,7 @@ Class SASWP_Output_Service{
                             $input1['author']['name'] =    $custom_fields['saswp_photograph_author_name'];
                         }
                         if ( isset( $custom_fields['saswp_photograph_author_jobtitle']) ) {
-                            $input1['author']['JobTitle'] =    $custom_fields['saswp_photograph_author_jobtitle'];
+                            $input1['author']['jobTitle'] =    $custom_fields['saswp_photograph_author_jobtitle'];
                         }
                         
                         if ( isset( $custom_fields['saswp_photograph_author_honorific_suffix']) ) {
@@ -2962,7 +3080,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    $custom_fields['saswp_photograph_author_url'];
                         }
                         if ( isset( $custom_fields['saswp_photograph_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_photograph_author_image'];  
+                            $input1['author']['image']['url'] =    $custom_fields['saswp_photograph_author_image'];  
                         }  
                         
                     }
@@ -2983,7 +3101,7 @@ Class SASWP_Output_Service{
                             $input1['editor']['url'] =    $custom_fields['saswp_photograph_editor_url'];
                         }
                         if ( isset( $custom_fields['saswp_photograph_editor_image']) ) {
-                            $input1['editor']['Image']['url'] =    $custom_fields['saswp_photograph_editor_image'];  
+                            $input1['editor']['image']['url'] =    $custom_fields['saswp_photograph_editor_image'];  
                         }  
 
 
@@ -3052,7 +3170,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3074,7 +3192,7 @@ Class SASWP_Output_Service{
                             $input1['reviewedBy']['url'] =    $custom_fields['saswp_photograph_reviewedby_url'];
                         }
                         if ( isset( $custom_fields['saswp_photograph_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_photograph_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_photograph_knowsabout']));    
                         }  
                         if ( ! empty( $custom_fields['saswp_photograph_about']) && isset($custom_fields['saswp_photograph_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -3085,8 +3203,8 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
                     }
@@ -3482,19 +3600,19 @@ Class SASWP_Output_Service{
                         $input1['editor']['honorificSuffix']  =  $custom_fields['saswp_blogposting_editor_honorific_suffix'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_url']) ) {
-                        $input1['editor']['url'] =    $custom_fields['saswp_blogposting_author_url'];
-                    }
-                    if ( isset( $custom_fields['saswp_blogposting_author_social_profile']) && !empty($custom_fields['saswp_blogposting_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_blogposting_author_social_profile']);
-                        if ( is_array( $explode_sp) ) {
-                            $input1['editor']['sameAs'] =    $explode_sp;
-                        }
+                        $input1['editor']['url'] =    $custom_fields['saswp_blogposting_editor_url'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_description']) ) {
                         $input1['editor']['description'] =    $custom_fields['saswp_blogposting_editor_description'];
                     }
                     if ( isset( $custom_fields['saswp_blogposting_editor_image']) ) {
-                        $input1['editor']['Image']['url'] =    $custom_fields['saswp_blogposting_editor_image'];  
+                        $input1['editor']['image']['url'] =    $custom_fields['saswp_blogposting_editor_image'];  
+                    } 
+                    if ( isset( $custom_fields['saswp_blogposting_editor_social_profile']) && !empty($custom_fields['saswp_blogposting_editor_social_profile']) ) {
+                        $explode_sp = explode(',', $custom_fields['saswp_blogposting_editor_social_profile']);
+                        if ( is_array( $explode_sp) ) {
+                            $input1['editor']['sameAs'] =    $explode_sp;
+                        }
                     } 
 
                     if ( ! empty( $custom_fields['saswp_blogposting_author_global_mapping']) ) {
@@ -3516,11 +3634,11 @@ Class SASWP_Output_Service{
                         }
 
                         if ( ! empty( $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['honorificsuffix'][0]) ) {
-                            $input1['author']['honorificsuffix'] =    $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['honorificsuffix'][0];
+                            $input1['author']['honorificSuffix'] =    $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['honorificsuffix'][0];
                         }
 
                         if ( ! empty( $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]) ) {
-                            $input1['author']['knowsabout'] =   explode(',', $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]);
+                            $input1['author']['knowsAbout'] =   explode(',', $custom_fields['saswp_blogposting_author_global_mapping']['custom_fields']['knowsabout'][0]);
                         }
 
                         $sameas = array();
@@ -3552,7 +3670,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3581,7 +3699,7 @@ Class SASWP_Output_Service{
                         $input1['author']['description'] =    $custom_fields['saswp_blogposting_author_description'];
                         }
                         if ( isset( $custom_fields['saswp_blogposting_author_jobtitle']) ) {
-                            $input1['author']['JobTitle'] =    $custom_fields['saswp_blogposting_author_jobtitle'];
+                            $input1['author']['jobTitle'] =    $custom_fields['saswp_blogposting_author_jobtitle'];
                         }
                         if ( isset( $custom_fields['saswp_blogposting_author_image']) ) {
                             if ( is_string( $custom_fields['saswp_blogposting_author_image'] ) ) {
@@ -3654,7 +3772,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -3676,15 +3794,15 @@ Class SASWP_Output_Service{
                             $input1['reviewedBy']['description'] =    $custom_fields['saswp_blogposting_reviewedby_description'];
                         }
                         if ( isset( $custom_fields['saswp_blogposting_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_blogposting_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_blogposting_knowsabout']));    
                         }
                         if ( isset( $custom_fields['saswp_blogposting_alumniof']) ) {
                             $str = $custom_fields['saswp_blogposting_alumniof'];
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }    
                     }
@@ -3930,7 +4048,13 @@ Class SASWP_Output_Service{
                              $input1['editor']['url'] =    $custom_fields['saswp_newsarticle_editor_url'];
                         }
                         if ( ! empty( $custom_fields['saswp_newsarticle_editor_image']) ) {
-                            $input1['editor']['Image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
+                            $input1['editor']['image']['url'] =    $custom_fields['saswp_newsarticle_editor_image'];
+                        }
+                        if ( ! empty( $custom_fields['saswp_newsarticle_editor_social_profile']) ) {
+                            $explode_sp = explode(',', $custom_fields['saswp_newsarticle_editor_social_profile']);
+                            if ( is_array( $explode_sp) ) {
+                                $input1['editor']['sameAs'] =    $explode_sp;
+                            }
                         }
                     }else if ( isset( $custom_fields['saswp_newsarticle_editor_type'] ) && isset( $input1['editor'] ) ) {
                         unset( $input1['editor'] );
@@ -3951,7 +4075,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_newsarticle_author_url']); 
                         }
                         if ( isset( $custom_fields['saswp_newsarticle_author_image']) ) {
-                           $input1['author']['Image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
+                           $input1['author']['image']['url'] =    $custom_fields['saswp_newsarticle_author_image'];  
                         }
                         if ( isset( $custom_fields['saswp_newsarticle_author_social_profile']) && !empty($custom_fields['saswp_newsarticle_author_social_profile']) ) {
                             $explode_sp = explode(',', $custom_fields['saswp_newsarticle_author_social_profile']);
@@ -4088,7 +4212,7 @@ Class SASWP_Output_Service{
                                  $input1['editor']['url'] =    $custom_fields['saswp_analysisnewsarticle_editor_url'];
                             }
                             if ( ! empty( $custom_fields['saswp_analysisnewsarticle_editor_image']) ) {
-                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_analysisnewsarticle_editor_image'];
+                                $input1['editor']['image']['url'] =    $custom_fields['saswp_analysisnewsarticle_editor_image'];
                             }
                         }
     
@@ -4108,7 +4232,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_analysisnewsarticle_author_url']); 
                         }
                         if ( isset( $custom_fields['saswp_analysisnewsarticle_author_image']) ) {
-                           $input1['author']['Image']['url'] =    $custom_fields['saswp_analysisnewsarticle_author_image'];  
+                           $input1['author']['image']['url'] =    $custom_fields['saswp_analysisnewsarticle_author_image'];  
                         }
                         if ( ! empty( $custom_fields['saswp_analysisnewsarticle_about']) && isset($custom_fields['saswp_analysisnewsarticle_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -4210,7 +4334,7 @@ Class SASWP_Output_Service{
                                      $input1['editor']['url'] =    $custom_fields['saswp_askpublicnewsarticle_editor_url'];
                                 }
                                 if ( ! empty( $custom_fields['saswp_askpublicnewsarticle_editor_image']) ) {
-                                    $input1['editor']['Image']['url'] =    $custom_fields['saswp_askpublicnewsarticle_editor_image'];
+                                    $input1['editor']['image']['url'] =    $custom_fields['saswp_askpublicnewsarticle_editor_image'];
                                 }
                             }
         
@@ -4230,7 +4354,7 @@ Class SASWP_Output_Service{
                                 $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_askpublicnewsarticle_author_url']); 
                             }
                             if ( isset( $custom_fields['saswp_askpublicnewsarticle_author_image']) ) {
-                               $input1['author']['Image']['url'] =    $custom_fields['saswp_askpublicnewsarticle_author_image'];  
+                               $input1['author']['image']['url'] =    $custom_fields['saswp_askpublicnewsarticle_author_image'];  
                             }
                             if ( ! empty( $custom_fields['saswp_askpublicnewsarticle_about']) && isset($custom_fields['saswp_askpublicnewsarticle_about']) ) {         
                                 $input1['about']['@type'] = 'Event';                   
@@ -4332,7 +4456,7 @@ Class SASWP_Output_Service{
                                 $input1['editor']['url'] =    $custom_fields['saswp_backgroundnewsarticle_editor_url'];
                         }
                         if ( ! empty( $custom_fields['saswp_backgroundnewsarticle_editor_image']) ) {
-                            $input1['editor']['Image']['url'] =    $custom_fields['saswp_backgroundnewsarticle_editor_image'];
+                            $input1['editor']['image']['url'] =    $custom_fields['saswp_backgroundnewsarticle_editor_image'];
                         }
                     }
 
@@ -4352,7 +4476,7 @@ Class SASWP_Output_Service{
                         $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_backgroundnewsarticle_author_url']); 
                     }
                     if ( isset( $custom_fields['saswp_backgroundnewsarticle_author_image']) ) {
-                        $input1['author']['Image']['url'] =    $custom_fields['saswp_backgroundnewsarticle_author_image'];  
+                        $input1['author']['image']['url'] =    $custom_fields['saswp_backgroundnewsarticle_author_image'];  
                     }
                     if ( ! empty( $custom_fields['saswp_backgroundnewsarticle_about']) && isset($custom_fields['saswp_backgroundnewsarticle_about']) ) {         
                         $input1['about']['@type'] = 'Event';                   
@@ -4454,7 +4578,7 @@ Class SASWP_Output_Service{
                                     $input1['editor']['url'] =    $custom_fields['saswp_opinionnewsarticle_editor_url'];
                             }
                             if ( ! empty( $custom_fields['saswp_opinionnewsarticle_editor_image']) ) {
-                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_opinionnewsarticle_editor_image'];
+                                $input1['editor']['image']['url'] =    $custom_fields['saswp_opinionnewsarticle_editor_image'];
                             }
                         }
     
@@ -4474,7 +4598,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_opinionnewsarticle_author_url']); 
                         }
                         if ( isset( $custom_fields['saswp_opinionnewsarticle_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_opinionnewsarticle_author_image'];  
+                            $input1['author']['image']['url'] =    $custom_fields['saswp_opinionnewsarticle_author_image'];  
                         }
                         if ( ! empty( $custom_fields['saswp_opinionnewsarticle_about']) && isset($custom_fields['saswp_opinionnewsarticle_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -4576,7 +4700,7 @@ Class SASWP_Output_Service{
                                     $input1['editor']['url'] =    $custom_fields['saswp_reportagenewsarticle_editor_url'];
                             }
                             if ( ! empty( $custom_fields['saswp_reportagenewsarticle_editor_image']) ) {
-                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_reportagenewsarticle_editor_image'];
+                                $input1['editor']['image']['url'] =    $custom_fields['saswp_reportagenewsarticle_editor_image'];
                             }
                         }
     
@@ -4596,7 +4720,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_reportagenewsarticle_author_url']); 
                         }
                         if ( isset( $custom_fields['saswp_reportagenewsarticle_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_reportagenewsarticle_author_image'];  
+                            $input1['author']['image']['url'] =    $custom_fields['saswp_reportagenewsarticle_author_image'];  
                         }
                         if ( ! empty( $custom_fields['saswp_reportagenewsarticle_about']) && isset($custom_fields['saswp_reportagenewsarticle_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -4698,7 +4822,7 @@ Class SASWP_Output_Service{
                                     $input1['editor']['url'] =    $custom_fields['saswp_reviewnewsarticle_editor_url'];
                             }
                             if ( ! empty( $custom_fields['saswp_reviewnewsarticle_editor_image']) ) {
-                                $input1['editor']['Image']['url'] =    $custom_fields['saswp_reviewnewsarticle_editor_image'];
+                                $input1['editor']['image']['url'] =    $custom_fields['saswp_reviewnewsarticle_editor_image'];
                             }
                         }
     
@@ -4718,7 +4842,7 @@ Class SASWP_Output_Service{
                             $input1['author']['url'] =    saswp_validate_url($custom_fields['saswp_reviewnewsarticle_author_url']); 
                         }
                         if ( isset( $custom_fields['saswp_reviewnewsarticle_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_reviewnewsarticle_author_image'];  
+                            $input1['author']['image']['url'] =    $custom_fields['saswp_reviewnewsarticle_author_image'];  
                         }
                         if ( ! empty( $custom_fields['saswp_reviewnewsarticle_about']) && isset($custom_fields['saswp_reviewnewsarticle_about']) ) {         
                             $input1['about']['@type'] = 'Event';                   
@@ -4841,7 +4965,7 @@ Class SASWP_Output_Service{
                             }
 
                             if ( ! empty( $reviewer_data['knowsabout'][0]) ) {
-                                $input1['reviewedBy']['knowsabout'] =   explode(',',$reviewer_data['knowsabout'][0]);
+                                $input1['reviewedBy']['knowsAbout'] =   explode(',',$reviewer_data['knowsabout'][0]);
                             }
 
                             if ( ! empty( $reviewer_data['honorificsuffix'][0]) ) {
@@ -4881,7 +5005,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -4965,7 +5089,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -5141,7 +5265,7 @@ Class SASWP_Output_Service{
                                 $itemlist = explode(",", $str);
                                 foreach ( $itemlist as $key => $list){
                                     $vnewarr['@type'] = 'Organization';
-                                    $vnewarr['Name']   = $list;   
+                                    $vnewarr['name']   = trim($list);   
                                     $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                                 }
                             }
@@ -5486,7 +5610,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -5509,10 +5633,10 @@ Class SASWP_Output_Service{
                         $input1['author']['description'] =    $custom_fields['saswp_tech_article_author_description'];
                         }
                         if ( isset( $custom_fields['saswp_tech_article_author_jobtitle']) ) {
-                            $input1['author']['JobTitle'] =    $custom_fields['saswp_tech_article_author_jobtitle'];
+                            $input1['author']['jobTitle'] =    $custom_fields['saswp_tech_article_author_jobtitle'];
                         }
                         if ( isset( $custom_fields['saswp_tech_article_author_image']) ) {
-                            $input1['author']['Image']['url'] =    $custom_fields['saswp_tech_article_author_image'];  
+                            $input1['author']['image']['url'] =    $custom_fields['saswp_tech_article_author_image'];  
                         }
                         if ( isset( $custom_fields['saswp_tech_article_author_social_profile']) && !empty($custom_fields['saswp_tech_article_author_social_profile']) ) {
                             $explode_sp = explode(',', $custom_fields['saswp_tech_article_author_social_profile']);
@@ -5541,14 +5665,15 @@ Class SASWP_Output_Service{
                         $input1['editor']['description'] =    $custom_fields['saswp_tech_article_editor_description'];
                     }
                     if ( isset( $custom_fields['saswp_tech_article_editor_image']) ) {
-                        $input1['editor']['Image']['url'] =    $custom_fields['saswp_tech_article_editor_image'];  
+                        $input1['editor']['image']['url'] =    $custom_fields['saswp_tech_article_editor_image'];  
                     }
-                    if ( isset( $custom_fields['saswp_tech_article_author_social_profile']) && !empty($custom_fields['saswp_tech_article_author_social_profile']) ) {
-                        $explode_sp = explode(',', $custom_fields['saswp_tech_article_author_social_profile']);
+                    if ( isset( $custom_fields['saswp_tech_article_editor_social_profile']) && !empty($custom_fields['saswp_tech_article_editor_social_profile']) ) {
+                        $explode_sp = explode(',', $custom_fields['saswp_tech_article_editor_social_profile']);
                         if ( is_array( $explode_sp) ) {
                             $input1['editor']['sameAs'] =    $explode_sp;
                         }
                     }
+
                     if ( isset( $custom_fields['saswp_tech_article_organization_logo']) && isset($custom_fields['saswp_tech_article_organization_name']) ) {
                      $input1['publisher']['@type']       =    'Organization';
                      $input1['publisher']['name']        =    $custom_fields['saswp_tech_article_organization_name'];
@@ -5618,7 +5743,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['reviewedBy']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -5626,7 +5751,7 @@ Class SASWP_Output_Service{
                     }else{
 
                         if ( isset( $custom_fields['saswp_tech_article_knowsabout']) ) {                            
-                            $input1['knowsAbout'] = explode(',', $custom_fields['saswp_tech_article_knowsabout']);    
+                            $input1['author']['knowsAbout'] = array_map('trim', explode(',', $custom_fields['saswp_tech_article_knowsabout']));    
                         }
                         if ( isset( $custom_fields['saswp_tech_article_reviewedby_type']) ) {
                             $input1['reviewedBy']['@type'] =    $custom_fields['saswp_tech_article_reviewedby_type'];
@@ -5648,8 +5773,8 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
-                                $input1['alumniOf'][] = $vnewarr;
+                                $vnewarr['name']   = trim($list);   
+                                $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
                     }
@@ -6544,22 +6669,22 @@ Class SASWP_Output_Service{
                                 $input1['manufacturer'] =    $custom_fields['saswp_vehicle_schema_manufacturer'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_identification_no']) ) {
-                                $input1['VehicleIdentificationNumber'] =    $custom_fields['saswp_vehicle_schema_identification_no'];
+                                $input1['vehicleIdentificationNumber'] =    $custom_fields['saswp_vehicle_schema_identification_no'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_color']) ) {
-                                $input1['Color'] =    $custom_fields['saswp_vehicle_schema_color'];
+                                $input1['color'] =    $custom_fields['saswp_vehicle_schema_color'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_interior_type']) ) {
-                                $input1['VehicleInteriorType'] =    $custom_fields['saswp_vehicle_schema_interior_type'];
+                                $input1['vehicleInteriorType'] =    $custom_fields['saswp_vehicle_schema_interior_type'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_interior_color']) ) {
-                                $input1['VehicleInteriorColor'] =    $custom_fields['saswp_vehicle_schema_interior_color'];
+                                $input1['vehicleInteriorColor'] =    $custom_fields['saswp_vehicle_schema_interior_color'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_transmission']) ) {
-                                $input1['VehicleTransmission'] =    $custom_fields['saswp_vehicle_schema_transmission'];
+                                $input1['vehicleTransmission'] =    $custom_fields['saswp_vehicle_schema_transmission'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_config']) ) {
-                                $input1['VehicleConfiguration'] =    $custom_fields['saswp_vehicle_schema_config'];
+                                $input1['vehicleConfiguration'] =    $custom_fields['saswp_vehicle_schema_config'];
                             }
                             if ( isset( $custom_fields['saswp_vehicle_schema_wheel_config']) ) {
                                 $input1['driveWheelConfiguration'] =    $custom_fields['saswp_vehicle_schema_wheel_config'];
@@ -7440,7 +7565,7 @@ Class SASWP_Output_Service{
                             $itemlist = explode(",", $str);
                             foreach ( $itemlist as $key => $list){
                                 $vnewarr['@type'] = 'Organization';
-                                $vnewarr['Name']   = $list;   
+                                $vnewarr['name']   = trim($list);   
                                 $input1['author']['alumniOf'][] = $vnewarr;
                             }
                         }
@@ -7471,7 +7596,7 @@ Class SASWP_Output_Service{
                             }
                         }
                         if ( isset( $custom_fields['saswp_faq_author_jobtitle']) ) {
-                            $input1['author']['JobTitle'] =    $custom_fields['saswp_faq_author_jobtitle'];
+                            $input1['author']['jobTitle'] =    $custom_fields['saswp_faq_author_jobtitle'];
                         }
                     }
                     

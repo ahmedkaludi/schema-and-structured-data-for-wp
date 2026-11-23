@@ -100,6 +100,9 @@ function saswp_admin_interface_render() {
         
         $tab = saswp_get_tab('general', apply_filters( 'saswp_extra_settings_tab', array('general', 'amp','review','compatibility','email_schema', 'tools','premium_features', 'services', 'support', 'ai_settings') ));            
 	
+        if ( class_exists( 'SASWP_Black_Friday_Banner' ) ) {
+            SASWP_Black_Friday_Banner::render_banner();
+        }
 	?>
 <div class="saswp-settings-container">
         
@@ -1385,6 +1388,16 @@ function saswp_general_page_callback() {
 			'type'  => 'text',
                         'attributes' => array(
                                 'placeholder' => 'https://www.example.com'
+                            )
+		), 
+                array(
+			'label' => 'Organization Description',
+			'id'    => 'sd_description',
+                        'name'  => 'sd_data[sd_description]',
+                        'class' => 'regular-text saswp_org_fields',                        
+			'type'  => 'textarea',
+                        'attributes' => array(
+                                'placeholder' => 'Organization Description'
                             )
 		), 
                 array(

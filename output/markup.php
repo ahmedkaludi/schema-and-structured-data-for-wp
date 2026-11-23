@@ -2319,7 +2319,7 @@ function saswp_psychological_treatment_schema_markup($schema_id, $schema_post_id
             $input1['followup']                    = $all_post_meta['saswp_psychological_treatment_followup_'.$schema_id][0];
         }
         if ( isset( $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0]) ) {
-            $input1['Howperformed']                    = $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0];
+            $input1['howPerformed']                    = $all_post_meta['saswp_psychological_treatment_how_performed_'.$schema_id][0];
         }
         if ( isset( $all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0]) ) {
             $input1['procedureType']            = $all_post_meta['saswp_psychological_treatment_procedure_type_'.$schema_id][0];
@@ -2818,6 +2818,157 @@ function saswp_project_schema_markup($schema_id, $schema_post_id, $all_post_meta
             $input1['sameAs'] = $sameas;
         }                         
         return $input1;
+}
+
+/**
+ * Schema markup for ResearchProject
+ * @param   $schema_id          integer
+ * @param   $schema_post_id     integer
+ * @param   $all_post_meta      array
+ * @return  $input1             array
+ * @since   1.71
+ */
+function saswp_research_project_schema_markup($schema_id, $schema_post_id, $all_post_meta){
+    
+    $input1 = array();
+
+    $checkIdPro = ((isset($all_post_meta['saswp_research_project_id_'.$schema_id][0]) && $all_post_meta['saswp_research_project_id_'.$schema_id][0] !='') ? get_permalink().'#'.$all_post_meta['saswp_research_project_id_'.$schema_id][0] : get_permalink().'#ResearchProject');
+
+    $input1['@context'] = saswp_context_url();
+    $input1['@type']    = 'ResearchProject';
+    if($checkIdPro){
+        $input1['@id']  = $checkIdPro;  
+    } 
+
+    $name = saswp_remove_warnings($all_post_meta, 'saswp_research_project_name_'.$schema_id, 'saswp_array');
+    $input1['name'] = !empty($name) ? $name : saswp_get_the_title();
+
+    if( isset($all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0]) ){
+        $input1['alternateName'] = $all_post_meta['saswp_research_project_alternate_name_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_identifier_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_identifier_'.$schema_id][0]) ){
+        $input1['identifier'] = $all_post_meta['saswp_research_project_identifier_'.$schema_id][0];            
+    }
+
+    $url = saswp_remove_warnings($all_post_meta, 'saswp_research_project_url_'.$schema_id, 'saswp_array');                            
+    $input1['url'] = !empty($url) ? $url : saswp_get_permalink();
+
+    $description = saswp_remove_warnings($all_post_meta, 'saswp_research_project_description_'.$schema_id, 'saswp_array');
+    $input1['description'] = !empty($description) ? $description : saswp_get_the_excerpt();
+
+    $image_details = get_post_meta( get_the_ID(), 'saswp_research_project_image_'.$schema_id.'_detail', true);
+    if( !empty($image_details) && is_array($image_details) ){
+        $input1['image']['@type']  = 'ImageObject';
+        $input1['image']['url']    = isset($image_details['thumbnail']) ? esc_url($image_details['thumbnail']) : '';
+        $input1['image']['width']  = isset($image_details['width']) ? esc_attr($image_details['width']) : '';
+        $input1['image']['height'] = isset($image_details['height']) ? esc_attr($image_details['height']) : '';
+    }
+
+    $logo_details = get_post_meta( get_the_ID(), 'saswp_research_project_logo_'.$schema_id.'_detail', true); 
+    if( !empty($logo_details) && is_array($logo_details) ){
+        $input1['logo']['@type']  = 'ImageObject';
+        $input1['logo']['url']    = isset($logo_details['thumbnail']) ? esc_url($logo_details['thumbnail']) : '';
+        $input1['logo']['width']  = isset($logo_details['width']) ? esc_attr($logo_details['width']) : '';
+        $input1['logo']['height'] = isset($logo_details['height']) ? esc_attr($logo_details['height']) : '';
+    }
+
+    if( isset($all_post_meta['saswp_research_project_funder_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_funder_'.$schema_id][0]) ){
+        $input1['funder'] = array(
+            '@type' => 'Organization',
+            'name'  => $all_post_meta['saswp_research_project_funder_'.$schema_id][0],
+        );
+    }
+
+    if( isset($all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0]) ){
+        $input1['parentOrganization'] = array(
+            '@type' => 'Organization',
+            'name'  => $all_post_meta['saswp_research_project_parent_organization_'.$schema_id][0],
+        );
+    }
+
+    if( isset($all_post_meta['saswp_research_project_founder_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_founder_'.$schema_id][0]) ){
+        $input1['founder'] = $all_post_meta['saswp_research_project_founder_'.$schema_id][0];      
+    }
+
+    if( isset($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]) ){
+        $input1['foundingDate'] = saswp_format_date_time($all_post_meta['saswp_research_project_founding_date_'.$schema_id][0]);            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]) ){
+        $input1['dissolutionDate'] = saswp_format_date_time($all_post_meta['saswp_research_project_dissolution_date_'.$schema_id][0]);            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_member_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_member_'.$schema_id][0]) ){
+        $input1['member'] = $all_post_meta['saswp_research_project_member_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_knows_about_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_knows_about_'.$schema_id][0]) ){
+        $input1['knowsAbout'] = $all_post_meta['saswp_research_project_knows_about_'.$schema_id][0];            
+    }
+
+    if( isset($all_post_meta['saswp_research_project_qualifications_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_qualifications_'.$schema_id][0]) ){
+        $input1['hasCredential'] = $all_post_meta['saswp_research_project_qualifications_'.$schema_id][0];            
+    }
+
+    $street  = saswp_remove_warnings($all_post_meta, 'saswp_research_project_street_address_'.$schema_id, 'saswp_array');
+    $country = saswp_remove_warnings($all_post_meta, 'saswp_research_project_country_'.$schema_id, 'saswp_array');
+    $city    = saswp_remove_warnings($all_post_meta, 'saswp_research_project_city_'.$schema_id, 'saswp_array');
+    $state   = saswp_remove_warnings($all_post_meta, 'saswp_research_project_state_'.$schema_id, 'saswp_array');
+    $postal  = saswp_remove_warnings($all_post_meta, 'saswp_research_project_postal_code_'.$schema_id, 'saswp_array');
+
+    if( !empty($street) || !empty($city) || !empty($state) || !empty($country) || !empty($postal) ){
+        $input1['address']['@type']          = 'PostalAddress';
+        $input1['address']['streetAddress']  = $street;
+        $input1['address']['addressCountry'] = $country;
+        $input1['address']['addressLocality']= $city;
+        $input1['address']['addressRegion']  = $state;
+        $input1['address']['postalCode']     = $postal;
+    }
+
+    $phone = saswp_remove_warnings($all_post_meta, 'saswp_research_project_telephone_'.$schema_id, 'saswp_array');
+    if(!empty($phone)){
+        $input1['telephone'] = $phone;
+    }
+
+    $email = saswp_remove_warnings($all_post_meta, 'saswp_research_project_email_'.$schema_id, 'saswp_array');
+    if(!empty($email)){
+        $input1['email'] = $email;
+    }
+
+    if ( isset( $all_post_meta['saswp_research_project_enable_rating_'.$schema_id]) && isset($all_post_meta['saswp_research_project_rating_value_'.$schema_id]) && isset($all_post_meta['saswp_research_project_rating_count_'.$schema_id]) ) {
+        $input1['aggregateRating']['@type']       = 'AggregateRating';
+        $input1['aggregateRating']['ratingValue'] = $all_post_meta['saswp_research_project_rating_value_'.$schema_id][0];
+        $input1['aggregateRating']['ratingCount'] = $all_post_meta['saswp_research_project_rating_count_'.$schema_id][0];                                
+    }
+
+    $sameas = array();
+    if ( isset( $all_post_meta['saswp_research_project_website_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_website_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_website_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_facebook_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_facebook_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_facebook_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_twitter_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_twitter_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_twitter_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_linkedin_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_linkedin_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_linkedin_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_threads_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_threads_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_threads_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_mastodon_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_mastodon_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_mastodon_'.$schema_id][0];
+    }
+    if ( isset( $all_post_meta['saswp_research_project_vibehut_'.$schema_id][0]) && !empty($all_post_meta['saswp_research_project_vibehut_'.$schema_id][0]) ) {
+        $sameas[] = $all_post_meta['saswp_research_project_vibehut_'.$schema_id][0];
+    }
+    if($sameas){
+        $input1['sameAs'] = $sameas;
+    }
+
+    return $input1;
 }
 
 function saswp_hotel_room_schema_markup($schema_id, $schema_post_id, $all_post_meta){
@@ -5064,7 +5215,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
     $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_description_'.$schema_id, 'saswp_array');
     $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_url_'.$schema_id, 'saswp_array');
    
-    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_jobtitle_'.$schema_id, 'saswp_array');  
+    $input1['author']['jobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_jobtitle_'.$schema_id, 'saswp_array');  
    
     $input1['author']['image']['@type']   = 'ImageObject';
     $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_image_'.$schema_id, 'saswp_array');       
@@ -5096,18 +5247,19 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
         if ( ! empty(  $all_post_meta['saswp_blogposting_editor_url_'.$schema_id][0] ) ) {
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_editor_url_'.$schema_id, 'saswp_array');
         }  
-        if ( isset( $all_post_meta['saswp_blogposting_author_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_blogposting_author_social_profile_'.$schema_id][0]) ) {
-            $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_author_social_profile_'.$schema_id, 'saswp_array');
+        if ( ! empty(  $all_post_meta['saswp_blogposting_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_blogposting_editor_image_'.$schema_id.'_detail', true );
+            $input1['editor']['image']['@type']   = 'ImageObject';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
+        }
+        if ( isset( $all_post_meta['saswp_blogposting_editor_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_blogposting_editor_social_profile_'.$schema_id][0]) ) {
+            $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_editor_social_profile_'.$schema_id, 'saswp_array');
             $explode_sp = explode(',',$explode_sp);
             if ( ! empty( $explode_sp) && is_array($explode_sp) ) {
                 $input1['editor']['sameAs'] = $explode_sp; 
             }
-        }
-        if ( ! empty(  $all_post_meta['saswp_blogposting_editor_image_'.$schema_id][0] ) ) {
-            $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_blogposting_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
         }  
     }
        
@@ -5136,8 +5288,8 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
         $itemlist = explode(',', $all_post_meta['saswp_blogposting_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if( !empty($all_post_meta['saswp_blogposting_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_blogposting_about_'.$schema_id][0] ) ) {
@@ -5145,7 +5297,7 @@ function saswp_blogposting_schema_markup($schema_id, $schema_post_id, $all_post_
         $input1['about']['name']       = explode(',', $all_post_meta['saswp_blogposting_about_'.$schema_id][0]);
     }
     if( !empty($all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0] ) ) {
-        $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0]);
+        $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_blogposting_knowsabout_'.$schema_id][0]));
     }
     $itemlist  = get_post_meta($schema_post_id, 'blogposting_items_'.$schema_id, true);
 
@@ -5259,22 +5411,22 @@ function saswp_vehicle_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['manufacturer'] = esc_attr( $all_post_meta['saswp_vehicle_schema_manufacturer_'.$schema_id][0]);  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_identification_no_'.$schema_id] ) ) {
-        $input1['VehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
+        $input1['vehicleIdentificationNumber'] = saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_identification_no_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_color_'.$schema_id] ) ) {
-        $input1['Color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
+        $input1['color'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_color_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_interior_type_'.$schema_id] ) ) {
-        $input1['VehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
+        $input1['vehicleInteriorType'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_type_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_interior_color_'.$schema_id] ) ) {
-        $input1['VehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
+        $input1['vehicleInteriorColor'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_interior_color_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_transmission_'.$schema_id] ) ) {
-        $input1['VehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
+        $input1['vehicleTransmission'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_transmission_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_config_'.$schema_id] ) ) {
-        $input1['VehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
+        $input1['vehicleConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_config_'.$schema_id, 'saswp_array');  
     }
     if ( isset( $all_post_meta['saswp_vehicle_schema_wheel_config_'.$schema_id] ) ) {
         $input1['driveWheelConfiguration'] =    saswp_remove_warnings($all_post_meta, 'saswp_vehicle_schema_wheel_config_'.$schema_id, 'saswp_array');
@@ -6286,7 +6438,7 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
     $input1['author']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
     $input1['author']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
 
-    $input1['author']['JobTitle']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_jobtitle_'.$schema_id, 'saswp_array');   
+    $input1['author']['jobTitle']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_author_jobtitle_'.$schema_id, 'saswp_array');   
 
     if ( ! empty( $all_post_meta['saswp_photograph_editor_type_'.$schema_id][0]) && isset($all_post_meta['saswp_photograph_editor_type_'.$schema_id][0]) ) {
         $input1['editor']['@type']       = 'Person';
@@ -6306,10 +6458,11 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_photograph_editor_url_'.$schema_id, 'saswp_array');
         }  
         if ( ! empty(  $all_post_meta['saswp_photograph_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_photograph_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_photograph_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_photograph_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
       
@@ -6334,7 +6487,7 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
     }
 
     if( !empty($all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0] ) ) {
-        $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0]);
+        $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_photograph_knowsabout_'.$schema_id][0]));
     }
     if( !empty($all_post_meta['saswp_photograph_about_'.$schema_id][0]) && isset( $all_post_meta['saswp_photograph_about_'.$schema_id][0] ) ) {
         $input1['about']['@type']       = 'Event';
@@ -6344,8 +6497,8 @@ function saswp_photograph_schema_markup($schema_id, $schema_post_id, $all_post_m
         $itemlist = explode(',', $all_post_meta['saswp_photograph_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
 
@@ -6411,7 +6564,7 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_article_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_article_author_url_'.$schema_id, 'saswp_array');   
 
-        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_article_author_jobtitle_'.$schema_id, 'saswp_array');   
+        $input1['author']['jobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_article_author_jobtitle_'.$schema_id, 'saswp_array');   
         
         $input1['author']['image']['@type']   = 'ImageObject';
         $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_article_author_image_'.$schema_id, 'saswp_array');       
@@ -6444,18 +6597,19 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                 $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_article_editor_url_'.$schema_id, 'saswp_array');  
             }  
             if ( ! empty(  $all_post_meta['saswp_article_editor_image_'.$schema_id][0] ) ) {
+                $editor_image                         = get_post_meta( get_the_ID(), 'saswp_article_editor_image_'.$schema_id.'_detail', true );
                 $input1['editor']['image']['@type']   = 'ImageObject';
-                $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_article_editor_image_'.$schema_id, 'saswp_array');       
-                $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-                $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';  
-            }  
-            if ( isset( $all_post_meta['saswp_article_author_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_article_author_social_profile_'.$schema_id][0]) ) {
-                $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_article_author_social_profile_'.$schema_id, 'saswp_array');
+                $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_article_editor_image_'.$schema_id, 'saswp_array');
+                $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+                $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';  
+            }
+            if ( isset( $all_post_meta['saswp_article_editor_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_article_editor_social_profile_'.$schema_id][0]) ) {
+                $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_article_editor_social_profile_'.$schema_id, 'saswp_array');
                 $explode_sp = explode(',',$explode_sp);
                 if ( ! empty( $explode_sp) && is_array($explode_sp) ) {
                     $input1['editor']['sameAs'] = $explode_sp; 
                 }
-            }
+            }  
         }
             
 
@@ -6492,15 +6646,15 @@ function saswp_article_schema_markup($schema_id, $schema_post_id, $all_post_meta
                     }                                            
             }
             if( !empty($all_post_meta['saswp_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_knowsabout_'.$schema_id][0] ) ) {
-                $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_article_knowsabout_'.$schema_id][0]);
+                $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_article_knowsabout_'.$schema_id][0]));
             }
 
         if ( ! empty( $all_post_meta['saswp_article_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_article_alumniof_'.$schema_id][0] ) ) {
             $itemlist = explode(',', $all_post_meta['saswp_article_alumniof_'.$schema_id][0]);
             foreach ( $itemlist as $key => $list){
                 $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $input1['alumniOf'][] = $vnewarr;
+                $vnewarr['name']   = trim($list);   
+                $input1['author']['alumniOf'][] = $vnewarr;
             }
         }
         if ( isset( $all_post_meta['saswp_article_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_article_organization_name_'.$schema_id][0]) ) {
@@ -6585,7 +6739,7 @@ function saswp_scholarlyarticle_schema_markup($schema_id, $schema_post_id, $all_
     $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_description_'.$schema_id, 'saswp_array');
     $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_url_'.$schema_id, 'saswp_array');   
 
-    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_jobtitle_'.$schema_id, 'saswp_array');   
+    $input1['author']['jobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_jobtitle_'.$schema_id, 'saswp_array');   
     
     $input1['author']['image']['@type']   = 'ImageObject';
     $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_author_image_'.$schema_id, 'saswp_array');       
@@ -6610,10 +6764,11 @@ function saswp_scholarlyarticle_schema_markup($schema_id, $schema_post_id, $all_
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_url_'.$schema_id, 'saswp_array');  
         }  
         if ( ! empty(  $all_post_meta['saswp_scholarlyarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_scholarlyarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';  
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_scholarlyarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';  
         }  
 
     }
@@ -6652,15 +6807,15 @@ function saswp_scholarlyarticle_schema_markup($schema_id, $schema_post_id, $all_
                 }                                            
         }
         if( !empty($all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0] ) ) {
-            $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0]);
+            $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_scholarlyarticle_knowsabout_'.$schema_id][0]));
         }
 
     if ( ! empty( $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0] ) ) {
         $itemlist = explode(',', $all_post_meta['saswp_scholarlyarticle_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if ( isset( $all_post_meta['saswp_scholarlyarticle_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_scholarlyarticle_organization_name_'.$schema_id][0]) ) {
@@ -6744,7 +6899,7 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
     $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_description_'.$schema_id, 'saswp_array');
     $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_url_'.$schema_id, 'saswp_array');   
     
-    $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_jobtitle_'.$schema_id, 'saswp_array'); 
+    $input1['author']['jobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_jobtitle_'.$schema_id, 'saswp_array'); 
 
     $input1['author']['image']['@type']   = 'ImageObject';
     $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_creativework_author_image_'.$schema_id, 'saswp_array');       
@@ -6769,10 +6924,11 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_creativework_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_creativework_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_creativework_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_creativework_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_creativework_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -6797,7 +6953,7 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
        
 
     if( !empty($all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0] ) ) {
-        $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]);
+        $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_creativework_knowsabout_'.$schema_id][0]));
     }
     if ( isset( $all_post_meta['saswp_creativework_size_'.$schema_id][0] ) ) {
         $input1['size']       = $all_post_meta['saswp_creativework_size_'.$schema_id][0];
@@ -6813,8 +6969,8 @@ function saswp_creativework_schema_markup($schema_id, $schema_post_id, $all_post
         $itemlist = explode(',', $all_post_meta['saswp_creativework_alumniof_'.$schema_id][0]);
         foreach ( $itemlist as $key => $list){
             $vnewarr['@type'] = 'Organization';
-            $vnewarr['Name']   = $list;   
-            $input1['alumniOf'][] = $vnewarr;
+            $vnewarr['name']   = trim($list);   
+            $input1['author']['alumniOf'][] = $vnewarr;
         }
     }
     if ( isset( $all_post_meta['saswp_creativework_organization_logo_'.$schema_id][0]) || isset($all_post_meta['saswp_creativework_organization_name_'.$schema_id][0]) ) {
@@ -6913,7 +7069,7 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
         $input1['author']['description'] = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_description_'.$schema_id, 'saswp_array');
         $input1['author']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_url_'.$schema_id, 'saswp_array');   
 
-        $input1['author']['JobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_jobtitle_'.$schema_id, 'saswp_array'); 
+        $input1['author']['jobTitle']    = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_jobtitle_'.$schema_id, 'saswp_array'); 
 
         $input1['author']['image']['@type']   = 'ImageObject';
         $input1['author']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_image_'.$schema_id, 'saswp_array');
@@ -6946,18 +7102,19 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
             if ( ! empty(  $all_post_meta['saswp_tech_article_editor_url_'.$schema_id][0] ) ) {
                 $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_editor_url_'.$schema_id, 'saswp_array');   
             }  
-            if ( isset( $all_post_meta['saswp_tech_article_author_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_tech_article_author_social_profile_'.$schema_id][0]) ) {
-                $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_author_social_profile_'.$schema_id, 'saswp_array');
+            if ( ! empty(  $all_post_meta['saswp_tech_article_editor_image_'.$schema_id][0] ) ) {
+                $editor_image                         = get_post_meta( get_the_ID(), 'saswp_tech_article_editor_image_'.$schema_id.'_detail', true );
+                $input1['editor']['image']['@type']   = 'ImageObject';
+                $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_editor_image_'.$schema_id, 'saswp_array');
+                $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+                $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
+            }
+            if ( isset( $all_post_meta['saswp_tech_article_editor_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_tech_article_editor_social_profile_'.$schema_id][0]) ) {
+                $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_editor_social_profile_'.$schema_id, 'saswp_array');
                 $explode_sp = explode(',',$explode_sp);
                 if ( ! empty( $explode_sp) && is_array($explode_sp) ) {
                     $input1['editor']['sameAs'] = $explode_sp; 
                 }
-            }
-            if ( ! empty(  $all_post_meta['saswp_tech_article_editor_image_'.$schema_id][0] ) ) {
-                $input1['editor']['image']['@type']   = 'ImageObject';
-                $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_tech_article_editor_image_'.$schema_id, 'saswp_array');       
-                $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-                $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
             }  
         }
             
@@ -6985,14 +7142,14 @@ function saswp_tech_article_schema_markup($schema_id, $schema_post_id, $all_post
             $input1['about']['name']       = explode(',', $all_post_meta['saswp_tech_article_about_'.$schema_id][0]);
         }
         if( !empty($all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0] ) ) {
-            $input1['knowsAbout']       = explode(',', $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]);
+            $input1['author']['knowsAbout']       = array_map('trim', explode(',', $all_post_meta['saswp_tech_article_knowsabout_'.$schema_id][0]));
         }
         if( !empty($all_post_meta['saswp_tech_article_alumniof_'.$schema_id][0]) && isset( $all_post_meta['saswp_tech_article_alumniof_'.$schema_id][0] ) ) {
             $itemlist = explode(',', $all_post_meta['saswp_tech_article_alumniof_'.$schema_id][0]);
             foreach ( $itemlist as $key => $list){
                 $vnewarr['@type'] = 'Organization';
-                $vnewarr['Name']   = $list;   
-                $input1['alumniOf'][] = $vnewarr;
+                $vnewarr['name']   = trim($list);   
+                $input1['author']['alumniOf'][] = $vnewarr;
             }
         }
         $itemlist  = get_post_meta($schema_post_id, 'tech_article_items_'.$schema_id, true);
@@ -7123,13 +7280,14 @@ function saswp_news_article_schema_markup($schema_id, $schema_post_id, $all_post
                         $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_url_'.$schema_id, 'saswp_array');   
                     }  
                     if ( ! empty(  $all_post_meta['saswp_newsarticle_editor_image_'.$schema_id][0] ) ) {
+                        $editor_image                         = get_post_meta( get_the_ID(), 'saswp_newsarticle_editor_image_'.$schema_id.'_detail', true );
                         $input1['editor']['image']['@type']   = 'ImageObject';
-                        $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_image_'.$schema_id, 'saswp_array');       
-                        $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-                        $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
-                    } 
-                    if ( isset( $all_post_meta['saswp_newsarticle_author_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_newsarticle_author_social_profile_'.$schema_id][0]) ) {
-                        $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_author_social_profile_'.$schema_id, 'saswp_array');
+                        $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_image_'.$schema_id, 'saswp_array');
+                        $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+                        $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
+                    }
+                    if ( isset( $all_post_meta['saswp_newsarticle_editor_social_profile_'.$schema_id][0]) && !empty($all_post_meta['saswp_newsarticle_editor_social_profile_'.$schema_id][0]) ) {
+                        $explode_sp = saswp_remove_warnings($all_post_meta, 'saswp_newsarticle_editor_social_profile_'.$schema_id, 'saswp_array');
                         $explode_sp = explode(',',$explode_sp);
                         if ( ! empty( $explode_sp) && is_array($explode_sp) ) {
                             $input1['editor']['sameAs'] = $explode_sp; 
@@ -7289,10 +7447,11 @@ function saswp_analysis_newsarticle_schema_markup($schema_id, $schema_post_id, $
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_analysisnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_analysisnewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_analysisnewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_analysisnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_analysisnewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -7419,10 +7578,11 @@ function saswp_askpublic_newsarticle_schema_markup($schema_id, $schema_post_id, 
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_askpublicnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_askpublicnewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_askpublicnewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_askpublicnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_askpublicnewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -7549,10 +7709,11 @@ function saswp_background_newsarticle_schema_markup($schema_id, $schema_post_id,
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_backgroundnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_backgroundnewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_backgroundnewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_backgroundnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_backgroundnewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -7679,10 +7840,11 @@ function saswp_opinion_newsarticle_schema_markup($schema_id, $schema_post_id, $a
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_opinionnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_opinionnewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_opinionnewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_opinionnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_opinionnewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -7810,10 +7972,11 @@ function saswp_reportage_newsarticle_schema_markup($schema_id, $schema_post_id, 
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_reportagenewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_reportagenewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_reportagenewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reportagenewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reportagenewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 
@@ -7940,10 +8103,11 @@ function saswp_review_newsarticle_schema_markup($schema_id, $schema_post_id, $al
             $input1['editor']['url']         = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_url_'.$schema_id, 'saswp_array');   
         }  
         if ( ! empty(  $all_post_meta['saswp_reviewnewsarticle_editor_image_'.$schema_id][0] ) ) {
+            $editor_image                         = get_post_meta( get_the_ID(), 'saswp_reviewnewsarticle_editor_image_'.$schema_id.'_detail', true );
             $input1['editor']['image']['@type']   = 'ImageObject';
-            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_image_'.$schema_id, 'saswp_array');       
-            $input1['editor']['image']['height']  = isset($author_image['height']) ? $author_image['height'] : '';
-            $input1['editor']['image']['width']   = isset($author_image['width']) ? $author_image['width'] : '';
+            $input1['editor']['image']['url']     = saswp_remove_warnings($all_post_meta, 'saswp_reviewnewsarticle_editor_image_'.$schema_id, 'saswp_array');
+            $input1['editor']['image']['height']  = isset($editor_image['height']) ? $editor_image['height'] : '';
+            $input1['editor']['image']['width']   = isset($editor_image['width']) ? $editor_image['width'] : '';
         }  
     }
 

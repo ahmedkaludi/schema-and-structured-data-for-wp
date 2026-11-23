@@ -121,6 +121,7 @@ return array(
             'Person'                            => 'Person',
             'Organization'                      => 'Organization',
             'Project'                           => 'Project', 
+            'ResearchProject'                   => 'ResearchProject', 
             'PsychologicalTreatment'            => 'PsychologicalTreatment',
             'RentAction'                        => 'RentAction',                                                              
             'ProfilePage'                       => 'ProfilePage',

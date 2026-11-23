@@ -443,6 +443,21 @@ class SASWP_Fields_Generator {
                         			                        
 			switch ( $meta_field['type'] ) {
                             
+				case 'textarea':
+                                        $stng_meta_field = '';
+                                        if ( isset( $settings[$meta_field['id']] ) ) {
+                                                $stng_meta_field = $settings[$meta_field['id']];
+                                        }
+                                        $input = sprintf(
+                                                '<textarea class="%s" style="width: 100%%" id="%s" name="%s" rows="5" %s>%s</textarea>',
+                                                $class,
+                                                esc_attr(saswp_remove_warnings($meta_field, 'id', 'saswp_string')),
+                                                esc_attr(saswp_remove_warnings($meta_field, 'name', 'saswp_string')),
+                                                $attribute_str,
+                                                esc_textarea( $stng_meta_field )
+                                        );
+                                        break;
+                                        
 				case 'media':
                                                                                                      
                                         $mediavalue = array();
